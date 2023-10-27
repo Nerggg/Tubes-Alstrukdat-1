@@ -1,12 +1,24 @@
 #include <stdio.h>
-#include "feat/bacakata.c"
+#include "feat/operational.c"
 
 int main() {
 	Word tes;
-	printf("masukkan kata\n");
+	int move;
+	printf("masukkan perintah\n");
 	tes = baca();
-	for (int i = 0; i < tes.Length; i++) {
-		printf("%c", tes.TabWord[i]);
+	move = pindahfungsi(tes);
+	switch(move) {
+		case 1:
+			printf("daftar\n");
+			break;
+		case 2:
+			printf("masuk\n");
+			break;
+		case 3:
+			printf("keluar\n");
+			break;
+		case 4:
+			printf("tutup program\n");
+			break;
 	}
-	printf("\n");
 }
