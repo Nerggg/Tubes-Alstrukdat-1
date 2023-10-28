@@ -7,7 +7,7 @@ Word baca() {
 	return currentWord;
 }
 
-boolean cek(Word kata, char target[NMax]) {
+boolean cek(Word kata, char target[]) {
 	boolean sama = true;
 	for (int i = 0; i < kata.Length; i++) {
 		if (kata.TabWord[i] != target[i]) {
