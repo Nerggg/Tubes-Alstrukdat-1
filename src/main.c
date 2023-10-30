@@ -1,11 +1,18 @@
 #include <stdio.h>
-#include <stdlib.h>
+
 #include "feat/operational.c"
+#include "feat/io.c"
+
+#include "adt/pengguna.h"
 
 int main() {
-	Word opt;
-	boolean first = true;
+	Word opt, configfolder;
+	UserDB user;
 	int move;
+	printf("masukkan nama folder\n");
+	configfolder = baca();
+	bacaconfig(&user, configfolder);
+	printf("config berhasil dibuka!\n");
 	while (true) {
 		printf("masukkan perintah\n");
 		opt = baca();
