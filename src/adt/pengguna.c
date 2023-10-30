@@ -46,57 +46,57 @@ void daftar() {
 
 
 void masuk() {
-        // Mengecek apakah pengguna sudah login
-        if (user.db[0].status == 1) {
-            printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
-            return;
-        }
+    // Mengecek apakah pengguna sudah login
+    if (user.db[0].status == 1) {
+        printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
+        return;
+    }
 
-        // Tidak ada pengguna aktif
-        printf("Anda belum login. Silakan login terlebih dahulu.\n");
+    // Tidak ada pengguna aktif
+    printf("Anda belum login. Silakan login terlebih dahulu.\n");
 
-        // memasukkan nama dan kata sandi
-        char nama[20], pass[20];
-        printf("Masukkan nama: ");
-        scanf("%s", nama);
-        printf("Masukkan kata sandi: ");
-        scanf("%s", pass);
+    // memasukkan nama dan kata sandi
+    char nama[20], pass[20];
+    printf("Masukkan nama: ");
+    scanf("%s", nama);
+    printf("Masukkan kata sandi: ");
+    scanf("%s", pass);
 
-        // Mencari pengguna dengan nama dan kata sandi sesuai yang diinput
-        int found = 0; // boolean untuk menandai jika pengguna ditemukan
-        for (int i = 0; i < jumlah_pengguna; i++) {
-            if (strcmp(nama, user.db[i].nama) == 0) {
-                if (strcmp(pass, user.db[i].pass) == 0) {
-                    // Pengguna ditemukan
-                    user.db[i].status = 1;
-                    printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", nama);
-                    return;
-                } else {
-                    // Kata sandi tidak cocok
-                    printf("Wah, kata sandi yang Anda masukkan belum tepat. Periksa kembali kata sandi Anda!\n");
-                    return;
-                }
+    // Mencari pengguna dengan nama dan kata sandi sesuai yang diinput
+    int found = 0; // boolean untuk menandai jika pengguna ditemukan
+    for (int i = 0; i < jumlah_pengguna; i++) {
+        if (strcmp(nama, user.db[i].nama) == 0) {
+            if (strcmp(pass, user.db[i].pass) == 0) {
+                // Pengguna ditemukan
+                user.db[i].status = 1;
+                printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", nama);
+                return;
+            } else {
+                // Kata sandi tidak cocok
+                printf("Wah, kata sandi yang Anda masukkan belum tepat. Periksa kembali kata sandi Anda!\n");
+                return;
+            }
                 found = 1; //pengguna ditemukan
             }
         }
 
-        // Pengguna tidak ditemukan
-        if (!found) {
-            printf("Wah, nama yang Anda cari tidak ada. Masukkan nama lain!\n");
-        }
+    // Pengguna tidak ditemukan
+    if (!found) {
+        printf("Wah, nama yang Anda cari tidak ada. Masukkan nama lain!\n");
+    }
 
 }
 
 void keluar() {
-  // Mengecek apakah pengguna sudah login
-  if (user.db[0].status == 0) {
-    printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
-    return;
-  }
+    // Mengecek apakah pengguna sudah login
+    if (user.db[0].status == 0) {
+        printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
+        return;
+    }
 
-  // Mengubah status login pengguna menjadi 0
-  user.db[0].status = 0;
-  printf("Anda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n");
+    // Mengubah status login pengguna menjadi 0
+    user.db[0].status = 0;
+    printf("Anda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n");
 }
 
 
