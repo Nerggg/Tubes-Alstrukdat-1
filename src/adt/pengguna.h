@@ -12,7 +12,7 @@ typedef struct {
 	Word weton;
 	Word jakun;
 	char pp[5][10];
-	int status; //pengguna sudah login status == 1; pengguna belum login status == 0;
+	boolean status; //pengguna sudah login status == 1; pengguna belum login status == 0;
 } Pengguna;
 
 typedef struct { 
