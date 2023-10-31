@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include "pengguna.h"
+#include "../feat/operational.c"
 
 void daftar() {
-    Word currentWord;
+    Word temp;
     Word passWord;
 
-    if (user.db[0].status == 1) {
+    if (user.db[0].status == true) {
         printf("Anda sudah masuk. Keluar terlebih dahulu untuk melakukan daftar.\n");
         return;
     }
-    STARTWORD();
 
     // Mengecek apakah nama sudah ada
     printf("Masukkan nama:\n"); 
-    while (!EndWord) {
-        if (strlen(currentWord.TabWord) > 20) {
-        printf("Nama terlalu panjang.\n");
-        } else {
+    temp = baca();
+    while (temp.Length > 20) {
+        printf("Nama terlalu panjang.\n");{
             for (int i = 0; i < jumlah_pengguna; i++) {
                 if (strcmp(currentWord.TabWord, user.db[i].nama.TabWord) == 0) {
                 printf("Wah, sayang sekali nama tersebut telah diambil.\n");
@@ -27,12 +26,12 @@ void daftar() {
             printf("Masukkan kata sandi:\n"); 
 
             // Mendaftarkan pengguna baru
-            strcpy(user.db[jumlah_pengguna].nama.TabWord, currentWord.TabWord);
-            strcpy(user.db[jumlah_pengguna].pass.TabWord, passWord.TabWord);
+            strcpy(user.db[jumlah_pengguna].nama.TabWord, currentWord.TabWord); //nunggu fungsi masukin ke config
+            strcpy(user.db[jumlah_pengguna].pass.TabWord, passWord.TabWord); //nunggu fungsi masukin data ke config
             jumlah_pengguna++;
 
             // Menulis data ke file config
-            FILE *fp = fopen("cfg/config.txt", "a");
+            FILE *fp = fopen("cfg/pengguna.config", "a");
             fprintf(fp, "%s,%s\n", user.db[jumlah_pengguna - 1].nama.TabWord, user.db[jumlah_pengguna - 1].pass.TabWord);
             fclose(fp);
 
@@ -47,7 +46,7 @@ void daftar() {
 
 void masuk() {
     // Mengecek apakah pengguna sudah login
-    if (user.db[0].status == 1) {
+    if (user.db[0].status == true) {
         printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
         return;
     }
@@ -89,13 +88,13 @@ void masuk() {
 
 void keluar() {
     // Mengecek apakah pengguna sudah login
-    if (user.db[0].status == 0) {
+    if (user.db[0].status == false) {
         printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
         return;
     }
 
     // Mengubah status login pengguna menjadi 0
-    user.db[0].status = 0;
+    user.db[0].status = false;
     printf("Anda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n");
 }
 
