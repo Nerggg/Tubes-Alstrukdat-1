@@ -4,6 +4,7 @@
 #include <math.h>
 #include "time.h"
 #include "datetime.h"
+#include <time.h>
 
 /* ***************************************************************** */
 /* DEFINISI PRIMITIF                                                 */
@@ -256,6 +257,25 @@ long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh){
 
     return (DayAkh - DayAw) * 86400 + TIMEToDetik(Time(DAkh)) - TIMEToDetik(Time(DAw));
 }     
+
+DATETIME CurrentDatetime() {
+    DATETIME currentDatetime;
+    time_t timestamp;
+    struct tm *Infotime;
+
+    time(&timestamp);
+    Infotime = localtime(&timestamp);
+
+    currentDatetime.DD = Infotime->tm_mday;
+    currentDatetime.MM = Infotime->tm_mon + 1; // tm_mon mulai dari 0
+    currentDatetime.YYYY = Infotime->tm_year + 1900; // 
+    currentDatetime.T.HH = Infotime->tm_hour;
+    currentDatetime.T.MM = Infotime->tm_min;
+    currentDatetime.T.SS = Infotime->tm_sec;
+
+    return currentDatetime;
+}
+
 
 
  
