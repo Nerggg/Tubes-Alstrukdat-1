@@ -17,7 +17,7 @@ void daftar() {
     while (temp.Length > 20) {
         printf("Nama terlalu panjang.\n");{
             for (int i = 0; i < jumlah_pengguna; i++) {
-                if (strcmp(currentWord.TabWord, user.db[i].nama.TabWord) == 0) {
+                if (cek(temp, user.db[i].nama.TabWord)) {
                 printf("Wah, sayang sekali nama tersebut telah diambil.\n");
                 return;
                 }
@@ -45,6 +45,8 @@ void daftar() {
 
 
 void masuk() {
+    Word tempnama;
+    Word temppass;
     // Mengecek apakah pengguna sudah login
     if (user.db[0].status == true) {
         printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
@@ -57,15 +59,15 @@ void masuk() {
     // memasukkan nama dan kata sandi
     char nama[20], pass[20];
     printf("Masukkan nama: ");
-    scanf("%s", nama);
+    tempnama = baca();
     printf("Masukkan kata sandi: ");
-    scanf("%s", pass);
+    temppass = baca();
 
     // Mencari pengguna dengan nama dan kata sandi sesuai yang diinput
     int found = 0; // boolean untuk menandai jika pengguna ditemukan
     for (int i = 0; i < jumlah_pengguna; i++) {
-        if (strcmp(nama, user.db[i].nama) == 0) {
-            if (strcmp(pass, user.db[i].pass) == 0) {
+        if (cek(tempnama, user.db[i].nama.TabWord)) {
+            if (cek(temppass, user.db[i].pass.TabWord)) {
                 // Pengguna ditemukan
                 user.db[i].status = 1;
                 printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", nama);
