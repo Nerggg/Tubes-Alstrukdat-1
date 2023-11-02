@@ -11,7 +11,7 @@ typedef struct {
 	Word hp;
 	Word weton;
 	Word jakun;
-	char pp[5][10];
+	MATRIX PP;
 } Pengguna;
 
 typedef struct { 

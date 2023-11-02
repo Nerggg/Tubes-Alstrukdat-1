@@ -12,6 +12,24 @@ void IgnoreBlanks() {
 	}
 }
 
+void STARTWITHBLANK()
+{
+    START();
+    IgnoreBlanks();
+
+    int i=0;
+    while((currentChar != MARK)){
+        currentWord.TabWord[i] = currentChar;
+        ADV();
+        i++;
+    }
+    currentWord.Length = i;
+    // if(i > NMax){
+    //     currentWord.Length = NMax;
+    // }
+
+}
+
 void STARTSENTENCE() {
 	START();
 	if (currentChar == MARK) {

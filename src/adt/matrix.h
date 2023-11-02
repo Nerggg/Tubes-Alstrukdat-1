@@ -10,7 +10,7 @@
 #define COL_CAP 100
 
 typedef int IdxType; /* Index baris, kolom */
-typedef int ElType;
+typedef char ElType;
 typedef struct
 {
    ElType mem[ROW_CAP][COL_CAP];
@@ -31,7 +31,7 @@ void createMatrix(int nRows, int nCols, Matrix *m);
 /* *** Selektor *** */
 #define ROW_EFF(M) (M).rowEff
 #define COL_EFF(M) (M).colEff
-#define ELMT(M, i, j) (M).mem[(i)][(j)]
+#define MATELMT(M, i, j) (M).mem[(i)][(j)]
 
 /* *** Selektor "Dunia Matrix" *** */
 boolean isMatrixIdxValid(int i, int j);
@@ -42,7 +42,7 @@ IdxType getLastIdxRow(Matrix m);
 /* Mengirimkan Index baris terbesar m */
 IdxType getLastIdxCol(Matrix m);
 /* Mengirimkan Index kolom terbesar m */
-boolean isIdxEff(Matrix m, IdxType i, IdxType j);
+boolean isIdxEffMat(Matrix m, IdxType i, IdxType j);
 /* Mengirimkan true jika i, j adalah Index efektif bagi m */
 ElType getElmtDiagonal(Matrix m, IdxType i);
 /* Mengirimkan elemen m(i,i) */
