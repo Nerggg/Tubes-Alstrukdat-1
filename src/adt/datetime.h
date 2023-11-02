@@ -93,5 +93,6 @@ long int DATETIMEDurasi(DATETIME DAw, DATETIME DAkh);
 /* Prekondisi: DAkh > DAw */
 
 DATETIME CurrentDatetime();
+char *DateTimeToString(DATETIME datetime);
 
 #endif
