@@ -12,6 +12,7 @@ void penggunaconfig(UserDB *user, Word namafolder) {
 	fptr = fopen(location.TabWord, "r");
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
+	user->Neff = n;
 	while (n != 0) {
 		fgets(temp, sizeof(temp), fptr);
 		while (temp[0] == '\n') {
