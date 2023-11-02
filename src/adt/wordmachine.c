@@ -12,6 +12,17 @@ void IgnoreBlanks() {
 	}
 }
 
+void STARTSENTENCE() {
+	START();
+	if (currentChar == MARK) {
+		EndWord = true;
+	}
+	else {
+		EndWord = false;
+		CopySentence();
+	}
+}
+
 void STARTWORD() {
 	START();
 	IgnoreBlanks();
@@ -38,6 +49,17 @@ void ADVWORD() {
 void CopyWord() {
 	int i = 0;
 	while (currentChar != MARK && i < NMax && currentChar!= BLANK) {
+		currentWord.TabWord[i] = currentChar;
+		i++;
+		ADV();
+	}
+
+	currentWord.Length = i;
+}
+
+void CopySentence() {
+	int i = 0;
+	while (currentChar != MARK && i < NMax) {
 		currentWord.TabWord[i] = currentChar;
 		i++;
 		ADV();

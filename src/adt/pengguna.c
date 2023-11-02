@@ -1,106 +1,128 @@
 #include <stdio.h>
 #include "pengguna.h"
 #include "../feat/operational.c"
+#include "../feat/io.c"
 
-void daftar() {
+void emptyuser(Word *currentUser) {
+    currentUser->TabWord[0] = ';';
+    currentUser->TabWord[1] = ';';
+    currentUser->TabWord[2] = ';';
+    currentUser->Length = 3;
+}
+
+void daftar(UserDB *user, Word *currentUser) {
     Word temp;
     Word passWord;
 
-    if (user.db[0].status == true) {
+    if (!cek(*currentUser, ";;;")) {
         printf("Anda sudah masuk. Keluar terlebih dahulu untuk melakukan daftar.\n");
         return;
     }
 
-    // Mengecek apakah nama sudah ada
+    // Mengecek panjang nama
     printf("Masukkan nama:\n"); 
-    temp = baca();
+    temp = bacakalimat();
     while (temp.Length > 20) {
-        printf("Nama terlalu panjang.\n");{
-            for (int i = 0; i < jumlah_pengguna; i++) {
-                if (cek(temp, user.db[i].nama.TabWord)) {
-                printf("Wah, sayang sekali nama tersebut telah diambil.\n");
-                return;
-                }
-            }
+        printf("Nama terlalu panjang.\n");
+        printf("Masukkan nama:\n"); 
+        temp = bacakalimat();
+    }        
 
-            printf("Masukkan kata sandi:\n"); 
-
-            // Mendaftarkan pengguna baru
-            strcpy(user.db[jumlah_pengguna].nama.TabWord, currentWord.TabWord); //nunggu fungsi masukin ke config
-            strcpy(user.db[jumlah_pengguna].pass.TabWord, passWord.TabWord); //nunggu fungsi masukin data ke config
-            jumlah_pengguna++;
-
-            // Menulis data ke file config
-            FILE *fp = fopen("cfg/pengguna.config", "a");
-            fprintf(fp, "%s,%s\n", user.db[jumlah_pengguna - 1].nama.TabWord, user.db[jumlah_pengguna - 1].pass.TabWord);
-            fclose(fp);
-
-            printf("Pengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n");
-            return;
+    // mengecek apakah nama sudah ada di database
+    boolean ada = false;
+        
+    for (int i = 0; i < user->Neff; i++) {
+        if (ceksama(temp, user->db[i].nama)) {
+            printf("Wah, sayang sekali nama tersebut telah diambil.\n");
+            ada = true;
+            break;
         }
-
-        CopyWord();
     }
+
+    while (ada) {
+        printf("Masukkan nama:\n"); 
+        temp = bacakalimat();
+        for (int i = 0; i < user->Neff; i++) {
+            if (ceksama(temp, user->db[i].nama)) {
+                printf("Wah, sayang sekali nama tersebut telah diambil.\n");
+                ada = true;
+                break;
+            }
+        }
+        ada = false;
+    }
+    
+    // ketika nama memenuhi spesifikasi, nama diletakkan ke database
+    user->db[user->Neff].nama = temp;
+
+    printf("Masukkan kata sandi:\n"); 
+    temp = bacakalimat();
+    user->db[user->Neff].pass = temp;
+
+    user->Neff++;
 }
 
 
-void masuk() {
-    Word tempnama;
-    Word temppass;
+void masuk(UserDB *user, Word *currentUser) {
     // Mengecek apakah pengguna sudah login
-    if (user.db[0].status == true) {
+    if (cek(*currentUser, ";;;")) {
         printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
         return;
     }
 
-    // Tidak ada pengguna aktif
-    printf("Anda belum login. Silakan login terlebih dahulu.\n");
-
-    // memasukkan nama dan kata sandi
-    char nama[20], pass[20];
+    boolean ada = false;
+    int idx;
+    Word temp;
     printf("Masukkan nama: ");
-    tempnama = baca();
-    printf("Masukkan kata sandi: ");
-    temppass = baca();
+    temp = bacakalimat();
 
-    // Mencari pengguna dengan nama dan kata sandi sesuai yang diinput
-    int found = 0; // boolean untuk menandai jika pengguna ditemukan
-    for (int i = 0; i < jumlah_pengguna; i++) {
-        if (cek(tempnama, user.db[i].nama.TabWord)) {
-            if (cek(temppass, user.db[i].pass.TabWord)) {
-                // Pengguna ditemukan
-                user.db[i].status = 1;
-                printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", nama);
-                return;
-            } else {
-                // Kata sandi tidak cocok
-                printf("Wah, kata sandi yang Anda masukkan belum tepat. Periksa kembali kata sandi Anda!\n");
-                return;
-            }
-                found = 1; //pengguna ditemukan
-            }
+    for (int i = 0; i < user->Neff; i++) {
+        if (ceksama(temp, user->db[i].nama)) {
+            ada = true;
+            idx = i;
+            break;
         }
-
-    // Pengguna tidak ditemukan
-    if (!found) {
-        printf("Wah, nama yang Anda cari tidak ada. Masukkan nama lain!\n");
     }
 
+    while (!ada) {
+        printf("Wah, nama yang Anda cari tidak ada. Masukkan nama lain!\n");
+        printf("Masukkan nama: ");
+        temp = bacakalimat();
+
+        for (int i = 0; i < user->Neff; i++) {
+            if (ceksama(temp, user->db[i].nama)) {
+                ada = true;
+                idx = i;
+                break;
+            }
+        }
+    }
+
+    printf("Masukkan kata sandi: ");
+    temp = bacakalimat();
+
+    while (!ceksama(temp, user->db[idx].pass)) {
+        printf("Wah, kata sandi yang Anda masukkan belum tepat. Periksa kembali kata sandi Anda!\n");
+        printf("Masukkan kata sandi: ");
+        temp = bacakalimat();
+    }
+
+    if (ceksama(temp, user->db[idx].pass)) {
+        printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", temp.TabWord);
+        *currentUser = user->db[idx].nama;
+        return;
+    }
 }
 
-void keluar() {
+void keluar(Word *currentUser) {
     // Mengecek apakah pengguna sudah login
-    if (user.db[0].status == false) {
+    if (!cek(*currentUser, ";;;")) {
         printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
         return;
     }
 
-    // Mengubah status login pengguna menjadi 0
-    user.db[0].status = false;
+    // Mengubah status login pengguna menjadi tidak login
+    emptyuser(currentUser);
     printf("Anda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n");
+    return;
 }
-
-
-
-
-

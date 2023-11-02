@@ -2,12 +2,17 @@
 #include "../adt/wordmachine.c"
 #include "../adt/charmachine.c"
 
-Word baca() {
+Word bacakalimat() { // untuk baca input dari user yang ada spasinya
+	STARTSENTENCE();
+	return currentWord;
+}
+
+Word baca() { // untuk baca input dari user yang satu kata doang
 	STARTWORD();
 	return currentWord;
 }
 
-boolean cek(Word kata, char target[]) {
+boolean cek(Word kata, char target[]) { // untuk ngecek kesamaan antara word dengan array of char
 	boolean sama = true;
 	for (int i = 0; i < kata.Length; i++) {
 		if (kata.TabWord[i] != target[i]) {
@@ -18,7 +23,7 @@ boolean cek(Word kata, char target[]) {
 	return sama;
 }
 
-int pindahfungsi(Word kata) {
+int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	if (cek(kata, "DAFTAR")) {
 		return 1;
 	}

@@ -1,31 +1,28 @@
 #include <stdio.h>
-
-#include "feat/operational.c"
-#include "feat/io.c"
-
-#include "adt/pengguna.h"
+#include "adt/pengguna.c"
 
 int main() {
-	Word opt, configfolder;
+	Word opt, configfolder, currentUser;
 	UserDB user;
-	int move;
+	int move;	
 	printf("masukkan nama folder\n");
 	configfolder = baca();
 	bacaconfig(&user, configfolder);
 	printf("config berhasil dibuka!\n");
+	emptyuser(&currentUser);
 	while (true) {
 		printf("masukkan perintah\n");
 		opt = baca();
 		move = pindahfungsi(opt);
 		switch(move) {
 			case 1:
-				printf("daftar\n");
+				daftar(&user, &currentUser);
 				break;
 			case 2:
-				printf("masuk\n");
+				masuk(&user, &currentUser);
 				break;
 			case 3:
-				printf("keluar\n");
+				keluar(&currentUser);
 				break;
 			case 4:
 				printf("tutup program\n");

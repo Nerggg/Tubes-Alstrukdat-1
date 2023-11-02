@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "../adt/wordmachine.h"
 
-int wtoi(Word kata) { // word to integer
+int wtoi(Word kata) { // convert word to integer
 	int res = 0, temp;
 	kata.Length--;
 	for (int i = 0; i < kata.Length; i++) {
@@ -40,7 +40,7 @@ int wtoi(Word kata) { // word to integer
 	return res;
 }
 
-Word ctow(char huruf[]) { // array of char ke word
+Word ctow(char huruf[]) { // convert array of char ke word
 	Word res;
 	int i = 0;
 	while (huruf[i] != '\0') {
@@ -51,7 +51,7 @@ Word ctow(char huruf[]) { // array of char ke word
 	return res;
 }
 
-Word concat(char awal[], char akhir[]) {
+Word concat(char awal[], char akhir[]) { // menggabungkan dua array of char dan mereturnnya sbg word
 	Word res;
 	int i, j;
 	for (i = 0; awal[i] != '\0'; i++) {
@@ -63,4 +63,18 @@ Word concat(char awal[], char akhir[]) {
 	res.Length = i + j;
 
 	return res;
+}
+
+boolean ceksama(Word kata1, Word kata2) { // cek kesamaan antara dua word
+	if (kata1.Length != kata2.Length) {
+		return false;
+	}
+	else {
+		for (int i = 0; i < kata1.Length; i++) {
+			if (kata1.TabWord[i] != kata2.TabWord[i]) {
+				return false;
+			}
+		}
+	}
+	return true;
 }
