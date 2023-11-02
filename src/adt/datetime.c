@@ -276,6 +276,17 @@ DATETIME CurrentDatetime() {
     return currentDatetime;
 }
 
+char *DateTimeToString(DATETIME datetime) {
+    static char result[20]; 
+    
+    // Format tanggal
+    sprintf(result, "%02d/%02d/%04d %02d:%02d:%02d",
+            DAY(datetime), Month(datetime), Year(datetime),
+            Time(datetime));
+
+    return result;
+}
+
 
 
  
