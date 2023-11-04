@@ -105,4 +105,8 @@ void ubahFotoProfil (Pengguna *P);
 /*I.S : Menerima input berupa profil yang ingin diganti foto profilnya*/
 /*F.S : Foto profil berhasil diganti */
 
+void aturJenisAkun (Pengguna *P);
+/*I.S : Menerima Profil yang memiliki jenis akun privat atau publik */
+/*F.S : Jika jenis akun awalnya privat maka akan diubah ke publik begitu juga sebaliknya */
+
 #endif

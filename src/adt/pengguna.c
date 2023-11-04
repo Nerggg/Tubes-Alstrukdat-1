@@ -382,3 +382,43 @@ void displayProfil(Pengguna P)
     displayPP(P);
     printf("\n");
 }
+
+void aturJenisAkun (Pengguna *P){
+    if(cekKata((*P).jakun,"Publik")){
+        printf("Saat ini, akun Anda adalah akun Publik. Ingin mengubah ke akun Privat? (YA/TIDAK) ");
+        STARTWITHBLANK();
+        Word tmp;
+        tmp.Length = 0;
+        for(int i=0;i<currentWord.Length;i++){
+            tmp.TabWord[i] = currentWord.TabWord[i];
+            tmp.Length++;
+        }
+        if (cekKata(tmp,"YA")){
+            char newJakun[6]="Privat";
+            for(int i=0;i<6;i++){
+                (*P).jakun.TabWord[i] = newJakun[i];
+            }
+        }
+    }
+    else if(cekKata((*P).jakun,"Privat")){
+        printf("Saat ini, akun Anda adalah akun Privat. Ingin mengubah ke akun Publik? (YA/TIDAK) ");
+        STARTWITHBLANK();
+        Word tmp;
+        tmp.Length = 0;
+        for(int i=0;i<currentWord.Length;i++){
+            tmp.TabWord[i] = currentWord.TabWord[i];
+            tmp.Length++;
+        }
+        if (cekKata(tmp,"YA")){
+            char newJakun[6]="Publik";
+            for(int i=0;i<6;i++){
+                (*P).jakun.TabWord[i] = newJakun[i];
+            }
+        }
+    }
+    printf("Akun anda sudah diubah menjadi akun ");
+    for(int i=0;i<6;i++){
+        printf("%c",(*P).jakun.TabWord[i]);
+    }
+    printf(".\n");
+}
