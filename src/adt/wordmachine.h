@@ -25,6 +25,8 @@ void IgnoreBlanks();
    I.S. : currentChar sembarang
    F.S. : currentChar ≠ BLANK atau currentChar = MARK */
 
+void STARTWITHBLANK();
+ 
 void STARTSENTENCE();
 
 void STARTWORD();
@@ -49,5 +51,8 @@ void CopyWord();
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
 void CopySentence();
+
+void PrintWord();
+/* Melakukan print pada tipe data Word */
 
 #endif
