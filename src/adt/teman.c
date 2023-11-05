@@ -4,9 +4,9 @@
 #include "../feat/misc.c"
 
 void daftarteman(boolean login, Pengguna akun, UserDB* listAkun, Graf teman){
-    ListGraf l;
-    CreateListGraf(&l);
     if (login){
+        ListGraf l;
+        CreateListGraf(&l);
         int i = 0;
         boolean found = false;
         int accountID;
@@ -16,7 +16,9 @@ void daftarteman(boolean login, Pengguna akun, UserDB* listAkun, Graf teman){
                 accountID = i;
                 found = true;
             }
-            i++;
+            else{
+                i++;
+            }
         }
         getOne(teman, accountID, &l);
         if (isEmptylistGraf(l)){
@@ -38,11 +40,11 @@ void daftarteman(boolean login, Pengguna akun, UserDB* listAkun, Graf teman){
 }
 
 void hapusteman(boolean login, Pengguna akun, UserDB* listAkun, Graf* teman){
-    Word YA = {"YA", 2};
-    Word TIDAK = {"TIDAK", 5};
-    ListGraf l;
-    CreateListGraf(&l);
     if (login){
+        Word YA = {"YA", 2};
+        Word TIDAK = {"TIDAK", 5};
+        ListGraf l;
+        CreateListGraf(&l);
         int i = 0;
         boolean found = false;
         int accountID;
@@ -52,7 +54,9 @@ void hapusteman(boolean login, Pengguna akun, UserDB* listAkun, Graf* teman){
                 accountID = i;
                 found = true;
             }
-            i++;
+            else{
+                i++;
+            }
         }
         getOne(*teman, accountID, &l);
         printf("Masukkan nama pengguna:\n");
@@ -67,7 +71,9 @@ void hapusteman(boolean login, Pengguna akun, UserDB* listAkun, Graf* teman){
                 IDakunhapus = i;
                 found = true;
             }
-            i++;
+            else{
+                i++;
+            }
         }
         if (found){
             printf("Apakah anda yakin ingin menghapus %s dari daftar teman Anda? (YA/TIDAK)", currentWord.TabWord);

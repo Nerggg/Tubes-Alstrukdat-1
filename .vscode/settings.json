@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "wordmachine.h": "c",
-        "teman.h": "c"
+        "teman.h": "c",
+        "graph.h": "c"
     }
 }
