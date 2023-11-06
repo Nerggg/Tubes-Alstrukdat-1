@@ -1,5 +1,6 @@
 #include "misc.c"
 #include "../adt/pengguna.h"
+#include "../adt/matrix.c"
 
 void penggunaconfig(UserDB *user, Word namafolder) {
 	FILE *fptr;
@@ -51,7 +52,7 @@ void penggunaconfig(UserDB *user, Word namafolder) {
 				fgets(temp, sizeof(temp), fptr);
 			}
 			for (int b = 0; b < 10; b++) {
-				user->db[i].pp[a][b] = temp[b];
+				user-> db[i].PP.mem[a][b] = temp[b];
 			}
 		}
 		n--;
