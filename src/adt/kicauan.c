@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include "kicauandump.h"
+#include "kicauan.h"
 #include "../feat/operational.c"
 #include "../feat/io.c"
 
@@ -7,7 +7,7 @@ int lastIDKicau = 0;
 ListDinkicau kicauanku;
 
 
-void kicau(Word *currentUser)
+void kicau(UserDB *user,Word *currentUser)
 {
     if (!cek(*currentUser, ";;;")) {
         printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
@@ -29,8 +29,9 @@ void kicau(Word *currentUser)
     newKicauan.id = ++lastIDKicau;
     newKicauan.text = text;
     newKicauan.like = 0;
-    newKicauan.author = *currentUser;
+    newKicauan.author = user->db[0].nama;
     newKicauan.datetime = CurrentDatetime();
+    newKicauan.jakunkicau = user->db[0].jakun;
 
     CreateListDinkicau(&kicauanku, 100);
     insertLastkicau(&kicauanku, newKicauan);
@@ -55,26 +56,26 @@ Kicau displaykicauan(Kicau *kicauan)
 }
 
 
-Kicau suka_kicauan(int id)
+Kicau suka_kicauan(UserDB *user,int id)
 {
     ListDinkicau *lKicau = cariKicauan(&kicauanku,id);
     if (lKicau == NULL) {
         printf("Tidak ditemukan kicauan dengan ID = %d\n", id);
+    } else{
+        lKicau->buffer[0].like++;
+        displaykicauan((*lKicau).buffer[0]);
     }
 
-    // Cek apakah kicauan dibuat oleh akun privat
-    if (lKicau->user.db[0].author.privasi == 'P') {  
-        printf("Wah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n");
-    }
+    
+    //Cek apakah kicauan dibuat oleh akun privat
+    if (cekKata(lKicau->buffer[0].jakunkicau,'Publik')) {  
+       printf("Wah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n");
+   }
 
-    // Tambahkan like ke kicauan
-    lKicau->db[0].like++;
-
-    // Kembalikan kicauan
-    return lKicau->db[0];
+    
 }
 
-void ubah_kicauan(int id)
+void ubah_kicauan(UserDB *user,int id)
 {
     ListDinkicau *lKicau = cariKicauan(&kicauanku,id);
     if (lKicau == NULL) {
@@ -82,11 +83,12 @@ void ubah_kicauan(int id)
         return;
     }
 
-    for (int i = 0; i < NEFF(*lKicau); i++) {
-        Kicau ubahkicau = BUFFER(*lKicau);
+    for (int i = 0; i < lKicau->nEff; i++) {
+        Kicau ubahkicau = lKicau->buffer[i];
     }
 
-    if (lKicau->db[0].author != user.nama) {
+    
+    if (lKicau->buffer[0].author != user->db[0].nama) {
         printf("Kicauan dengan ID = %d bukan milikmu!\n", id);
         return;
     }
@@ -94,10 +96,10 @@ void ubah_kicauan(int id)
 
     // Masukkan kicauan baru
     printf("Masukkan kicauan baru: ");
-    lKicau->db[0].text = bacakalimat();
+    lKicau->buffer[0].text = bacakalimat();
 
 
     // Cetak informasi kicauan yang baru diubah
     printf("Selamat! kicauan telah diterbitkan!\n");
-    displaykicauan(BUFFER(*lKicau));
+    displaykicauan(lKicau->buffer);
 }
