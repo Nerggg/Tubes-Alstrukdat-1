@@ -93,7 +93,7 @@ ListDinkicau *cariKicauan(ListDinkicau *l,int id)
 
   
     for (int i = 0; i < NEFF(*l); i++) {
-        if ((*l).db[i].id == id) {
+        if ((*l).buffer[i].id == id) {
             lKicau = &l;
             break;
         }
