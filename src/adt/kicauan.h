@@ -1,5 +1,5 @@
-#ifndef KICAUAN_H
-#define KICAUAN_H
+#ifndef KICAU_H
+#define KICAU_H
 
 #include <stdio.h>
 #include "pengguna.h"
@@ -13,15 +13,16 @@ typedef struct {
 	int like;
 	Word author;
 	DATETIME datetime;
+	Word jakunkicau;
 } Kicau;
 
 #define IDX_UNDEF (-1)
 #define FIRST(l) (l)
 
-void kicau(Word *currentUser);
+void kicau(UserDB *user,Word *currentUser);
 Kicau displaykicauan(Kicau *kicauan);
-Kicau suka_kicauan(int id);
-void ubah_kicauan(int id);
+Kicau suka_kicauan(UserDB *user,int id);
+void ubah_kicauan(UserDB *user,int id);
 
 
 
