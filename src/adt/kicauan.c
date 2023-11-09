@@ -3,8 +3,9 @@
 #include "../feat/operational.c"
 #include "../feat/io.c"
 
-int lastIDKicau = 0;
+
 ListDinkicau kicauanku;
+int lastIDKicau;
 
 
 void kicau(UserDB *user,Word *currentUser)
@@ -24,17 +25,19 @@ void kicau(UserDB *user,Word *currentUser)
         printf("Kicauan tidak boleh lebih dari 280 karakter! Kicauan Anda akan terpotong secara otomatis.\n");
     }
 
+
     // Membuat kicauan baru
     Kicau newKicauan;
-    newKicauan.id = ++lastIDKicau;
+    CreateListDinkicau(&kicauanku, 100);
+    insertLastkicau(&kicauanku, newKicauan);
+    newKicauan.id = kicauanku.nEff;
     newKicauan.text = text;
     newKicauan.like = 0;
     newKicauan.author = user->db[0].nama;
     newKicauan.datetime = CurrentDatetime();
     newKicauan.jakunkicau = user->db[0].jakun;
 
-    CreateListDinkicau(&kicauanku, 100);
-    insertLastkicau(&kicauanku, newKicauan);
+
 
     // Mencetak kicauan
     printf("Kicauan Anda berhasil ditambahkan!\n");
