@@ -66,7 +66,7 @@ void daftar(UserDB *user, Word *currentUser) {
 
 void masuk(UserDB *user, Word *currentUser) {
     // Mengecek apakah pengguna sudah login
-    if (cek(*currentUser, ";;;")) {
+    if (!cek(*currentUser, ";;;")) {
         printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
         return;
     }
@@ -109,8 +109,8 @@ void masuk(UserDB *user, Word *currentUser) {
     }
 
     if (ceksama(temp, user->db[idx].pass)) {
-        printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", temp.TabWord);
         *currentUser = user->db[idx].nama;
+        printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", *currentUser);
         return;
     }
 }

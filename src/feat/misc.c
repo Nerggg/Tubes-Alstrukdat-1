@@ -3,7 +3,6 @@
 
 int wtoi(Word kata) { // convert word to integer
 	int res = 0, temp;
-	kata.Length--;
 	for (int i = 0; i < kata.Length; i++) {
 		if (kata.TabWord[i] == '0') {
 			temp = 0;
@@ -47,7 +46,7 @@ Word ctow(char huruf[]) { // convert array of char ke word
 		res.TabWord[i] = huruf[i];
 		i++;
 	}
-	res.Length = i;
+	res.Length = i-1;
 	return res;
 }
 

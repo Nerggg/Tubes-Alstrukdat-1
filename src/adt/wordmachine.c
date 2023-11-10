@@ -78,6 +78,10 @@ void CopyWord() {
 void CopySentence() {
 	int i = 0;
 	while (currentChar != MARK && i < NMax) {
+		if (currentChar == '\n') {
+			ADV();
+			continue;
+		}
 		currentWord.TabWord[i] = currentChar;
 		i++;
 		ADV();
