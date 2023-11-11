@@ -55,18 +55,6 @@ void dealocateListkicau(ListDinkicau *l);
 /* I.S. l terdefinisi; */
 /* F.S. (l) dikembalikan ke system, CAPACITY(l)=0; NEFF(l)=0 */
 
-void printListkicau(ListDinkicau l);
-/* Proses : Menuliskan isi list dengan traversal, list ditulis di antara kurung siku;
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. l boleh kosong */
-/* F.S. Jika l tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika list kosong : menulis [] */
-
-
-
-
 /* ********** OPERASI LAIN ********** */
 void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut);
 /* I.S. lIn terdefinisi tidak kosong, lOut sembarang */
