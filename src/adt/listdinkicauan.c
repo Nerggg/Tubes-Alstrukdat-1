@@ -24,26 +24,6 @@ void dealocateListkicau(ListDinkicau *l)
     NEFF(*l) = 0;
 }
 
-/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-void printListkicau(ListDinkicau l)
-/* Proses : Menuliskan isi list dengan traversal, list ditulis di antara kurung siku;
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. l boleh kosong */
-/* F.S. Jika l tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika list kosong : menulis [] */
-{
-    /* KAMUS */
-    IdxType i;
-
-    /* ALGORITMA */
-    for (i = 0; i <= l.neff; i++) {
-        displaykicauan(l.buff);
-    }
-}
-
-
 /* ********** OPERASI LAIN ********** */
 void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut)
 /* I.S. lIn terdefinisi tidak kosong, lOut sembarang */
@@ -72,7 +52,7 @@ void insertLastkicau(ListDinkicau *l, Kicau newkicauan)
 /* I.S. List l boleh kosong, tetapi tidak penuh */
 /* F.S. val adalah elemen terakhir l yang baru */
 {
-    ELMT(*l, getLastIdx(*l) + 1) = newkicauan;
+    ELMT(*l, NEFF(*l) + 1) = newkicauan;
     NEFF(*l)++;
 }
 
@@ -84,7 +64,7 @@ void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp)
 /*      Banyaknya elemen list berkurang satu */
 /*      List l mungkin menjadi kosong */
 {
-    *kicauantemp = ELMT(*l, getLastIdx(*l));
+    *kicauantemp = ELMT(*l, NEFF(*l));
     NEFF(*l)--;
 }
 
