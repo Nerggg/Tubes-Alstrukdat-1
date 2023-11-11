@@ -10,6 +10,8 @@
 #include "boolean.h"
 #include "kicauan.h"
 #include "listdin.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /*  Kamus Umum */
 #define IDX_MIN 0
@@ -21,9 +23,9 @@
 typedef int IdxType;
 typedef struct
 {
-    Kicau *buffer; /* memori tempat penyimpan elemen (container) */
-    int nEff;       /* >=0, banyaknya elemen efektif */
-    int capacity;   /* ukuran elemen */
+    Kicau *buff; /* memori tempat penyimpan elemen (container) */
+    int neff;       /* >=0, banyaknya elemen efektif */
+    int CAPACITY;   /* ukuran elemen */
 } ListDinkicau;
 /* Indeks yang digunakan [0..capacity-1] */
 /* Jika l adalah : ListDin, cara deklarasi dan akses: */
@@ -38,10 +40,10 @@ typedef struct
   Definisi elemen terakhir yang terdefinisi: l.buffer[i] dengan i=l.capacity */
 
 /* ********** SELEKTOR ********** */
-#define NEFF(l) (l).nEff
-#define BUFFER(l) (l).buffer
-#define ELMT(l, i) (l).buffer[i]
-#define CAPACITY(l) (l).capacity
+#define NEFF(l) (l).neff
+#define BUFFER(l) (l).buff
+#define ELMT(l, i) (l).buff[i]
+#define CAPACITY(l) (l).CAPACITY
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create list kosong  */
