@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "kicauan.h"
 #include "../feat/operational.c"
+#include "../feat/misc.c"
 #include "listdinkicauan.c"
 
 
@@ -57,6 +58,7 @@ Kicau displaykicauan(Kicau *kicauan)
 }
 
 
+
 Kicau suka_kicauan(UserDB *user,int id)
 {
     ListDinkicau *lKicau = cariKicauan(&kicauanku,id);
@@ -102,3 +104,5 @@ void ubah_kicauan(UserDB *user,int id)
     printf("Selamat! kicauan telah diterbitkan!\n");
     displaykicauan(lKicau->buff);
 }
+
+
