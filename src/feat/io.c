@@ -89,7 +89,49 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 	}	
 }
 
+void kicauanconfig(ListDinkicau *l, Word namafolder) {
+	FILE *fptr;
+	int i = 0;
+	DATETIME tempdatetime;
+	int tempint;
+	char temp[50];
+	char awal[] = "../cfg/";
+	char akhir[] = "/kicauan.config";
+	Word location = concat(awal, namafolder.TabWord);
+	location = concat(location.TabWord, akhir);
+	fptr = fopen(location.TabWord, "r");
+	fgets(temp, sizeof(temp), fptr);
+	int n = wtoi(ctow(temp));
+	l->nEff = n;
+	while (n != 0) {
+		char *temp = malloc(sizeof(char) * 50);
+		fgets(temp, sizeof(temp), fptr);
+		Word tempword = ctow(temp);
+		l->buffer[i].author = tempword;
+
+		fgets(temp, sizeof(tempdatetime), fptr);
+		l->buffer[i].datetime = tempdatetime;
+
+		fgets(temp, sizeof(tempint), fptr);
+		l->buffer[i].id=tempint;
+
+		fgets(temp, sizeof(temp), fptr);
+		l->buffer[i].jakunkicau=tempword;
+
+		fgets(temp, sizeof(tempint), fptr);
+		l->buffer[i].like=tempint;
+
+		fgets(temp, sizeof(temp), fptr);
+		l->buffer[i].text=tempword;
+		n--;
+		i++;
+	}
+	fclose(fptr);
+}
+
+
 void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	penggunaconfig(user, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
 	utasconfig(utas, *l, namafolder);
+	kicauanconfig(l,namafolder);
 }
