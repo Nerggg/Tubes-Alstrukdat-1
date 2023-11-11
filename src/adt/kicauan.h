@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "pengguna.h"
 #include "datetime.h"
-#include "listdinkicauan.h"
 
 // Definisi tipe data kicauan
 typedef struct {

@@ -2,6 +2,12 @@
     "files.associations": {
         "wordmachine.h": "c",
         "teman.h": "c",
-        "graph.h": "c"
+        "graph.h": "c",
+        "stdlib.h": "c",
+        "kicauan.h": "c",
+        "boolean.h": "c",
+        "misc.c": "cpp",
+        "listdinkicauan.h": "c",
+        "datetime.h": "c"
     }
 }
