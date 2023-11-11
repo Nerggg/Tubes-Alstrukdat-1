@@ -1,16 +1,17 @@
 #include <stdio.h>
+#include<stdlib.h>
 #include "listdinkicauan.h"
 
 
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create list kosong  */
-void CreateListDinkicau(ListDinkicau *l, int capacity)
+void CreateListDinkicau(ListDinkicau *l, int cap)
 /* I.S. l sembarang, capacity > 0 */
 /* F.S. Terbentuk list dinamis l kosong dengan kapasitas capacity */
 {
-    BUFFER(*l) = (Kicau *) malloc(capacity * sizeof(Kicau));
-    CAPACITY(*l) = capacity;
+    BUFFER(*l) = (Kicau *) malloc(cap * sizeof(Kicau));
+    CAPACITY(*l) = cap;
     NEFF(*l) = 0;
 }
 
@@ -37,8 +38,8 @@ void printListkicau(ListDinkicau l)
     IdxType i;
 
     /* ALGORITMA */
-    for (i = 0; i <= getLastIdx(l); i++) {
-        displaykicauan(l.buffer);
+    for (i = 0; i <= l.neff; i++) {
+        displaykicauan(l.buff);
     }
 }
 
@@ -52,11 +53,11 @@ void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut)
     IdxType i;
 
     /* ALGORITMA */
-    CreateListDin(lOut, CAPACITY(lIn));
+    CreateListDinkicau(lOut, CAPACITY(lIn));
 
-    NEFF(*lOut) = listLength(lIn);
+    NEFF(*lOut) = lIn.neff;
 
-    for (i = 0; i <= getLastIdx(lIn); i++) {
+    for (i = 0; i <= NEFF(lIn); i++) {
         ELMT(*lOut, i) = ELMT(lIn, i);
     }
 }
@@ -93,8 +94,8 @@ ListDinkicau *cariKicauan(ListDinkicau *l,int id)
 
   
     for (int i = 0; i < NEFF(*l); i++) {
-        if ((*l).buffer[i].id == id) {
-            lKicau = &l;
+        if ((*l).buff[i].id == id) {
+            lKicau = (ListDinkicau *)l->buff;
             break;
         }
     }
