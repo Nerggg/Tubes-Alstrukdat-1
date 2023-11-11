@@ -66,7 +66,7 @@ Kicau suka_kicauan(UserDB *user,int id)
         printf("Tidak ditemukan kicauan dengan ID = %d\n", id);
     } else{
         lKicau->buffer[0].like++;
-        displaykicauan((*lKicau).buffer[0]);
+        displaykicauan(lKicau->buffer);
     }
 
     
@@ -91,9 +91,9 @@ void ubah_kicauan(UserDB *user,int id)
     }
 
     
-    if (lKicau->buffer[0].author != user->db[0].nama) {
-        printf("Kicauan dengan ID = %d bukan milikmu!\n", id);
-        return;
+    if (ceksama((lKicau->buffer[0].author),(user->db[0].nama))) {
+    printf("Kicauan dengan ID = %d bukan milikmu!\n", id);
+    return;
     }
 
 
