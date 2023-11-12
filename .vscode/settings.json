@@ -8,6 +8,10 @@
         "boolean.h": "c",
         "misc.c": "cpp",
         "listdinkicauan.h": "c",
-        "datetime.h": "c"
+        "datetime.h": "c",
+        "listdin.h": "c",
+        "stdio.h": "c",
+        "pengguna.h": "c",
+        "utas.h": "c"
     }
 }

@@ -6,7 +6,6 @@
 #include "../feat/operational.c"
 #include "../feat/misc.c"
 #include "kicauan.h"
-#include "listdinkicauan.h"
 #include "datetime.h"
 
 typedef struct utas* Address;
