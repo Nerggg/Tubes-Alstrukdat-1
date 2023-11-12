@@ -3,8 +3,8 @@
 
 #include "boolean.h"
 #include "wordmachine.h"
-#include "../feat/operational.c"
-#include "../feat/misc.c"
+#include "../feat/operational.h"
+#include "../feat/misc.h"
 #include "kicauan.h"
 #include "datetime.h"
 

@@ -13,5 +13,6 @@ void daftarteman(boolean login, Pengguna akun, UserDB* listAkun, Graf teman);
 void hapusteman(boolean login, Pengguna akun, UserDB* listAkun, Graf* teman);
 /* I.S. Pengguna mungkin belum berteman dengan teman yang ingin dihapus dan belum melakukan login */
 /* F.S. Apabila pengguna sudah berteman, teman yang dihapus tidak lagi menjadi teman pengguna */
+boolean cekteman(Pengguna akun, Pengguna cekakun, UserDB *listAkun, Graf teman);
 
 #endif

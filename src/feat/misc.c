@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../adt/wordmachine.h"
+#include "misc.h"
 
 int wtoi(Word kata) { // convert word to integer
 	int res = 0, temp;

@@ -1,8 +1,6 @@
-#include "misc.c"
-#include "../adt/pengguna.h"
-#include "../adt/utas.h"
-#include "../adt/teman.h"
-#include "../adt/matrix.c"
+#include "io.h"
+#include "misc.h"
+#include <stdio.h>
 
 void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 	FILE *fptr;
@@ -54,7 +52,7 @@ void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 				fgets(temp, sizeof(temp), fptr);
 				j = 0;
 				row = 0, col = 0;
-				teman->mem[row][col] = wtoi(ctow(temp[j]));
+				teman->mem[row][col] = wtoi(ctow(temp));
 				j += 2;
 				col++;
 			}

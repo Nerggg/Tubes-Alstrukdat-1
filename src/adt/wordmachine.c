@@ -89,3 +89,9 @@ void CopySentence() {
 
 	currentWord.Length = i;
 }
+
+void PrintWord(Word kata) {
+	for (int i = 0; i < kata.Length; i++) {
+		printf("%c", kata.TabWord[i]);
+	}
+}

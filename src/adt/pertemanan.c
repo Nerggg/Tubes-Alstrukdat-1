@@ -1,4 +1,7 @@
 #include "pertemanan.h"
+#include "prioqueue.h"
+#include <stdio.h>
+#include "../feat/misc.h"
 
 void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q){
     prioqueuefren quser, qsisa;
@@ -11,7 +14,7 @@ void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman
         CreateListGraf(&l);
         while(i < listakun->Neff && found == false)
         {
-            if(WordEqual(listakun->db[i].nama, akunlogin.nama))
+            if(ceksama(listakun->db[i].nama, akunlogin.nama))
             {
                 idAkun = i;
                 found = true;
@@ -32,7 +35,7 @@ void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman
             found = false;
             while(i < listakun->Neff && found == false)
             {
-                if(WordEqual(listakun->db[i].nama, user))
+                if(ceksama(listakun->db[i].nama, user))
                 {
                     idTeman = i;
                     found = true;
@@ -41,12 +44,12 @@ void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman
                     i++;
                 }
             }
-            if (WordEqual(user, akunlogin.nama)){
+            if (ceksama(user, akunlogin.nama)){
                 printf("Anda tidak dapat mengirim permintaan pertemanan kepada diri sendiri.\n");
             }
             else if (l.content[idTeman] == 1){
                 printf("Anda sudah berteman dengan ");
-                printWord(user);
+                PrintWord(user);
                 printf(".\n");
             }
             else
@@ -67,13 +70,19 @@ void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman
                     temp.IDpenerima = idTeman;
                     temp.Jumlahteman = listEffGraf(l);
                     Enqueueprio(&qsisa, temp);
-                    printf("Permintaan pertemanan kepada %s telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n", user);
+                    printf("Permintaan pertemanan kepada ");
+                    PrintWord(user);
+                    printf(" telah dikirim. Tunggu beberapa saat hingga permintaan Anda disetujui.\n");
                 }
                 else if (found && !cek){
-                    printf("Anda sudah mengirimkan permintaan pertemanan kepada %s sebelumnya. Silakan tunggu hingga permintaan Anda disetujui.\n", user);
+                    printf("Anda sudah mengirimkan permintaan pertemanan kepada ");
+                    PrintWord(user);
+                    printf(" sebelumnya. Silakan tunggu hingga permintaan Anda disetujui.\n");
                 }
                 else{
-                    printf("Pengguna bernama %s tidak ditemukan.\n", user);
+                    printf("Pengguna bernama ");
+                    PrintWord(user);
+                    printf(" tidak ditemukan.\n");
                 }
             }
         }
@@ -96,7 +105,7 @@ void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, 
         boolean found = false;
         while(i < listakun->Neff && found == false)
         {
-            if(WordEqual(listakun->db[i].nama, akunlogin.nama))
+            if(ceksama(listakun->db[i].nama, akunlogin.nama))
             {
                 idAkun = i;
                 found = true;
@@ -124,7 +133,7 @@ void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun,
         boolean found = false;
         while(i < listakun->Neff && found == false)
         {
-            if(WordEqual(listakun->db[i].nama, akunlogin.nama))
+            if(ceksama(listakun->db[i].nama, akunlogin.nama))
             {
                 idAkun = i;
                 found = true;
@@ -140,13 +149,13 @@ void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun,
         STARTWITHBLANK();
         Word cmd = currentWord;
         teman temp;
-        if(WordEqual(cmd, YA)){
+        if(ceksama(cmd, YA)){
             Dequeueprio(&quser, &temp);
             ELMTGRAF(*Teman, idAkun, idteman) = 1;
             ELMTGRAF(*Teman, idteman, idAkun) = 1;
             printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n", listakun->db[idteman].nama, listakun->db[idteman].nama);
         }
-        else if(WordEqual(cmd, TIDAK)){
+        else if(ceksama(cmd, TIDAK)){
             Dequeueprio(&quser, &temp);
             printf("Permintaan pertemanan dari %s telah ditolak.\n", listakun->db[idteman].nama);
         }

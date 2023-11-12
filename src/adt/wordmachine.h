@@ -52,7 +52,7 @@ void CopyWord();
 
 void CopySentence();
 
-void PrintWord();
+void PrintWord(Word kata);
 /* Melakukan print pada tipe data Word */
 
 #endif

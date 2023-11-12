@@ -281,7 +281,7 @@ char *DateTimeToString(DATETIME datetime) {
     
     // Format tanggal
     sprintf(result, "%02d/%02d/%04d %02d:%02d:%02d",
-    Day(datetime), Month(datetime), Year(datetime),Time(datetime));
+    Day(datetime), Month(datetime), Year(datetime), Hour(Time(datetime)), Minute(Time(datetime)), Second(Time(datetime)));
 
     return result;
 }

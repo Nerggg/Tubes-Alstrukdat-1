@@ -1,11 +1,3 @@
-/*
-NIM             : 13522126
-Nama            : Rizqika Mulia Pratama
-Tanggal         : 3 September 2023
-Topik praktikum : ADT Sederhana
-Deskripsi       : Definisi ABSTRACT DATA TYPE POINT
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

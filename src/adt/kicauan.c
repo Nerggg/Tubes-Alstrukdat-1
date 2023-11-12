@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "kicauan.h"
-#include "teman.c"
-#include "../feat/operational.c"
-#include "../feat/misc.c"
 
 void CreateListDinkicau(ListDinkicau *l, int cap)
 /* I.S. l sembarang, capacity > 0 */
@@ -71,20 +68,6 @@ void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp)
     NEFF(*l)--;
 }
 
-ListDinkicau *cariKicauan(ListDinkicau *l, int id)
-{
-    ListDinkicau *lKicau = NULL;
-
-    for (int i = 0; i < NEFF(*l); i++) {
-        if ((*l).buffer[i].id == id) {
-            lKicau = l->buffer;
-            break;
-        }
-    }
-
-    return lKicau;
-}
-
 void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser)
 {
     if (!cek(*currentUser, ";;;")) {
@@ -115,7 +98,7 @@ void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser)
         ListDinkicau tempkicau;
         copyListkicau(*kicau, &tempkicau);
         dealocateListkicau(kicau);
-        CreateListDinkicau(&kicau, tempkicau.capacity+1);
+        CreateListDinkicau(kicau, tempkicau.capacity+1);
         for (int i = 0; i < tempkicau.capacity; i++) {
             kicau->buffer[i] = tempkicau.buffer[i];
         }
@@ -224,4 +207,5 @@ void ubah_kicauan(UserDB user, ListDinkicau *kicau, int id, Word currentUser)
     printf("Selamat! kicauan telah diterbitkan!\n");
     printf("Detil kicauan:\n");
     displaykicauan(kicau->buffer[idx]);
+    }
 }

@@ -12,6 +12,9 @@
         "listdin.h": "c",
         "stdio.h": "c",
         "pengguna.h": "c",
-        "utas.h": "c"
+        "utas.h": "c",
+        "misc.h": "c",
+        "io.h": "c",
+        "prioqueue.h": "c"
     }
 }

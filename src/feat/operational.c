@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "../adt/wordmachine.c"
-#include "../adt/charmachine.c"
+#include "operational.h"
 
 Word bacakalimat() { // untuk baca input dari user yang ada spasinya
 	STARTSENTENCE();

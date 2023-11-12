@@ -4,6 +4,9 @@
 #include "boolean.h"
 #include "pengguna.h"
 #include "datetime.h"
+#include "teman.h"
+#include "../feat/operational.h"
+#include "../feat/misc.h"
 
 // Definisi tipe data kicauan
 typedef struct {
@@ -44,10 +47,10 @@ typedef struct
 
 void CreateListDinkicau(ListDinkicau *l, int capacity);
 void dealocateListkicau(ListDinkicau *l);
+void printListkicau(ListDinkicau l);
 void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut);
 void insertLastkicau(ListDinkicau *l, Kicau newkicauan);
 void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp);
-ListDinkicau *cariKicauan(ListDinkicau *l,int id);
 void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser);
 void displaykicauan(Kicau);
 void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word currentUser);
