@@ -82,4 +82,8 @@ void Enqueueuserprio(prioqueuefren Q, int IDuser,prioqueuefren * Quser, prioqueu
 void concatenationprio(prioqueuefren Quser, prioqueuefren Qsisa, prioqueuefren *Q);
 /*Menggabungkan kedua Queue menjadi satu menggunakan Enqueue berdasarkan prioritas*/
 
+void PrintTopPrioQueueChar(prioqueuefren quser, int idAkun, UserDB listakun, int *idteman);
+
+void PrintPrioQueue(prioqueuefren quser, UserDB listakun);
+
 #endif

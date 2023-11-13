@@ -1,4 +1,5 @@
 #include "prioqueue.h"
+#include "pengguna.h"
 #include <stdlib.h>
 
 boolean IsEmptyPrio(prioqueuefren Q) {
@@ -93,3 +94,43 @@ void concatenationprio(prioqueuefren Quser, prioqueuefren Qsisa, prioqueuefren *
         Enqueueprio(Q, t);
     }
 }
+
+void PrintTopPrioQueueChar(prioqueuefren quser, int idAkun, UserDB listakun, int *idteman) {
+    if (IsEmptyPrio(quser)) {
+        printf("Tidak ada permintaan pertemanan untuk Anda.\n");
+    }
+    else{
+        teman topTeman;
+        Dequeueprio(&quser, &topTeman);
+
+        *idteman = topTeman.IDpengirim;
+
+        printf("Permintaan pertemanan teratas dari %s\n", listakun.db[*idteman].nama.TabWord);
+        printf("| %s\n", listakun.db[*idteman].nama.TabWord);
+        printf("| Jumlah teman: %d\n", topTeman.Jumlahteman);
+        }
+}
+
+void PrintPrioQueue(prioqueuefren quser, UserDB listakun) {
+    if (IsEmptyPrio(quser)) {
+        printf("Tidak ada permintaan pertemanan untuk Anda.\n");
+        return;
+    }
+
+    printf("Terdapat %d permintaan pertemanan untuk Anda.\n", NBElmtPrio(quser));
+
+    addressPrioqueue i = HeadQ(quser);
+
+    do {
+        teman t = ElmtQ(quser, i);
+
+        // Process additional information using UserDB for the sender (assuming you have it)
+        
+        printf("| %s\n", listakun.db[i].nama.TabWord);
+        printf("| Jumlah Teman: %d\n", t.Jumlahteman);
+        printf("\n");
+
+        i = (i + 1) % (MaxElQ(quser) + 1);
+    } while (i != (TailQ(quser) + 1) % (MaxElQ(quser) + 1));
+}
+
