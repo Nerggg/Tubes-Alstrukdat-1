@@ -62,7 +62,7 @@ void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id) {
     utas->neff++;
 }
 
-void cetakutas(ListUtas utas, int id) {
+void cetakUtas(ListUtas utas, int id) {
     int i;
     boolean ada = false;
     for (i = 0; i < utas.neff; i++) {
@@ -116,4 +116,118 @@ void cetakutas(ListUtas utas, int id) {
         j++;
         p = p->next;     
     }
+}
+
+void sambungUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
+    boolean ada = false;
+    int i;
+    int index = indexParam;
+    for (i = 0; i < utas->neff; i++) {
+        if (utas->utasan[i].k.id == id) {
+            ada = true;
+            break;
+        }
+    }
+
+    if (!ada) {
+        printf("Utas tidak ditemukan!\n");
+        return;
+    }
+
+    Address p = utas->utasan[i].u;
+    while (index != 1 && ada) {
+        if (p == NULL) {
+            ada = false;
+        }        
+        p = p->next;
+        index--;
+    }
+
+    if (!ada) {
+        printf("Index terlalu tinggi!\n");
+        return;
+    }
+
+    if (!ceksama(utas->utasan[i].k.author, currentUser)) {
+        printf("Anda tidak bisa menyambung utas ini!\n");
+        return;
+    }
+
+    Word temp;
+    printf("Masukkan kicauan:\n");
+    temp = bacakalimat();
+
+    Address newUtas;
+    newUtas->isi = temp;
+    newUtas->date = ctow(DateTimeToString(CurrentDatetime()));
+    newUtas->next = p;
+
+    if (indexParam > 1) {
+        Address q = utas->utasan[i].u;
+        index = indexParam;
+        while (index != 2) {
+            q = q->next;
+            index--;
+        }
+        q->next = newUtas;
+    }
+    
+    printf("Kicauan berhasil disambung!\n");
+}
+
+void hapusUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
+    boolean ada = false;
+    int i;
+    int index = indexParam;
+    for (i = 0; i < utas->neff; i++) {
+        if (utas->utasan[i].k.id == id) {
+            ada = true;
+            break;
+        }
+    }
+
+    if (!ada) {
+        printf("Utas tidak ditemukan!\n");
+        return;
+    }
+
+    if (indexParam == 0) {
+        printf("Anda tidak bisa menghapus kicauan utama!\n");
+        return;
+    }
+
+    else if (indexParam == 1) {
+        Address p = utas->utasan[i].u;
+        p = NULL;
+        printf("Kicauan sambungan berhasil dihapus!\n");
+        return;
+    }
+
+    // ketika index utas yg ingin dihapus adlh index 2 atau lebih
+
+    Address p = utas->utasan[i].u;
+    Address q = p->next;
+    while (index != 2 && ada) {
+        if (q == NULL) {
+            ada = false;
+        }        
+        q = q->next;
+        p = p->next;
+        index--;
+    }
+
+    if (!ada) {
+        printf("Index terlalu tinggi!\n");
+        return;
+    }
+
+    if (!ceksama(utas->utasan[i].k.author, currentUser)) {
+        printf("Anda tidak bisa menghapus utas ini!\n");
+        return;
+    }   
+
+    p->next = q->next;
+    q = NULL;
+    
+    printf("Kicauan sambungan berhasil dihapus!\n");
 }
