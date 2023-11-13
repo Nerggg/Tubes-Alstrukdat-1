@@ -1,4 +1,5 @@
 #include "graph.h"
+#include <stdio.h>
 
 void createEmptyGraf(Graf *g) {
     IdxGraf i, j;

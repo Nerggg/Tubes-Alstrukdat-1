@@ -1,7 +1,7 @@
 #include "teman.h"
 #include <stdio.h>
-#include "../feat/operational.c"
-#include "../feat/misc.c"
+#include "../feat/operational.h"
+#include "../feat/misc.h"
 #include "boolean.h"
 
 void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)

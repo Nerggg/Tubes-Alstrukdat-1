@@ -1,9 +1,8 @@
-#include "misc.c"
-#include "../adt/pengguna.h"
-#include "../adt/utas.h"
-#include "../adt/matrix.c"
+#include "io.h"
+#include "misc.h"
+#include <stdio.h>
 
-void penggunaconfig(UserDB *user, Word namafolder) {
+void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[50];
@@ -45,6 +44,22 @@ void penggunaconfig(UserDB *user, Word namafolder) {
 		}
 		n--;
 		i++;
+
+		int j, row, col;
+
+		for (int a = 0; a < user->Neff; a++) {
+			for (int b = 0; b < user->Neff; b++) {
+				fgets(temp, sizeof(temp), fptr);
+				j = 0;
+				row = 0, col = 0;
+				teman->mem[row][col] = wtoi(ctow(temp));
+				j += 2;
+				col++;
+			}
+			j = 0;
+			col = 0;
+			row++;
+		}
 	}
 	fclose(fptr);
 }
@@ -92,11 +107,9 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 void kicauanconfig(ListDinkicau *l, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
-	DATETIME tempdatetime;
-	int tempint;
 	char temp[50];
 	char awal[] = "../cfg/";
-	char akhir[] = "/kicauan.config";
+	char akhir[] = "/pengguna.config";
 	Word location = concat(awal, namafolder.TabWord);
 	location = concat(location.TabWord, akhir);
 	fptr = fopen(location.TabWord, "r");
@@ -104,34 +117,29 @@ void kicauanconfig(ListDinkicau *l, Word namafolder) {
 	int n = wtoi(ctow(temp));
 	l->nEff = n;
 	while (n != 0) {
-		char *temp = malloc(sizeof(char) * 50);
 		fgets(temp, sizeof(temp), fptr);
-		Word tempword = ctow(temp);
-		l->buffer[i].author = tempword;
-
-		fgets(temp, sizeof(tempdatetime), fptr);
-		l->buffer[i].datetime = tempdatetime;
-
-		fgets(temp, sizeof(tempint), fptr);
-		l->buffer[i].id=tempint;
+		l->buffer[i].id = wtoi(ctow(temp));
 
 		fgets(temp, sizeof(temp), fptr);
-		l->buffer[i].jakunkicau=tempword;
-
-		fgets(temp, sizeof(tempint), fptr);
-		l->buffer[i].like=tempint;
+		l->buffer[i].text = ctow(temp);
 
 		fgets(temp, sizeof(temp), fptr);
-		l->buffer[i].text=tempword;
-		n--;
+		l->buffer[i].like = wtoi(ctow(temp));
+
+		fgets(temp, sizeof(temp), fptr);
+		l->buffer[i].author = ctow(temp);
+
+		fgets(temp, sizeof(temp), fptr);
+		l->buffer[i].date = ctow(temp);
+
 		i++;
-	}
-	fclose(fptr);
+		n--;
+	}		
 }
 
 
-void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
-	penggunaconfig(user, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
+void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
 	utasconfig(utas, *l, namafolder);
-	kicauanconfig(l,namafolder);
+	kicauanconfig(l, namafolder);
 }

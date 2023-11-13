@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "pengguna.h"
-#include "../feat/operational.c"
-#include "../feat/io.c"
-#include "./pcolor.c"
+#include "../feat/operational.h"
+#include "../feat/io.h"
+#include "./pcolor.h"
 
 void emptyuser(Word *currentUser) {
     currentUser->TabWord[0] = ';';
@@ -110,7 +110,11 @@ void masuk(UserDB *user, Word *currentUser) {
 
     if (ceksama(temp, user->db[idx].pass)) {
         *currentUser = user->db[idx].nama;
-        printf("Anda telah berhasil masuk dengan nama pengguna %s. Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n", *currentUser);
+        printf("Anda telah berhasil masuk dengan nama pengguna ");
+        for (int z = 0; z < currentUser->Length; z++) {
+            printf("%c", currentUser->TabWord[z]);
+        }
+        printf(". Mari menjelajahi BurBir bersama Ande-Ande Lumut!\n");
         return;
     }
 }

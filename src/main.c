@@ -1,13 +1,23 @@
 #include <stdio.h>
-#include "adt/pengguna.c"
+#include "adt/pengguna.h"
+#include "feat/io.h"
+#include "feat/operational.h"
+#include "adt/kicauan.c"
+#include "adt/teman.h"
+#include "adt/utas.h"
 
 int main() {
 	Word opt, configfolder, currentUser;
 	UserDB user;
+	ListUtas utas;
+	ListDinkicau kicau;
+	Graf teman;
 	int move;	
+
+	CreateListDinkicau(&kicau, 100);
 	printf("masukkan nama folder\n");
 	configfolder = baca();
-	bacaconfig(&user, configfolder);
+	bacaconfig(&user, &utas, &kicau, &teman, configfolder);
 	printf("config berhasil dibuka!\n");
 	emptyuser(&currentUser);
 	while (true) {

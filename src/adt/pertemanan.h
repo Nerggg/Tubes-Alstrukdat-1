@@ -7,10 +7,10 @@
 #include "prioqueue.h"
 #include "pengguna.h"
 
-void tambahteman();
+void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q);
 
-void daftarPertemanan();
+void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, prioqueuefren *Q);
 
-void setujuiPertemanan();
+void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf* Teman, prioqueuefren* Q);
 
 #endif
