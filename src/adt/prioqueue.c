@@ -1,6 +1,7 @@
 #include "prioqueue.h"
 #include "pengguna.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 boolean IsEmptyPrio(prioqueuefren Q) {
     return HeadQ(Q) == Nil;

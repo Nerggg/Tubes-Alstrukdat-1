@@ -1,4 +1,5 @@
 #include "utas.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 void emptyUtas(ListUtas *utas) {

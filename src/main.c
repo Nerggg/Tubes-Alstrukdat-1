@@ -2,7 +2,7 @@
 #include "adt/pengguna.h"
 #include "feat/io.h"
 #include "feat/operational.h"
-#include "adt/kicauan.c"
+#include "adt/kicauan.h"
 #include "adt/teman.h"
 #include "adt/utas.h"
 

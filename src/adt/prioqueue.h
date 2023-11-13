@@ -5,6 +5,7 @@
 #define PRIOQUEUEFREN_H
 
 #include "boolean.h"
+#include "pengguna.h"
 
 #define Nil -1
 

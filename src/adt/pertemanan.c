@@ -115,7 +115,7 @@ void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, 
             }
         }
         Enqueueuserprio(*Q, idAkun, &quser, &qsisa);
-        PrintPrioQueue(quser, listakun);
+        PrintPrioQueue(quser, *listakun);
         concatenationprio(quser, qsisa, Q);
     }
     else{
@@ -144,7 +144,7 @@ void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun,
         }
         Enqueueuserprio(*Q, idAkun, &quser, &qsisa);
         int idteman;
-        PrintTopPrioQueueChar(quser, idAkun, listakun, &idteman);
+        PrintTopPrioQueueChar(quser, idAkun, *listakun, &idteman);
         printf("Apakah Anda ingin menyetujui permintaan pertemanan ini? (YA/TIDAK) ");
         STARTWITHBLANK();
         Word cmd = currentWord;
@@ -153,11 +153,17 @@ void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun,
             Dequeueprio(&quser, &temp);
             ELMTGRAF(*Teman, idAkun, idteman) = 1;
             ELMTGRAF(*Teman, idteman, idAkun) = 1;
-            printf("Permintaan pertemanan dari %s telah disetujui. Selamat! Anda telah berteman dengan %s.\n", listakun->db[idteman].nama, listakun->db[idteman].nama);
+            printf("Permintaan pertemanan dari ");
+            PrintWord(listakun->db[idteman].nama);
+            printf(" telah disetujui. Selamat! Anda telah berteman dengan ");
+            PrintWord(listakun->db[idteman].nama);
+            printf(".\n");
         }
         else if(ceksama(cmd, TIDAK)){
             Dequeueprio(&quser, &temp);
-            printf("Permintaan pertemanan dari %s telah ditolak.\n", listakun->db[idteman].nama);
+            printf("Permintaan pertemanan dari ");
+            PrintWord(listakun->db[idteman].nama);
+            printf(" telah ditolak.\n");
         }
         else{
             printf("Perintah tidak sesuai!\n\n");
