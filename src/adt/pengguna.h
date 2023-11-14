@@ -4,6 +4,7 @@
 #include "boolean.h"
 #include "wordmachine.h"
 #include "matrix.h"
+#include "graph.h"
 
 typedef struct { 
 	Word nama;

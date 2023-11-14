@@ -9,11 +9,7 @@ void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 	char temp[50];
 	char akhir[] = "/pengguna.config";
 	Word location = concat(namafolder.TabWord, akhir);
-	char configfolder[location.Length];
-	for (int j = 0; j < location.Length; j++) {
-		configfolder[j] = location.TabWord[j];
-	}
-	fptr = fopen(configfolder, "r");
+	fptr = fopen(location.TabWord, "r");
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
 	user->Neff = n;
@@ -71,13 +67,9 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[50];
-	char akhir[] = "/utassss.config";
+	char akhir[] = "/utas.config";
 	Word location = concat(namafolder.TabWord, akhir);
-	char configfolder[location.Length];
-	for (int j = 0; j < location.Length; j++) {
-		configfolder[j] = location.TabWord[j];
-	}
-	fptr = fopen(configfolder, "r");
+	fptr = fopen(location.TabWord, "r");
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
 	utas->neff = n;
@@ -123,11 +115,7 @@ void kicauanconfig(ListDinkicau *l, Word namafolder) {
 	char temp[50];
 	char akhir[] = "/kicauan.config";
 	Word location = concat(namafolder.TabWord, akhir);
-	char configfolder[location.Length];
-	for (int j = 0; j < location.Length; j++) {
-		configfolder[j] = location.TabWord[j];
-	}
-	fptr = fopen(configfolder, "r");	
+	fptr = fopen(location.TabWord, "r");	
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
 	l->nEff = n;

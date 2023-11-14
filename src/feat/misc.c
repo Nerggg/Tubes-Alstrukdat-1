@@ -59,6 +59,7 @@ Word concat(char awal[], char akhir[]) { // menggabungkan dua array of char dan 
 	for (j = 0; akhir[j] != '\0'; j++) {
 		res.TabWord[i+j] = akhir[j];
 	}
+	res.TabWord[i+j] = '\0';
 	res.Length = i + j;
 	return res;
 }
