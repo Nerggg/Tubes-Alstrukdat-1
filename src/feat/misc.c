@@ -52,7 +52,7 @@ Word ctow(char huruf[]) { // convert array of char ke word
 
 Word concat(char awal[], char akhir[]) { // menggabungkan dua array of char dan mereturnnya sbg word
 	Word res;
-	int i, j;
+	int i = 0, j = 0;
 	for (i = 0; awal[i] != '\0'; i++) {
 		res.TabWord[i] = awal[i];
 	}
@@ -60,7 +60,6 @@ Word concat(char awal[], char akhir[]) { // menggabungkan dua array of char dan 
 		res.TabWord[i+j] = akhir[j];
 	}
 	res.Length = i + j;
-
 	return res;
 }
 

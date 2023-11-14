@@ -84,9 +84,10 @@ void cetakUtas(ListUtas utas, int id) {
     }
     printf("\n");
     printf("| ");
-    for (int j = 0; j < utas.utasan[i].k.author.Length; j++) {
+    for (int j = 0; j < utas.utasan[i].k.date.Length; j++) {
         printf("%c", utas.utasan[i].k.date.TabWord[j]);
     }
+    printf("\n");
     printf("| ");
     for (int j = 0; j < utas.utasan[i].k.text.Length; j++) {
         printf("%c", utas.utasan[i].k.text.TabWord[j]);

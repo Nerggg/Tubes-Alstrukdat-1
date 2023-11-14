@@ -14,7 +14,7 @@ int main() {
 	Graf teman;
 	int move;	
 
-	CreateListDinkicau(&kicau, 100);
+	CreateListDinkicau(&kicau, 1);
 	printf("masukkan nama folder\n");
 	configfolder = baca();
 	bacaconfig(&user, &utas, &kicau, &teman, configfolder);

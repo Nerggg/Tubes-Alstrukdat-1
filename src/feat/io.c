@@ -1,16 +1,19 @@
 #include "io.h"
 #include "misc.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[50];
-	char awal[] = "../cfg/";
 	char akhir[] = "/pengguna.config";
-	Word location = concat(awal, namafolder.TabWord);
-	location = concat(location.TabWord, akhir);
-	fptr = fopen(location.TabWord, "r");
+	Word location = concat(namafolder.TabWord, akhir);
+	char configfolder[location.Length];
+	for (int j = 0; j < location.Length; j++) {
+		configfolder[j] = location.TabWord[j];
+	}
+	fptr = fopen(configfolder, "r");
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
 	user->Neff = n;
@@ -68,11 +71,13 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[50];
-	char awal[] = "../cfg/";
-	char akhir[] = "/pengguna.config";
-	Word location = concat(awal, namafolder.TabWord);
-	location = concat(location.TabWord, akhir);
-	fptr = fopen(location.TabWord, "r");
+	char akhir[] = "/utassss.config";
+	Word location = concat(namafolder.TabWord, akhir);
+	char configfolder[location.Length];
+	for (int j = 0; j < location.Length; j++) {
+		configfolder[j] = location.TabWord[j];
+	}
+	fptr = fopen(configfolder, "r");
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
 	utas->neff = n;
@@ -86,36 +91,50 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 			}
 		}
 
-		Address p = utas->utasan[i].u;
+		Address p = (Address)malloc(sizeof(Utas));
 
 		fgets(temp, sizeof(temp), fptr); // ini baca jlh utas yg ada
 		int jlhutas = wtoi(ctow(temp));
 		for (int j = 0; j < jlhutas; j++) {
 			fgets(temp, sizeof(temp), fptr); // ini untuk baca isi utas
+			// printf("stringnya %s\n", temp);
 			p->isi = ctow(temp);
 			fgets(temp, sizeof(temp), fptr); // ini skip line author
 			fgets(temp, sizeof(temp), fptr); // ini utk baca date
 			p->date = ctow(temp);
-			p = p->next;
 		}
+
+		utas->utasan[i].u = p;
 
 		i++;
 		n--;
 	}	
+	for (int k = 0; k < utas->neff-1; k++) {
+		Address q = utas->utasan[k].u;
+		Address r = utas->utasan[k+1].u;
+		q->next = r;
+		r->next = NULL;
+	}
 }
 
 void kicauanconfig(ListDinkicau *l, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[50];
-	char awal[] = "../cfg/";
-	char akhir[] = "/pengguna.config";
-	Word location = concat(awal, namafolder.TabWord);
-	location = concat(location.TabWord, akhir);
-	fptr = fopen(location.TabWord, "r");
+	char akhir[] = "/kicauan.config";
+	Word location = concat(namafolder.TabWord, akhir);
+	char configfolder[location.Length];
+	for (int j = 0; j < location.Length; j++) {
+		configfolder[j] = location.TabWord[j];
+	}
+	fptr = fopen(configfolder, "r");	
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
 	l->nEff = n;
+	if (n > l->capacity) {
+		dealocateListkicau(l);
+		CreateListDinkicau(l, n);
+	}
 	while (n != 0) {
 		fgets(temp, sizeof(temp), fptr);
 		l->buffer[i].id = wtoi(ctow(temp));
@@ -139,7 +158,12 @@ void kicauanconfig(ListDinkicau *l, Word namafolder) {
 
 
 void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+	char awal[] = "../cfg/";
+	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
+	// printf("1 aman\n");
+	kicauanconfig(l, namafolder);	
+	// printf("2 aman\n");	
 	utasconfig(utas, *l, namafolder);
-	kicauanconfig(l, namafolder);
+	// printf("3 aman\n");
 }
