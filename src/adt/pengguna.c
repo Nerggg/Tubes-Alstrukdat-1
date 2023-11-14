@@ -239,7 +239,7 @@ void inputNoHP(Pengguna *P){
             tmp.Length++;
         }
         
-        if(cekNoHp(tmp)){
+        if(cekNoHp(tmp) && tmp.Length <= 15){
             valid = true;
         }
         else{
@@ -425,4 +425,45 @@ void aturJenisAkun (Pengguna *P){
         printf("%c",(*P).jakun.TabWord[i]);
     }
     printf(".\n");
+}
+
+int cariId(UserDB *listakun, Pengguna P){
+    boolean found = false;
+    int i = 0;
+    int idAkun;
+    while(i < listakun->Neff && found == false)
+        {
+            if(ceksama(listakun->db[i].nama, P.nama))
+            {
+                idAkun = i;
+                found = true;
+            }
+            else{
+                i++;
+            }
+        }
+    return idAkun;
+}
+
+void LihatProfil(Pengguna P,Pengguna P1,UserDB *listakun,Graf *Teman){
+    if(cekKata((P1).jakun,"Publik")){
+        displayProfil(P1);
+    }
+    else{
+        int idP = cariId(listakun,P);
+        int idP1 = cariId(listakun,P1);
+        if(ELMTGRAF(*Teman,idP,idP1) == 1){
+            displayProfil(P1);
+        }
+        else{
+
+            printf("Wah, akun ");
+            displayNama(P1);
+            printf(" diprivat nih. Ikuti dulu yuk untuk bisa melihat profil ");
+            displayNama(P1);
+            printf(" !\n");
+
+        }
+    }
+
 }

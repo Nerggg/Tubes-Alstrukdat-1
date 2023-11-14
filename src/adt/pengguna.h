@@ -109,4 +109,14 @@ void aturJenisAkun (Pengguna *P);
 /*I.S : Menerima Profil yang memiliki jenis akun privat atau publik */
 /*F.S : Jika jenis akun awalnya privat maka akan diubah ke publik begitu juga sebaliknya */
 
+int cariId(UserDB *listakun, Pengguna P);
+/*I.S : Pengguna terdefinisi dan listakun terdefinisi */
+/*F.S : Mengembalikan id pengguna berdasarkan listakun */
+
+void LihatProfil(Pengguna P,Pengguna P1,UserDB *listakun,Graf *Teman);
+/*I.S : P dan P1 terdefinisi */
+/*F.S : Jika jenis akun P1 adalah publik maka tampilkan profil P1 namun jika jenis akun P1 adalah privat, tampilkan hanya jika P dan P1 berteman */
+
+
+
 #endif
