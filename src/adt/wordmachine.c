@@ -72,6 +72,7 @@ void CopyWord() {
 		ADV();
 	}
 
+	currentWord.TabWord[i] = '\0';
 	currentWord.Length = i;
 }
 
@@ -87,6 +88,7 @@ void CopySentence() {
 		ADV();
 	}
 
+	currentWord.TabWord[i] = '\0';
 	currentWord.Length = i;
 }
 

@@ -16,50 +16,64 @@ void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 	while (n != 0) {
 		fgets(temp, sizeof(temp), fptr);
 		user->db[i].nama = ctow(temp);
+		// printf("1: %s\n", ctow(temp).TabWord);
 
 		fgets(temp, sizeof(temp), fptr);
 		user->db[i].pass = ctow(temp);
+		// printf("2: %s\n", ctow(temp).TabWord);
 
 		fgets(temp, sizeof(temp), fptr);
 		user->db[i].bio = ctow(temp);
+		// printf("3: %s\n", ctow(temp).TabWord);
 
 		fgets(temp, sizeof(temp), fptr);
 		user->db[i].hp = ctow(temp);
+		// printf("4: %s\n", ctow(temp).TabWord);
 
 		fgets(temp, sizeof(temp), fptr);
 		user->db[i].weton = ctow(temp);
+		// printf("5: %s\n", ctow(temp).TabWord);
 
 		fgets(temp, sizeof(temp), fptr);
 		user->db[i].jakun = ctow(temp);
+		// printf("6: %s\n", ctow(temp).TabWord);
 
 		for (int a = 0; a < 5; a++) {
+			int idx = 0;
 			fgets(temp, sizeof(temp), fptr);
-			while (temp[0] == '\n') {
-				fgets(temp, sizeof(temp), fptr);
-			}
+			// printf("%s\n", temp);
 			for (int b = 0; b < 10; b++) {
-				user-> db[i].PP.mem[a][b] = temp[b];
+				if (temp[idx] == ' ') {
+					idx++;
+					b--;
+				}
+				else {
+					user->db[i].PP.mem[a][b] = temp[idx];
+					// printf("isi b nya %c\n", temp[idx]);
+					idx++;
+				}
 			}
 		}
 		n--;
 		i++;
 
-		int j, row, col;
+	}
 
-		for (int a = 0; a < user->Neff; a++) {
-			for (int b = 0; b < user->Neff; b++) {
-				fgets(temp, sizeof(temp), fptr);
-				j = 0;
-				row = 0, col = 0;
-				teman->mem[row][col] = wtoi(ctow(temp));
-				j += 2;
-				col++;
+	for (int a = 0; a < user->Neff; a++) {
+		int idx = 0;
+		fgets(temp, sizeof(temp), fptr);
+		for (int b = 0; b < user->Neff; b++) {
+			if (temp[idx] == ' ') {
+				idx++;
+				b--;
 			}
-			j = 0;
-			col = 0;
-			row++;
+			else {
+				teman->mem[a][b] = ctoi(temp[idx]);
+				idx++;
+			}
 		}
 	}
+
 	fclose(fptr);
 }
 

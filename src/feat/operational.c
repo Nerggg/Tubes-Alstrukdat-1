@@ -35,4 +35,16 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	else if (cek(kata, "TUTUP_PROGRAM")) {
 		return 4;
 	}
+	else if (cek(kata, "GANTI_PROFIL")) {
+		return 5;
+	}	
+	else if (cek(kata, "LIHAT_PROFIL")) {
+		return 6;
+	}	
+	else if (cek(kata, "ATUR_JENIS_AKUN")) {
+		return 7;
+	}	
+	else if (cek(kata, "UBAH_FOTO_PROFIL")) {
+		return 8;
+	}		
 }

@@ -19,6 +19,7 @@
         "pertemanan.h": "c",
         "operational.h": "c",
         "charmachine.h": "c",
-        "matrix.h": "c"
+        "matrix.h": "c",
+        "pcolor.h": "c"
     }
 }
