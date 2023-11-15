@@ -173,7 +173,7 @@ void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word cur
         }
     }
 
-    if (cekKata(kicau->buffer[idx].jakunkicau, "Publik") || (cekKata(kicau->buffer[idx].jakunkicau, "Privat")) && berteman) {
+    if ((cekKata(kicau->buffer[idx].jakunkicau, "Publik") || cekKata(kicau->buffer[idx].jakunkicau, "Privat")) && berteman) {
         kicau->buffer[idx].like++;
         printf("Selamat! kicauan telah disukai!\n");
         printf("Detil kicauan:\n");

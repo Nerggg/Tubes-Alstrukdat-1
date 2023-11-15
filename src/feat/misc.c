@@ -71,6 +71,9 @@ int ctoi(char karakter) { // convert satu char to integer
 	else if (karakter == '9') {
 		return 9;
 	}
+	else{
+		return -1;
+	}
 }
 
 Word ctow(char huruf[]) { // convert array of char ke word

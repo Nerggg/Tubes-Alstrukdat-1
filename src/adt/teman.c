@@ -28,17 +28,17 @@ void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)
         getOne(teman, accountID, &l);
         if (isEmptylistGraf(l))
         {
-            printf("%s belum mempunyai teman\n", akun.nama);
+            printf("%s belum mempunyai teman\n", akun.nama.TabWord);
         }
         else
         {
-            printf("%s memiliki %d teman\n", akun.nama, listEffGraf(l));
-            printf("Daftar teman %s\n", akun.nama);
+            printf("%s memiliki %d teman\n", akun.nama.TabWord, listEffGraf(l));
+            printf("Daftar teman %s\n", akun.nama.TabWord);
             for (int j = 0; j < CAPACITYGRAF; j++)
             {
                 if (ELMTLISTGRAF(l, j) == 1)
                 {
-                    printf("| %s\n", listAkun->db[j].nama);
+                    printf("| %s\n", listAkun->db[j].nama.TabWord);
                 }
             }
         }
@@ -94,8 +94,8 @@ void hapusteman(boolean login, Pengguna akun, UserDB *listAkun, Graf *teman)
         if (found)
         {
             printf("Apakah anda yakin ingin menghapus %s dari daftar teman Anda? (YA/TIDAK)", currentWord.TabWord);
-            STARTWORD;
-            ADVWORD;
+            STARTWORD();
+            ADVWORD();
             Word masukkan = currentWord;
             if (ceksama(YA, masukkan))
             {

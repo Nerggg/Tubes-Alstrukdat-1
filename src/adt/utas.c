@@ -37,7 +37,6 @@ void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id) {
 
     Address p = utas->utasan[n].u;
 
-    Word temp;        
     printf("Utas berhasil dibuat!\n");
     printf("Masukkan kicauan:\n");
     p->isi = bacakalimat();
@@ -158,7 +157,7 @@ void sambungUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
     printf("Masukkan kicauan:\n");
     temp = bacakalimat();
 
-    Address newUtas;
+    Address newUtas = malloc(sizeof(Utas));
     newUtas->isi = temp;
     newUtas->date = ctow(DateTimeToString(CurrentDatetime()));
     newUtas->next = p;
@@ -198,8 +197,7 @@ void hapusUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
     }
 
     else if (indexParam == 1) {
-        Address p = utas->utasan[i].u;
-        p = NULL;
+        utas->utasan[i].u = NULL;
         printf("Kicauan sambungan berhasil dihapus!\n");
         return;
     }

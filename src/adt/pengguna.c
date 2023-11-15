@@ -14,7 +14,6 @@ void emptyuser(Word *currentUser) {
 
 void daftar(UserDB *user, Word *currentUser) {
     Word temp;
-    Word passWord;
 
     if (!cek(*currentUser, ";;;")) {
         printf("\nAnda sudah masuk. Keluar terlebih dahulu untuk melakukan daftar.\n");
@@ -272,8 +271,6 @@ void inputPP(Pengguna *P){
     printf("\nMasukkan foto profil yang baru:\n");
     START();
     IgnoreBlanks();
-    int br = 0;
-    int kl = 0;
     for(int i=0;i<5;i++){
         for(int j =0;j<10;j++){
             MATELMT((*P).PP,i,j) = currentChar;

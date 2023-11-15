@@ -46,5 +46,8 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	}	
 	else if (cek(kata, "UBAH_FOTO_PROFIL")) {
 		return 8;
-	}		
+	}
+	else{
+		return -1;
+	}
 }
