@@ -15,6 +15,11 @@
         "utas.h": "c",
         "misc.h": "c",
         "io.h": "c",
-        "prioqueue.h": "c"
+        "prioqueue.h": "c",
+        "pertemanan.h": "c",
+        "operational.h": "c",
+        "charmachine.h": "c",
+        "matrix.h": "c",
+        "pcolor.h": "c"
     }
 }

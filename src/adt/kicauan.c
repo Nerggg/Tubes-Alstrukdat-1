@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "kicauan.h"
 
-void CreateListDinkicau(ListDinkicau *l, int cap)
+void CreateListDinkicau(ListDinkicau *l, int capacity)
 /* I.S. l sembarang, capacity > 0 */
 /* F.S. Terbentuk list dinamis l kosong dengan kapasitas capacity */
 {
-    l->buffer = (Kicau *) malloc(cap * sizeof(Kicau));
-    l->capacity = cap;
+    l->buffer = (Kicau *) malloc(capacity * sizeof(Kicau));
+    l->capacity = capacity;
     l->nEff = 0;
 }
 

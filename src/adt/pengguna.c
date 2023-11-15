@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pengguna.h"
+#include "teman.h"
 #include "../feat/operational.h"
 #include "../feat/io.h"
 #include "./pcolor.h"
@@ -16,16 +17,16 @@ void daftar(UserDB *user, Word *currentUser) {
     Word passWord;
 
     if (!cek(*currentUser, ";;;")) {
-        printf("Anda sudah masuk. Keluar terlebih dahulu untuk melakukan daftar.\n");
+        printf("\nAnda sudah masuk. Keluar terlebih dahulu untuk melakukan daftar.\n");
         return;
     }
 
     // Mengecek panjang nama
-    printf("Masukkan nama:\n"); 
+    printf("\nMasukkan nama: "); 
     temp = bacakalimat();
     while (temp.Length > 20) {
-        printf("Nama terlalu panjang.\n");
-        printf("Masukkan nama:\n"); 
+        printf("\nNama terlalu panjang.\n");
+        printf("Masukkan nama: "); 
         temp = bacakalimat();
     }        
 
@@ -34,18 +35,18 @@ void daftar(UserDB *user, Word *currentUser) {
         
     for (int i = 0; i < user->Neff; i++) {
         if (ceksama(temp, user->db[i].nama)) {
-            printf("Wah, sayang sekali nama tersebut telah diambil.\n");
+            printf("\nWah, sayang sekali nama tersebut telah diambil.\n");
             ada = true;
             break;
         }
     }
 
     while (ada) {
-        printf("Masukkan nama:\n"); 
+        printf("\nMasukkan nama: "); 
         temp = bacakalimat();
         for (int i = 0; i < user->Neff; i++) {
             if (ceksama(temp, user->db[i].nama)) {
-                printf("Wah, sayang sekali nama tersebut telah diambil.\n");
+                printf("\nWah, sayang sekali nama tersebut telah diambil.\n");
                 ada = true;
                 break;
             }
@@ -56,25 +57,38 @@ void daftar(UserDB *user, Word *currentUser) {
     // ketika nama memenuhi spesifikasi, nama diletakkan ke database
     user->db[user->Neff].nama = temp;
 
-    printf("Masukkan kata sandi:\n"); 
+    printf("\nMasukkan kata sandi: "); 
     temp = bacakalimat();
     user->db[user->Neff].pass = temp;
 
+    for (int a = 0; a < 5; a++) {
+        for (int b = 0; b < 10; b++) {
+            if (b%2==0) {
+                user->db[user->Neff].PP.mem[a][b] = 'R';
+            }
+            else {
+                user->db[user->Neff].PP.mem[a][b] = '*';
+            }
+        }
+    }
+
+
     user->Neff++;
+    printf("\nPengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n");
 }
 
 
 void masuk(UserDB *user, Word *currentUser) {
     // Mengecek apakah pengguna sudah login
     if (!cek(*currentUser, ";;;")) {
-        printf("Wah Anda sudah masuk. Keluar dulu yuk!\n");
+        printf("\nWah Anda sudah masuk. Keluar dulu yuk!\n");
         return;
     }
 
     boolean ada = false;
     int idx;
     Word temp;
-    printf("Masukkan nama: ");
+    printf("\nMasukkan nama: ");
     temp = bacakalimat();
 
     for (int i = 0; i < user->Neff; i++) {
@@ -86,8 +100,8 @@ void masuk(UserDB *user, Word *currentUser) {
     }
 
     while (!ada) {
-        printf("Wah, nama yang Anda cari tidak ada. Masukkan nama lain!\n");
-        printf("Masukkan nama: ");
+        printf("\nWah, nama yang Anda cari tidak ada. Masukkan nama lain!\n");
+        printf("\nMasukkan nama: ");
         temp = bacakalimat();
 
         for (int i = 0; i < user->Neff; i++) {
@@ -99,18 +113,18 @@ void masuk(UserDB *user, Word *currentUser) {
         }
     }
 
-    printf("Masukkan kata sandi: ");
+    printf("\nMasukkan kata sandi: ");
     temp = bacakalimat();
 
     while (!ceksama(temp, user->db[idx].pass)) {
-        printf("Wah, kata sandi yang Anda masukkan belum tepat. Periksa kembali kata sandi Anda!\n");
-        printf("Masukkan kata sandi: ");
+        printf("\nWah, kata sandi yang Anda masukkan belum tepat. Periksa kembali kata sandi Anda!\n");
+        printf("\nMasukkan kata sandi: ");
         temp = bacakalimat();
     }
 
     if (ceksama(temp, user->db[idx].pass)) {
         *currentUser = user->db[idx].nama;
-        printf("Anda telah berhasil masuk dengan nama pengguna ");
+        printf("\nAnda telah berhasil masuk dengan nama pengguna ");
         for (int z = 0; z < currentUser->Length; z++) {
             printf("%c", currentUser->TabWord[z]);
         }
@@ -121,14 +135,14 @@ void masuk(UserDB *user, Word *currentUser) {
 
 void keluar(Word *currentUser) {
     // Mengecek apakah pengguna sudah login
-    if (!cek(*currentUser, ";;;")) {
-        printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
+    if (cek(*currentUser, ";;;")) {
+        printf("\nAnda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
         return;
     }
 
     // Mengubah status login pengguna menjadi tidak login
     emptyuser(currentUser);
-    printf("Anda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n");
+    printf("\nAnda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n");
     return;
 }
 
@@ -157,8 +171,8 @@ void displayWeton(Pengguna P){
 }
 
 void displayPP(Pengguna P){
-    for(int i=0;i<(P.PP).rowEff;i++){
-        for(int j=1;j<(P.PP).colEff;j+=2){
+    for(int i=0;i<5;i++){
+        for(int j=1;j<10;j+=2){
          //   printf("%c",MATELMT((P.PP),i,j));
             if(MATELMT((P.PP),i,j-1) == 'R'){
                 print_red(MATELMT((P.PP),i,j));
@@ -195,7 +209,7 @@ void inputBioAkun(Pengguna *P){
     boolean valid = false;
     Word tmp;
     while(!valid){
-        printf("Masukkan Bio Akun: ");
+        printf("\nMasukkan Bio Akun: ");
         STARTWITHBLANK();
         tmp.Length = 0;
         for(int i=0;i<currentWord.Length;i++){
@@ -231,7 +245,7 @@ void inputNoHP(Pengguna *P){
     boolean valid = false;
     Word tmp;
     while(!valid){
-        printf("Masukkan No HP: ");
+        printf("\nMasukkan No HP: ");
         STARTWITHBLANK();
         tmp.Length = 0;
         for(int i=0;i<currentWord.Length;i++){
@@ -239,7 +253,7 @@ void inputNoHP(Pengguna *P){
             tmp.Length++;
         }
         
-        if(cekNoHp(tmp)){
+        if(cekNoHp(tmp) && tmp.Length <= 15){
             valid = true;
         }
         else{
@@ -255,7 +269,7 @@ void inputNoHP(Pengguna *P){
 }
 
 void inputPP(Pengguna *P){
-    printf("Masukkan foto profil:\n");
+    printf("\nMasukkan foto profil yang baru:\n");
     START();
     IgnoreBlanks();
     int br = 0;
@@ -304,7 +318,7 @@ void inputWeton(Pengguna *P){
     boolean valid = false;
     Word tmp;
     while(!valid){
-        printf("Masukkan Weton: ");
+        printf("\nMasukkan Weton: ");
         STARTWITHBLANK();
         if (currentWord.Length != 0){
             tmp.Length = 0;
@@ -336,7 +350,7 @@ void gantiProfil(Pengguna *P)
 // I.S : Menerima input berupa profil yang ingin diganti
 // F.S : Profil berhasil diganti
 {
-    printf("| Nama: ");
+    printf("\n| Nama: ");
     displayNama(*P);
     printf("\n");
     printf("| Bio Akun: ");
@@ -349,20 +363,17 @@ void gantiProfil(Pengguna *P)
     displayWeton(*P);
     printf("\n");
 
-    printf("Masukkan data baru\n");
     inputBioAkun(&(*P));
     inputNoHP(&(*P));
     inputWeton(&(*P));
-    printf("Profil Anda sudah berhasil diperbarui!\n");
+    printf("\nProfil Anda sudah berhasil diperbarui!\n\n");
 }
 
 void ubahFotoProfil (Pengguna *P)
 {
-    printf("| PP:\n ");
+    printf("Foto profil anda saat ini:");
     printf("\n");
     displayPP(*P);
-    printf("\n");
-    printf("Masukkan Foto Profil Baru\n");
     inputPP(&(*P));
     printf("Foto profil anda sudah berhasil diganti!\n");
 }
@@ -381,15 +392,14 @@ void displayProfil(Pengguna P)
     printf("| Weton: ");
     displayWeton(P);
     printf("\n");
-    printf("| PP:\n ");
-    printf("\n");
+    printf("\nFoto profil:\n");
     displayPP(P);
     printf("\n");
 }
 
 void aturJenisAkun (Pengguna *P){
     if(cekKata((*P).jakun,"Publik")){
-        printf("Saat ini, akun Anda adalah akun Publik. Ingin mengubah ke akun Privat? (YA/TIDAK) ");
+        printf("\nSaat ini, akun Anda adalah akun Publik. Ingin mengubah ke akun Privat? (YA/TIDAK) ");
         STARTWITHBLANK();
         Word tmp;
         tmp.Length = 0;
@@ -405,7 +415,7 @@ void aturJenisAkun (Pengguna *P){
         }
     }
     else if(cekKata((*P).jakun,"Privat")){
-        printf("Saat ini, akun Anda adalah akun Privat. Ingin mengubah ke akun Publik? (YA/TIDAK) ");
+        printf("\nSaat ini, akun Anda adalah akun Privat. Ingin mengubah ke akun Publik? (YA/TIDAK) ");
         STARTWITHBLANK();
         Word tmp;
         tmp.Length = 0;
@@ -420,9 +430,47 @@ void aturJenisAkun (Pengguna *P){
             }
         }
     }
-    printf("Akun anda sudah diubah menjadi akun ");
+    printf("\nAkun anda sudah diubah menjadi akun ");
     for(int i=0;i<6;i++){
         printf("%c",(*P).jakun.TabWord[i]);
     }
     printf(".\n");
+}
+
+int cariId(UserDB *listakun, Pengguna P){
+    boolean found = false;
+    int i = 0;
+    int idAkun;
+    while(i < listakun->Neff && found == false)
+        {
+            if(ceksama(listakun->db[i].nama, P.nama))
+            {
+                idAkun = i;
+                found = true;
+            }
+            else{
+                i++;
+            }
+        }
+    return idAkun;
+}
+
+void LihatProfil(Pengguna P,Pengguna P1,UserDB *listakun,Graf *Teman){
+    if(cekKata((P1).jakun,"Publik")){
+        displayProfil(P1);
+    }
+    else{
+        if(cekteman(P, P1, listakun, *Teman)){
+            displayProfil(P1);
+        }
+        else {
+            printf("\nWah, akun ");
+            displayNama(P1);
+            printf(" diprivat nih. Ikuti dulu yuk untuk bisa melihat profil ");
+            displayNama(P1);
+            printf("!\n");
+
+        }
+    }
+
 }

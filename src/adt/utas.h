@@ -25,4 +25,10 @@ typedef struct {
 	int neff; // banyaknya kicauan yang memiliki utas
 } ListUtas; 
 
+void emptyUtas(ListUtas *utas);
+void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id);
+void cetakUtas(ListUtas utas, int id);
+void sambungUtas(ListUtas *utas, int id, int indexParam, Word currentUser);
+void hapusUtas(ListUtas *utas, int id, int indexParam, Word currentUser);
+
 #endif
