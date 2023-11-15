@@ -36,7 +36,7 @@ void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)
             printf("Daftar teman %s\n", akun.nama);
             for (int j = 0; j < CAPACITYGRAF; j++)
             {
-                if (ELMTLISTGRAF(l, i) == 1)
+                if (ELMTLISTGRAF(l, j) == 1)
                 {
                     printf("| %s\n", listAkun->db[j].nama);
                 }
