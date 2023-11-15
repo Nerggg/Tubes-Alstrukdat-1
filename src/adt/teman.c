@@ -28,23 +28,17 @@ void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)
         getOne(teman, accountID, &l);
         if (isEmptylistGraf(l))
         {
-            PrintWord(akun.nama);
-            printf(" belum mempunyai teman\n");
+            printf("%s belum mempunyai teman\n", akun.nama);
         }
         else
         {
-            PrintWord(akun.nama);
-            printf(" memiliki %d teman\n", listEffGraf(l));
-            printf("Daftar teman ");
-            PrintWord(akun.nama);
-            printf("\n");
+            printf("%s memiliki %d teman\n", akun.nama, listEffGraf(l));
+            printf("Daftar teman %s\n", akun.nama);
             for (int j = 0; j < CAPACITYGRAF; j++)
             {
                 if (ELMTLISTGRAF(l, j) == 1)
                 {
-                    printf("| ");
-                    PrintWord(listAkun->db[j].nama);
-                    printf("\n");
+                    printf("| %s\n", listAkun->db[j].nama);
                 }
             }
         }
@@ -127,40 +121,35 @@ void hapusteman(boolean login, Pengguna akun, UserDB *listAkun, Graf *teman)
 boolean cekteman(Pengguna akun, Pengguna cekakun, UserDB *listAkun, Graf teman)
 {
     boolean flag = false;
+    ListGraf l;
+    CreateListGraf(&l);
     int i = 0;
-    int ID1, ID2;
-    while (i < listAkun->Neff)
+    boolean found = false;
+    int accountID;
+    while (i < listAkun->Neff && !found)
     {
         if (ceksama(listAkun->db[i].nama, akun.nama))
         {
-            ID1 = i;
-            break;
+            accountID = i;
+            found = true;
         }
         else
         {
             i++;
         }
     }
-    i = 0;
-    while (i < listAkun->Neff)
+    getOne(teman, accountID, &l);
+    for (int j = 0; j < CAPACITYGRAF; j++)
     {
-        if (ceksama(listAkun->db[i].nama, cekakun.nama))
+        if (ELMTLISTGRAF(l, i) == 1)
         {
-            ID2 = i;
-
+            if (ceksama(cekakun.nama, listAkun->db[j].nama)){
+                flag = true;
+            }
+        }
+        if (flag){
             break;
         }
-        else
-        {
-            i++;
-        }
     }
-
-    if (teman.mem[ID1][ID2] == 1 && teman.mem[ID2][ID1] == 1) {
-        // printf("idnya %s itu %d\n", listAkun->db[ID1].nama.TabWord, ID1);        
-        // printf("idnya %s itu %d\n", listAkun->db[ID2].nama.TabWord, ID2);            
-        flag = true;
-    }
-
     return flag;
 }
