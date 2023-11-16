@@ -47,6 +47,15 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	else if (cek(kata, "UBAH_FOTO_PROFIL")) {
 		return 8;
 	}
+	else if (cek(kata, "KICAU")) {
+		return 9;
+	}
+	else if (cek(kata, "KICAUAN")) {
+		return 10;
+	}	
+	else if (cek(kata, "SUKA_KICAUAN")) {
+		return 11;
+	}
 	else{
 		return -1;
 	}

@@ -121,35 +121,22 @@ void hapusteman(boolean login, Pengguna akun, UserDB *listAkun, Graf *teman)
 boolean cekteman(Pengguna akun, Pengguna cekakun, UserDB *listAkun, Graf teman)
 {
     boolean flag = false;
-    ListGraf l;
-    CreateListGraf(&l);
-    int i = 0;
-    boolean found = false;
-    int accountID;
-    while (i < listAkun->Neff && !found)
-    {
-        if (ceksama(listAkun->db[i].nama, akun.nama))
-        {
-            accountID = i;
-            found = true;
-        }
-        else
-        {
-            i++;
-        }
-    }
-    getOne(teman, accountID, &l);
-    for (int j = 0; j < CAPACITYGRAF; j++)
-    {
-        if (ELMTLISTGRAF(l, i) == 1)
-        {
-            if (ceksama(cekakun.nama, listAkun->db[j].nama)){
-                flag = true;
-            }
-        }
-        if (flag){
+    int idx1, idx2;
+    for (int i = 0; i < listAkun->Neff; i++) {
+        if (ceksama(akun.nama, listAkun->db[i].nama)) {
+            idx1 = i;
             break;
         }
+    }
+    for (int i = 0; i < listAkun->Neff; i++) {
+        if (ceksama(cekakun.nama, listAkun->db[i].nama)) {
+            idx2 = i;
+            break;
+        }
+    }
+
+    if (teman.mem[idx1][idx2] == 1 && teman.mem[idx2][idx1] == 1) {
+        flag = true;
     }
     return flag;
 }

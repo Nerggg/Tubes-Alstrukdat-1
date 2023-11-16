@@ -41,8 +41,6 @@ void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut)
     /* ALGORITMA */
     CreateListDinkicau(lOut, lIn.capacity);
 
-    lOut->capacity = lIn.nEff;
-
     for (i = 0; i < lIn.nEff; i++) {
         ELMT(*lOut, i) = ELMT(lIn, i);
     }
@@ -53,8 +51,17 @@ void insertLastkicau(ListDinkicau *l, Kicau newkicauan)
 /* I.S. List l boleh kosong, tetapi tidak penuh */
 /* F.S. val adalah elemen terakhir l yang baru */
 {
-    ELMT(*l, NEFF(*l)) = newkicauan;
-    NEFF(*l)++;
+    if (l->capacity == l->nEff) {
+        ListDinkicau tempkicau;
+        copyListkicau(*l, &tempkicau);
+        dealocateListkicau(l);
+        CreateListDinkicau(l, tempkicau.nEff+1);
+        for (int i = 0; i < tempkicau.nEff; i++) {
+            l->buffer[i] = tempkicau.buffer[i];
+        }
+    }
+    l->buffer[l->nEff] = newkicauan;
+    l->nEff++;
 }
 
 void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp)
@@ -68,9 +75,9 @@ void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp)
     NEFF(*l)--;
 }
 
-void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser)
+void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser)
 {
-    if (!cek(*currentUser, ";;;")) {
+    if (cek(*currentUser, ";;;")) {
         printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
         return;
     }
@@ -87,33 +94,51 @@ void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser)
     printf("Ketik kicauan Anda: ");
     text = bacakalimat();
 
+    // periksa spasi
+    boolean space = true;
+    for (int i = 0; i < text.Length; i++) {
+        if (text.TabWord[i] != ' ') {
+            space = false;
+            break;
+        }
+    }
+
+    if (space) {
+        printf("Kicauan tidak boleh hanya berisi spasi!\n");
+        return;
+    }
+
     // Validasi kicauan
     if (text.Length > 280) {
         printf("Kicauan tidak boleh lebih dari 280 karakter! Kicauan Anda akan terpotong secara otomatis.\n");
     }
 
+    // printf("kicauan neff nya %d\n", kicauan->nEff);
     // Membuat kicauan baru
     Kicau newKicauan;
-    if(kicau->capacity == kicau->nEff) {
+    if(kicauan->capacity == kicauan->nEff) {
         ListDinkicau tempkicau;
-        copyListkicau(*kicau, &tempkicau);
-        dealocateListkicau(kicau);
-        CreateListDinkicau(kicau, tempkicau.capacity+1);
+        copyListkicau(*kicauan, &tempkicau);
+        dealocateListkicau(kicauan);
+        CreateListDinkicau(kicauan, tempkicau.capacity+1);
         for (int i = 0; i < tempkicau.capacity; i++) {
-            kicau->buffer[i] = tempkicau.buffer[i];
+            kicauan->buffer[i] = tempkicau.buffer[i];
+            kicauan->nEff++;
         }
 
     }
 
-    newKicauan.id = kicau->nEff;
+    newKicauan.id = kicauan->nEff+1;
     newKicauan.text = text;
     newKicauan.like = 0;
     newKicauan.author = user->db[idx].nama;
     newKicauan.date = ctow(DateTimeToString(CurrentDatetime()));
     newKicauan.jakunkicau = user->db[idx].jakun;
 
-    insertLastkicau(kicau, newKicauan);
-    kicau->nEff++;
+    // printf("kicauan neff nya %d\n", kicauan->nEff);
+    // printf("textnya %s\n", newKicauan.text.TabWord);
+    kicauan->buffer[kicauan->nEff] = newKicauan;
+    kicauan->nEff++;
 
     // Mencetak kicauan
     printf("Kicauan Anda berhasil ditambahkan!\n");
@@ -145,6 +170,7 @@ void displaykicauan(Kicau kicauan)
 
 void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word currentUser)
 {
+    boolean ada = false;
     boolean berteman = false;
     Pengguna currentPengguna;
     Pengguna pembuatKicau;
@@ -158,6 +184,7 @@ void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word cur
 
     for (int i = 0; i < kicau->nEff; i++) {
         if (kicau->buffer[i].id == id) {
+            ada = true;
             idx = i;
             for (int j = 0; j < user.Neff; j++) {
                 if(ceksama(user.db[j].nama, kicau->buffer[i].author)) {
@@ -165,18 +192,26 @@ void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word cur
                     break;
                 }
             }
-            if(cekteman(currentPengguna, pembuatKicau, &user, teman)) {
-                berteman = true;
-                break;
-            }
             break;
         }
     }
 
-    if ((cekKata(kicau->buffer[idx].jakunkicau, "Publik") || cekKata(kicau->buffer[idx].jakunkicau, "Privat")) && berteman) {
+    if(cekteman(currentPengguna, pembuatKicau, &user, teman)) {
+        // printf("penggunanya %s\n", currentPengguna.nama.TabWord);
+        // printf("authornya %s\n", pembuatKicau.nama.TabWord);
+        berteman = true;
+    }
+
+    if (!ada) {
+        printf("Tidak ada kicauan dengan id tersebut.\n");
+        return;
+    }
+
+    if ((cek(kicau->buffer[idx].jakunkicau, "Publik") || (cek(kicau->buffer[idx].jakunkicau, "Privat") && berteman))) {
         kicau->buffer[idx].like++;
         printf("Selamat! kicauan telah disukai!\n");
         printf("Detil kicauan:\n");
+        // printf("%s\n", kicau->buffer[idx].jakunkicau.TabWord);
         displaykicauan(kicau->buffer[idx]);
     }
 
@@ -207,5 +242,34 @@ void ubah_kicauan(UserDB user, ListDinkicau *kicau, int id, Word currentUser)
     printf("Selamat! kicauan telah diterbitkan!\n");
     printf("Detil kicauan:\n");
     displaykicauan(kicau->buffer[idx]);
+    }
+}
+
+Pengguna cariuser(UserDB user, Word kata) {
+    int idx;
+    for (int i = 0; i < user.Neff; i++) {
+        if (ceksama(kata, user.db[i].nama)) {
+            idx = i;
+            break;
+        }
+    }
+    return (user.db[idx]);
+}
+
+void displayallkicauan(UserDB user, ListDinkicau kicauan, Graf teman, Word currentUser) {
+    int idx;
+    for (int i = 0; i < user.Neff; i++) {
+        if (ceksama(currentUser, user.db[i].nama)) {
+            idx = i;
+            break;
+        }
+    }
+
+    for (int i = 0; i < kicauan.nEff; i++) {
+        if (cekteman(user.db[idx], cariuser(user, kicauan.buffer[i].author), &user, teman)) {
+            displaykicauan(kicauan.buffer[i]);
+            printf("\n");
+        }
+
     }
 }

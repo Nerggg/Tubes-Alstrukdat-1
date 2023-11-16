@@ -9,5 +9,6 @@ int ctoi(char karakter); // convert satu char ke integer
 Word concat(char awal[], char akhir[]); // menggabungkan dua array of char dan mereturnnya sbg word
 boolean ceksama(Word kata1, Word kata2); // cek kesamaan antara dua word
 boolean belumlogin(Word currentUser); // cek udah login atau belum
+void printlogo();
 
 #endif

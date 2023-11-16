@@ -1,5 +1,6 @@
 #include "io.h"
 #include "misc.h"
+#include "../adt/kicauan.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -123,7 +124,7 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 	}
 }
 
-void kicauanconfig(ListDinkicau *l, Word namafolder) {
+void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[50];
@@ -132,7 +133,6 @@ void kicauanconfig(ListDinkicau *l, Word namafolder) {
 	fptr = fopen(location.TabWord, "r");	
 	fgets(temp, sizeof(temp), fptr);
 	int n = wtoi(ctow(temp));
-	l->nEff = n;
 	if (n > l->capacity) {
 		dealocateListkicau(l);
 		CreateListDinkicau(l, n);
@@ -150,11 +150,14 @@ void kicauanconfig(ListDinkicau *l, Word namafolder) {
 		fgets(temp, sizeof(temp), fptr);
 		l->buffer[i].author = ctow(temp);
 
+		Pengguna pengkicau = cariuser(user, l->buffer[i].author);
+		l->buffer[i].jakunkicau = pengkicau.jakun;
+
 		fgets(temp, sizeof(temp), fptr);
 		l->buffer[i].date = ctow(temp);
-
 		i++;
 		n--;
+		l->nEff++;
 	}		
 }
 
@@ -164,7 +167,7 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
 	// printf("1 aman\n");
-	kicauanconfig(l, namafolder);	
+	kicauanconfig(*user, l, namafolder);	
 	// printf("2 aman\n");	
 	utasconfig(utas, *l, namafolder);
 	// printf("3 aman\n");

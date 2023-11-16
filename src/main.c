@@ -11,25 +11,13 @@ int main() {
 	Word opt, configfolder, currentUser;
 	UserDB user;
 	ListUtas utas;
-	ListDinkicau kicau;
+	ListDinkicau kicauan;
 	Graf teman;
 	int move;	
 	FILE *fptr;
-	CreateListDinkicau(&kicau, 1);
+	CreateListDinkicau(&kicauan, 1);
 
-	system("clear");
-	printf(" .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. \n");
-	printf("| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |\n");
-	printf("| |   ______     | || | _____  _____ | || |  _______     | || |   ______     | || |     _____    | || |  _______     | |\n");
-	printf("| |  |_   _ \\    | || ||_   _||_   _|| || | |_   __ \\    | || |  |_   _ \\    | || |    |_   _|   | || | |_   __ \\    | |\n");
-	printf("| |    | |_) |   | || |  | |    | |  | || |   | |__) |   | || |    | |_) |   | || |      | |     | || |   | |__) |   | |\n");
-	printf("| |    |  __'.   | || |  | '    ' |  | || |   |  __ /    | || |    |  __'.   | || |      | |     | || |   |  __ /    | |\n");
-	printf("| |   _| |__) |  | || |   \\ `--' /   | || |  _| |  \\ \\_  | || |   _| |__) |  | || |     _| |_    | || |  _| |  \\ \\_  | |\n");
-	printf("| |  |_______/   | || |    `.__.'    | || | |____| |___| | || |  |_______/   | || |    |_____|   | || | |____| |___| | |\n");
-	printf("| |              | || |              | || |              | || |              | || |              | || |              | |\n");
-	printf("| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |\n");
-	printf(" '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' \n");
-
+	printlogo();
 	printf("\nSelamat datang di BurBir!\n");
 	printf("Silahkan masukkan nama folder konfigurasi: ");
 	configfolder = baca();
@@ -40,12 +28,18 @@ int main() {
 		return 0;
 	}
 	fclose(fptr);
-	bacaconfig(&user, &utas, &kicau, &teman, configfolder);
+	bacaconfig(&user, &utas, &kicauan, &teman, configfolder);
 	printf("\nFile konfigurasi berhasil dimuat! Selamat menggunakan aplikasi BurBir!\n");
+	printf("Ketik \';\' untuk melanjutkan\n\n");
+	bacakalimat();
 	emptyuser(&currentUser);
 	
-	while (true) {
-		printf(">> ");
+	boolean start = true;
+
+	while (start) {
+		printlogo();
+		printf("\nMasukkan perintah");
+		printf("\n>> ");
 		opt = baca();
 		move = pindahfungsi(opt); // cek realisasi fungsinya di operational.c untuk tau kode angkanya
 		switch(move) {
@@ -59,8 +53,9 @@ int main() {
 				keluar(&currentUser);
 				break;
 			case 4:
-				printf("\nAnda telah keluar dari program BurBir. Sampai jumpa di penjelajahan berikutnya.\n");
-				return 0;
+				printf("\nAnda telah keluar dari program BurBir. Sampai jumpa di penjelajahan berikutnya.\n\n");
+				start = false;
+				break;
 			case 5:
 				if (belumlogin(currentUser)) {
 					printf("\nAnda belum login. Silahkan login terlebih dahulu untuk mengganti profil.\n");
@@ -118,7 +113,24 @@ int main() {
 						ubahFotoProfil(&user.db[a]);
 						break;
 					}
-				}			
+				}
+			case 9:
+				kicau(&user, &kicauan, &currentUser);
+				break;
+			case 10:
+				displayallkicauan(user, kicauan, teman, currentUser);	
+				break;
+			case 11:
+				int idkicau = wtoi(baca());
+				suka_kicauan(user, &kicauan, teman, idkicau, currentUser);
+				break;
+			case -1:
+				printf("Perintah tidak ditemukan.\n");
+				break;
 		}	
+		if (start) {
+			printf("\nKetik \';\' untuk melanjutkan\n\n");
+			bacakalimat();
+		}
 	}
 }

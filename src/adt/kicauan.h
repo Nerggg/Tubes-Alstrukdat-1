@@ -55,5 +55,7 @@ void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser);
 void displaykicauan(Kicau);
 void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word currentUser);
 void ubah_kicauan(UserDB user, ListDinkicau *kicau, int id, Word currentUser);
+void displayallkicauan(UserDB user, ListDinkicau kicauan, Graf teman, Word currentUser);
+Pengguna cariuser(UserDB user, Word kata);
 
 #endif
