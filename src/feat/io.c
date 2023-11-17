@@ -98,7 +98,8 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 			}
 		}
 
-		Address p = (Address)malloc(sizeof(Utas));
+		utas->utasan[i].u = (Address)malloc(sizeof(Utas));
+		Address p = utas->utasan[i].u;
 
 		fgets(temp, sizeof(temp), fptr); // ini baca jlh utas yg ada
 		int jlhutas = wtoi(ctow(temp));
@@ -109,19 +110,25 @@ void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder) {
 			fgets(temp, sizeof(temp), fptr); // ini skip line author
 			fgets(temp, sizeof(temp), fptr); // ini utk baca date
 			p->date = ctow(temp);
-		}
 
-		utas->utasan[i].u = p;
+			if (j < jlhutas-1) {
+				p->next = (Address)malloc(sizeof(Utas));
+				p = p->next;
+			}
+			else {
+				p->next = NULL;
+			}
+		}
 
 		i++;
 		n--;
 	}	
-	for (int k = 0; k < utas->neff-1; k++) {
-		Address q = utas->utasan[k].u;
-		Address r = utas->utasan[k+1].u;
-		q->next = r;
-		r->next = NULL;
-	}
+	// for (int k = 0; k < utas->neff-1; k++) {
+	// 	Address q = utas->utasan[k].u;
+	// 	Address r = utas->utasan[k+1].u;
+	// 	q->next = r;
+	// 	r->next = NULL;
+	// }
 }
 
 void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
@@ -164,6 +171,17 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 
 void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../cfg/";
+	namafolder = concat(awal, namafolder.TabWord);
+	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
+	// printf("1 aman\n");
+	kicauanconfig(*user, l, namafolder);	
+	// printf("2 aman\n");	
+	utasconfig(utas, *l, namafolder);
+	// printf("3 aman\n");
+}
+
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+	char awal[] = "../../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
 	// printf("1 aman\n");

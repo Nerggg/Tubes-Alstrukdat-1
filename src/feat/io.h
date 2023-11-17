@@ -10,5 +10,6 @@ void penggunaconfig(UserDB *user, Graf *teman, Word namafolder);
 void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder);
 void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder);
 void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder);
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder);
 
 #endif

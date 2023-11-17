@@ -9,6 +9,7 @@ void emptyUtas(ListUtas *utas) {
 void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id) {
     boolean ada = false;
     int n;
+    Word temp;
     for (int i = 0; i < k.nEff; i++) {
         if (k.buffer[i].id == id) {
             ada = true;
@@ -35,27 +36,33 @@ void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id) {
         return;
     }
 
+    utas->utasan[n].u = (Address)malloc(sizeof(Utas));
     Address p = utas->utasan[n].u;
 
     printf("Utas berhasil dibuat!\n");
     printf("Masukkan kicauan:\n");
-    p->isi = bacakalimat();
+    temp = bacakalimat();
+    p->isi = temp;
     p->date = ctow(DateTimeToString(CurrentDatetime()));
     p->next = NULL;
 
     char opt;
     printf("Apakah anda ingin melanjutkan utas ini? (Y/N)\n");
-    scanf("%c", &opt);
+    temp = baca();
+    opt = temp.TabWord[0];
 
     while (opt == 'y' || opt == 'Y') {
+        p->next = (Address)malloc(sizeof(Utas));
         p = p->next;
-        p->next = NULL;
         printf("Masukkan kicauan:\n");
-        p->isi = bacakalimat();
+        temp = bacakalimat();
+        p->isi = temp;
         p->date = ctow(DateTimeToString(CurrentDatetime()));
         printf("Apakah anda ingin melanjutkan utas ini? (Y/N)\n");
-        scanf("%c", &opt);
+        temp = baca();
+        opt = temp.TabWord[0];
     }
+    p->next = NULL;
 
     printf("Utas selesai!\n");
     utas->neff++;
