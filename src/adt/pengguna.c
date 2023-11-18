@@ -371,6 +371,8 @@ void ubahFotoProfil (Pengguna *P)
     printf("Foto profil anda saat ini:");
     printf("\n");
     displayPP(*P);
+    printf("\n");
+    printf("Masukkan Foto Profil Baru\n");
     inputPP(&(*P));
     printf("Foto profil anda sudah berhasil diganti!\n");
 }
