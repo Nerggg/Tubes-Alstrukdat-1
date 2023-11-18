@@ -22,13 +22,30 @@ int main() {
 
     masuk(&user, &currentUser);
 
-    int id;
-    printf("\nMasukkan id kicauan yang ingin ditambahkan utas\n");
-    temp = baca();
-    id = wtoi(temp);
-    isiUtas(&utas, currentUser, kicauan, id);
+    // int id;
+    // printf("\nMasukkan id kicauan yang ingin ditambahkan utas\n");
+    // temp = baca();
+    // id = wtoi(temp);
+    // isiUtas(&utas, currentUser, kicauan, id);
 
-    cetakUtas(utas, 1);
-    cetakUtas(utas, 2);
-    cetakUtas(utas, 3);
+    // cetakUtas(utas, 1);
+    // cetakUtas(utas, 2);
+    // cetakUtas(utas, 3);
+
+    // printf("Masukkan id dari utas yang ingin disambung\n");
+    // int temp1, temp2;
+    // scanf("%d %d", &temp1, &temp2);
+    // sambungUtas(&utas, temp1, temp2, currentUser);
+
+    // printf("\n");
+    // cetakUtas(utas, 1);
+    // cetakUtas(utas, 2);
+
+    // printf("masukkan id dari utas yg ingin dihapus\n");
+    // int temp1, temp2;
+    // scanf("%d %d", &temp1, &temp2);
+    // hapusUtas(&utas, temp1, temp2, currentUser);
+    // printf("\n");
+    // cetakUtas(utas, 1);
+    // cetakUtas(utas, 2);    
 }

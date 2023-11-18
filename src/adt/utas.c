@@ -142,11 +142,11 @@ void sambungUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
     }
 
     Address p = utas->utasan[i].u;
-    while (index != 1 && ada) {
+    while (index != 1 && ada) {        
+        p = p->next;
         if (p == NULL) {
             ada = false;
-        }        
-        p = p->next;
+        }
         index--;
     }
 
@@ -164,20 +164,21 @@ void sambungUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
     printf("Masukkan kicauan:\n");
     temp = bacakalimat();
 
+    p = utas->utasan[i].u;
     Address newUtas = malloc(sizeof(Utas));
     newUtas->isi = temp;
     newUtas->date = ctow(DateTimeToString(CurrentDatetime()));
     newUtas->next = p;
 
-    if (indexParam > 1) {
-        Address q = utas->utasan[i].u;
-        index = indexParam;
-        while (index != 2) {
-            q = q->next;
-            index--;
-        }
-        q->next = newUtas;
+    int tracker = indexParam;
+
+    while (tracker != 1) {
+        p = p->next;
+        tracker--;
     }
+
+    newUtas->next = p->next;
+    p->next = newUtas;
     
     printf("Kicauan berhasil disambung!\n");
 }
@@ -198,13 +199,18 @@ void hapusUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
         return;
     }
 
+    if (!ceksama(utas->utasan[i].k.author, currentUser)) {
+        printf("Anda tidak bisa menghapus utas ini!\n");
+        return;
+    }  
+
     if (indexParam == 0) {
         printf("Anda tidak bisa menghapus kicauan utama!\n");
         return;
     }
 
     else if (indexParam == 1) {
-        utas->utasan[i].u = NULL;
+        utas->utasan[i].u = utas->utasan[i].u->next;
         printf("Kicauan sambungan berhasil dihapus!\n");
         return;
     }
@@ -213,24 +219,19 @@ void hapusUtas(ListUtas *utas, int id, int indexParam, Word currentUser) {
 
     Address p = utas->utasan[i].u;
     Address q = p->next;
-    while (index != 2 && ada) {
-        if (q == NULL) {
-            ada = false;
-        }        
+    while (index != 2 && ada) {        
         q = q->next;
         p = p->next;
+        if (q == NULL) {
+            ada = false;
+        }
         index--;
     }
 
     if (!ada) {
         printf("Index terlalu tinggi!\n");
         return;
-    }
-
-    if (!ceksama(utas->utasan[i].k.author, currentUser)) {
-        printf("Anda tidak bisa menghapus utas ini!\n");
-        return;
-    }   
+    } 
 
     p->next = q->next;
     q = NULL;
