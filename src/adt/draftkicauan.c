@@ -22,6 +22,13 @@ void dealocateListStack(ListStack *l)
     l->nEff = 0;
 }
 
+void insertLastStack(ListStack *l, Stack S)
+{
+    l->buffer[l->nEff] = S;
+    l->nEff++;
+}
+
+
 void CreateEmpty(Stack *S) {
     Top(*S) = Nil;
     S->Nstack = 0;
@@ -47,11 +54,36 @@ void Pop(Stack * S, Kicau* X) {
     S->Nstack--;
 }
 
-Stack draft;
 
-void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
+void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl)
 {
-    
+    Pengguna currentPengguna;
+    if (!cek(*currentUser, ";;;")) {
+            printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
+            return;
+        }
+    for (int i = 0; i < user->Neff; i++) {
+        if (ceksama(user->db[i].nama, *currentUser)) {
+            currentPengguna = user->db[i];
+            break;
+        }
+    }
+    Stack stackpengguna;
+    boolean ada = false;
+    for (int i = 0; i < Sl->nEff; i++) {
+        if (ceksama(Sl->buffer[i].author, currentPengguna.nama)) {
+            stackpengguna = Sl->buffer[i];
+            ada = true;
+            break;
+        }
+    }
+    if (!ada){
+        CreateEmpty(&stackpengguna);
+        insertLastStack(&Sl, stackpengguna);
+        stackpengguna.author = currentPengguna.nama;
+        
+    }
+
     Word text;
     printf("Masukan draf: ");
     text = bacakalimat();
@@ -105,7 +137,7 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
             newKicauan.author = user->db[idx].nama;
             newKicauan.date = ctow(DateTimeToString(CurrentDatetime()));
             newKicauan.jakunkicau = user->db[idx].jakun;
-            Push(&draft, newKicauan);
+            Push(&stackpengguna, newKicauan);
             printf("Draf telah berhasil disimpan!\n");
         }
     }
@@ -113,12 +145,32 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
     
     
 }
-void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
+void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl)
 {
-    if (IsEmpty(draft)){
+    Pengguna currentPengguna;
+    if (!cek(*currentUser, ";;;")) {
+            printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
+            return;
+        }
+    for (int i = 0; i < user->Neff; i++) {
+        if (ceksama(user->db[i].nama, *currentUser)) {
+            currentPengguna = user->db[i];
+            break;
+        }
+    }
+    Stack stackpengguna;
+    boolean ada = false;
+    for (int i = 0; i < Sl->nEff; i++) {
+        if (ceksama(Sl->buffer[i].author, currentPengguna.nama)) {
+            stackpengguna = Sl->buffer[i];
+            ada = true;
+            break;
+        }
+    }
+    if (IsEmpty(stackpengguna) || !ada){
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
     } else{
-        Kicau kicauan = InfoTop(draft);
+        Kicau kicauan = InfoTop(stackpengguna);
         printf("Ini draf terakhir anda:\n");
         printf("| %s\n", kicauan.date);
         printf("| %s\n", kicauan.text);
@@ -131,7 +183,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
         boolean ubah = ceksama(text,ctow("UBAH"));
         boolean kembali = ceksama(text,ctow("KEMBALI"));
         if(hapus){
-            Pop(&draft, &kicauan);
+            Pop(&stackpengguna, &kicauan);
             printf("Draf telah berhasil dihapus!\n");
         }else if(terbit){
             reateListDinkicau(&kicau, 100);
@@ -139,7 +191,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
             // Mencetak kicauan
             printf("Kicauan Anda berhasil ditambahkan!\n");
             displaykicauan(kicauan);
-            Pop(&draft, &kicauan);
+            Pop(&stackpengguna, &kicauan);
         }else if(ubah){
             printf("Masukan draft yang baru: \n");
             text = bacakalimat();
@@ -158,7 +210,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau)
                 // Mencetak kicauan
                 printf("Kicauan Anda berhasil ditambahkan!\n");
                 displaykicauan(kicauan);
-                Pop(&draft, &kicauan);
+                Pop(&stackpengguna, &kicauan);
             }else if (simpan){
                 printf("Draf telah berhasil disimpan!\n");
             }

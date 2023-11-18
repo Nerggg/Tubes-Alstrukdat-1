@@ -167,7 +167,34 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 		l->nEff++;
 	}		
 }
-
+void configdraft(UserDB *user, ListStack *sl, Stack *s, Word namafolder)
+{
+	FILE *fptr;
+	int i = 0;
+	char temp[50];
+	char akhir[] = "/draf.config";
+	Word location = concat(namafolder.TabWord, akhir);
+	fptr = fopen(location.TabWord, "r");	
+	fgets(temp, sizeof(temp), fptr);
+	int n = wtoi(ctow(temp));
+	while (n != 0){
+		fgets(temp, sizeof(temp), fptr);
+		sl->buffer[i].author = ctow(temp);
+		fgets(temp, sizeof(temp), fptr);
+		int idx = sl->buffer[i].Nstack -1;
+		while (idx >= 0){
+			sl->buffer[i].T[idx].text = ctow(temp);
+			fgets(temp, sizeof(temp), fptr);
+			sl->buffer[i].T[idx].date = ctow(temp);
+			fgets(temp, sizeof(temp), fptr);
+		}
+		i++;
+		n--;
+		sl->nEff++;
+		
+	}
+	
+}
 
 void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../cfg/";

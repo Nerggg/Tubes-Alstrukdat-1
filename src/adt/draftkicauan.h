@@ -29,6 +29,8 @@ typedef struct
 
 void CreateListDinStack(ListStack *l, int capacity);
 void dealocateListStack(ListStack *l);
+
+void insertLastStack(ListStack *l, Stack S);
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
 void CreateEmpty(Stack *S);
@@ -43,8 +45,8 @@ void Push(Stack * S, Kicau X);
 /* ************ Menghapus sebuah elemen Stack ************ */
 void Pop(Stack * S, Kicau* X);
 
-void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau);
-void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau);
+void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl);
+void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl);
 
 
 #endif

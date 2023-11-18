@@ -5,6 +5,7 @@
 #include "../adt/utas.h"
 #include "../adt/teman.h"
 #include "../adt/matrix.h"
+#include "../adt/draftkicauan.h"
 
 void penggunaconfig(UserDB *user, Graf *teman, Word namafolder);
 void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder);
