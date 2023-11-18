@@ -4,8 +4,27 @@
 #include "../feat/io.c"
 
 
+void CreateListDinStack(ListStack *l, int capacity)
+/* I.S. l sembarang, capacity > 0 */
+/* F.S. Terbentuk list dinamis l kosong dengan kapasitas capacity */
+{
+    l->buffer = (Stack *) malloc(capacity * sizeof(Stack));
+    l->capacity = capacity;
+    l->nEff = 0;
+}
+
+void dealocateListStack(ListStack *l)
+/* I.S. l terdefinisi; */
+/* F.S. (l) dikembalikan ke system, CAPACITY(l)=0; NEFF(l)=0 */
+{
+    free(l->buffer);
+    l->capacity = 0;
+    l->nEff = 0;
+}
+
 void CreateEmpty(Stack *S) {
     Top(*S) = Nil;
+    S->Nstack = 0;
 }
 
 boolean IsEmpty(Stack S) {
@@ -19,11 +38,13 @@ boolean IsFull(Stack S) {
 void Push(Stack * S, Kicau X) {
     Top(*S)++;
     InfoTop(*S) = X;
+    S->Nstack++;
 }
 
 void Pop(Stack * S, Kicau* X) {
     *X = InfoTop(*S);
     Top(*S)--;
+    S->Nstack--;
 }
 
 Stack draft;
