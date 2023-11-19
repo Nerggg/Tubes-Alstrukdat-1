@@ -15,6 +15,8 @@ int main() {
 	Graf teman;
 	int move;	
 	FILE *fptr;
+	int idkicau, indexParam;
+
 	CreateListDinkicau(&kicauan, 1);
 
 	printlogo();
@@ -32,6 +34,7 @@ int main() {
 	printf("\nFile konfigurasi berhasil dimuat! Selamat menggunakan aplikasi BurBir!\n");
 	printf("Ketik \';\' untuk melanjutkan\n\n");
 	bacakalimat();
+
 	emptyuser(&currentUser);
 	
 	boolean start = true;
@@ -121,8 +124,32 @@ int main() {
 				displayallkicauan(user, kicauan, teman, currentUser);	
 				break;
 			case 11:
-				int idkicau = wtoi(baca());
+				idkicau = wtoi(baca());
 				suka_kicauan(user, &kicauan, teman, idkicau, currentUser);
+				break;
+			case 12:
+				idkicau = wtoi(baca());
+				isiUtas(&utas, currentUser, kicauan, idkicau);
+				break;
+			case 13:
+				idkicau = wtoi(baca());
+				indexParam = wtoi(baca());
+				sambungUtas(&utas, idkicau, indexParam, currentUser);
+				break;
+			case 14:
+				idkicau = wtoi(baca());
+				indexParam = wtoi(baca());
+				hapusUtas(&utas, idkicau, indexParam, currentUser);				
+				break;
+			case 15:
+				idkicau = wtoi(baca());
+				cetakUtas(utas, kicauan, user, teman, idkicau, currentUser);	
+				break;
+			case 16:
+				daftarteman(currentUser, &user, teman);
+				break;
+			case 17:
+				hapusteman(currentUser, &user, &teman);
 				break;
 			case -1:
 				printf("Perintah tidak ditemukan.\n");

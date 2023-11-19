@@ -4,10 +4,18 @@
 #include "../feat/misc.h"
 #include "boolean.h"
 
-void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)
+void daftarteman(Word currentUser, UserDB *listAkun, Graf teman)
 {
+    boolean login = !cek(currentUser, ";;;");
     if (login)
     {
+        Pengguna akun;
+        for (int i = 0; i < listAkun->Neff; i++) {
+            if (ceksama(currentUser, listAkun->db[i].nama)) {
+                akun = listAkun->db[i];
+            }
+        }
+
         ListGraf l;
         CreateListGraf(&l);
         int i = 0;
@@ -26,16 +34,23 @@ void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)
             }
         }
         getOne(teman, accountID, &l);
-        if (isEmptylistGraf(l))
+        int jlhteman = listEffGraf(l) - 1;
+        if (jlhteman == 0)
         {
             printf("%s belum mempunyai teman\n", akun.nama.TabWord);
         }
         else
         {
-            printf("%s memiliki %d teman\n", akun.nama.TabWord, listEffGraf(l));
-            printf("Daftar teman %s\n", akun.nama.TabWord);
+            PrintWord(akun.nama);
+            printf(" memiliki %d teman\n", jlhteman);
+            printf("Daftar teman ");
+            PrintWord(akun.nama);
+            printf("\n");
             for (int j = 0; j < CAPACITYGRAF; j++)
             {
+                if (ceksama(currentUser, listAkun->db[j].nama)) {
+                    continue;
+                }
                 if (ELMTLISTGRAF(l, j) == 1)
                 {
                     printf("| %s\n", listAkun->db[j].nama.TabWord);
@@ -49,10 +64,18 @@ void daftarteman(boolean login, Pengguna akun, UserDB *listAkun, Graf teman)
     }
 }
 
-void hapusteman(boolean login, Pengguna akun, UserDB *listAkun, Graf *teman)
+void hapusteman(Word currentUser, UserDB *listAkun, Graf *teman)
 {
+    boolean login = !cek(currentUser, ";;;");
     if (login)
     {
+        Pengguna akun;
+        for (int i = 0; i < listAkun->Neff; i++) {
+            if (ceksama(currentUser, listAkun->db[i].nama)) {
+                akun = listAkun->db[i];
+            }
+        }
+
         Word YA = {"YA", 2};
         Word TIDAK = {"TIDAK", 5};
         ListGraf l;
@@ -74,8 +97,7 @@ void hapusteman(boolean login, Pengguna akun, UserDB *listAkun, Graf *teman)
         }
         getOne(*teman, accountID, &l);
         printf("Masukkan nama pengguna:\n");
-        STARTWITHBLANK();
-        Word akunHapus = currentWord;
+        Word akunHapus = bacakalimat();
         found = false;
         int IDakunhapus;
         i = 0;

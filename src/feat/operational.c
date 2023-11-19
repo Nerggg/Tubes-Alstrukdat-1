@@ -56,6 +56,24 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	else if (cek(kata, "SUKA_KICAUAN")) {
 		return 11;
 	}
+	else if (cek(kata, "UTAS")) {
+		return 12;
+	}
+	else if (cek(kata, "SAMBUNG_UTAS")) {
+		return 13;
+	}
+	else if (cek(kata, "HAPUS_UTAS")) {
+		return 14;
+	}	
+	else if (cek(kata, "CETAK_UTAS")) {
+		return 15;
+	}	
+	else if (cek(kata, "DAFTAR_TEMAN")) {
+		return 16;
+	}
+	else if (cek(kata, "HAPUS_TEMAN")) {
+		return 17;
+	}
 	else{
 		return -1;
 	}

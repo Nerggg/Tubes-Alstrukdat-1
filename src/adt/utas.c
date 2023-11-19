@@ -68,14 +68,37 @@ void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id) {
     utas->neff++;
 }
 
-void cetakUtas(ListUtas utas, int id) {
-    int i;
-    boolean ada = false;
+void cetakUtas(ListUtas utas, ListDinkicau kicauan, UserDB user, Graf teman, int id, Word currentUser) {
+    int i, idxkicau;
+    boolean ada = false, berteman;
+    Pengguna pembuatKicau;
+    Pengguna currentPengguna;
+
+    for (int a = 0; a < user.Neff; a++) {
+        if (ceksama(currentUser, user.db[a].nama)) {
+            currentPengguna = user.db[a];
+            break;
+        }
+    }
+
     for (i = 0; i < utas.neff; i++) {
         if (utas.utasan[i].k.id == id) {
             ada = true;
+            for (int a = 0; a < user.Neff; a++) {
+                if (ceksama(utas.utasan[i].k.author, user.db[a].nama)) {
+                    pembuatKicau = user.db[a];
+                    break;
+                }
+            }
             break;
         } 
+    }
+
+    for (int a = 0; a < kicauan.nEff; a++) {
+        if (kicauan.buffer[a].id == id) {
+            idxkicau = a;
+            break;
+        }
     }
 
     if (!ada) {
@@ -83,45 +106,55 @@ void cetakUtas(ListUtas utas, int id) {
         return;
     }
 
-    printf("| ID = %d\n", id);
-    printf("| ");
-    for (int j = 0; j < utas.utasan[i].k.author.Length; j++) {
-        printf("%c", utas.utasan[i].k.author.TabWord[j]);
+    if (cekteman(currentPengguna, pembuatKicau, &user, teman)) {
+        berteman = true;
     }
-    printf("\n");
-    printf("| ");
-    for (int j = 0; j < utas.utasan[i].k.date.Length; j++) {
-        printf("%c", utas.utasan[i].k.date.TabWord[j]);
-    }
-    printf("\n");
-    printf("| ");
-    for (int j = 0; j < utas.utasan[i].k.text.Length; j++) {
-        printf("%c", utas.utasan[i].k.text.TabWord[j]);
-    }
-    printf("\n");    
 
-    Address p = utas.utasan[i].u;
-    int j = 1;
+    if ((cek(kicauan.buffer[idxkicau].jakunkicau, "Publik") || (cek(kicauan.buffer[idxkicau].jakunkicau, "Privat") && berteman))) {
+        printf("| ID = %d\n", id);
+        printf("| ");
+        for (int j = 0; j < utas.utasan[i].k.author.Length; j++) {
+            printf("%c", utas.utasan[i].k.author.TabWord[j]);
+        }
+        printf("\n");
+        printf("| ");
+        for (int j = 0; j < utas.utasan[i].k.date.Length; j++) {
+            printf("%c", utas.utasan[i].k.date.TabWord[j]);
+        }
+        printf("\n");
+        printf("| ");
+        for (int j = 0; j < utas.utasan[i].k.text.Length; j++) {
+            printf("%c", utas.utasan[i].k.text.TabWord[j]);
+        }
+        printf("\n");    
 
-    while(p != NULL) {
-        printf("\t| INDEX = %d\n", j);
-        printf("\t| ");
-        for (int k = 0; k < utas.utasan[i].k.author.Length; k++) {
-            printf("%c", utas.utasan[i].k.author.TabWord[k]);
+        Address p = utas.utasan[i].u;
+        int j = 1;
+
+        while(p != NULL) {
+            printf("\t| INDEX = %d\n", j);
+            printf("\t| ");
+            for (int k = 0; k < utas.utasan[i].k.author.Length; k++) {
+                printf("%c", utas.utasan[i].k.author.TabWord[k]);
+            }
+            printf("\n");   
+            printf("\t| ");
+            for (int k = 0; k < p->date.Length; k++) {
+                printf("%c", p->date.TabWord[k]);
+            }
+            printf("\n");   
+            printf("\t| ");
+            for (int k = 0; k < p->isi.Length; k++) {
+                printf("%c", p->isi.TabWord[k]);
+            }
+            printf("\n");      
+            j++;
+            p = p->next;     
         }
-        printf("\n");   
-        printf("\t| ");
-        for (int k = 0; k < p->date.Length; k++) {
-            printf("%c", p->date.TabWord[k]);
-        }
-        printf("\n");   
-        printf("\t| ");
-        for (int k = 0; k < p->isi.Length; k++) {
-            printf("%c", p->isi.TabWord[k]);
-        }
-        printf("\n");      
-        j++;
-        p = p->next;     
+    }
+
+    else {
+        printf("Akun yang membuat utas ini adalah akun privat! Ikuti dahulu akun ini untuk melihat utasnya!\n");
     }
 }
 

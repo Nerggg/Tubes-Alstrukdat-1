@@ -27,7 +27,7 @@ typedef struct {
 
 void emptyUtas(ListUtas *utas);
 void isiUtas(ListUtas *utas, Word currentUser, ListDinkicau k, int id);
-void cetakUtas(ListUtas utas, int id);
+void cetakUtas(ListUtas utas, ListDinkicau kicauan, UserDB user, Graf teman, int id, Word currentUser);
 void sambungUtas(ListUtas *utas, int id, int indexParam, Word currentUser);
 void hapusUtas(ListUtas *utas, int id, int indexParam, Word currentUser);
 
