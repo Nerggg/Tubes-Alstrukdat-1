@@ -80,6 +80,21 @@ void deleteChild(List *t, int id) {
    p = nextSibling(p);
 }
 
+int countValuesInTree(Addresst node) {
+    if (node == NULL) {
+        return 0; // Jika pohon kosong, kembalikan 0
+    }
+
+    int count = 1; // Menghitung nilai pada node saat ini
+
+    // Rekursif untuk menghitung nilai pada anak dan saudara
+    count += countValuesInTree(node->firstChild);
+    count += countValuesInTree(node->nextSibling);
+
+    return count;
+}
+
+
 
 
 Addresst searchIdx(List t, int idbalasan) {

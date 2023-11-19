@@ -5,6 +5,7 @@
 #include "pengguna.h"
 #include "datetime.h"
 #include "teman.h"
+#include "balasan.h"
 #include "../feat/operational.h"
 #include "../feat/misc.h"
 
@@ -51,7 +52,7 @@ void printListkicau(ListDinkicau l);
 void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut);
 void insertLastkicau(ListDinkicau *l, Kicau newkicauan);
 void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp);
-void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser);
+void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser, ListDintree *ltree);
 void displaykicauan(Kicau);
 void suka_kicauan(UserDB user, ListDinkicau *kicau, Graf teman, int id, Word currentUser);
 void ubah_kicauan(UserDB user, ListDinkicau *kicau, int id, Word currentUser);

@@ -139,6 +139,7 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 	Word location = concat(namafolder.TabWord, akhir);
 	fptr = fopen(location.TabWord, "r");	
 	fgets(temp, sizeof(temp), fptr);
+
 	int n = wtoi(ctow(temp));
 	if (n > l->capacity) {
 		dealocateListkicau(l);
@@ -167,12 +168,32 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 		l->nEff++;
 	}		
 }
-void configBalasan(UserDB *user, ListDintree *ltree, List *tree, Word namafolder)
+void configBalasan(UserDB user, ListDintree *ltree, List *tree, Word namafolder)
 {
+	FILE *fptr;
+	int i = 0;
+	char temp[50];
+	char akhir[] = "/draf.config";
+	Word location = concat(namafolder.TabWord, akhir);
+	fptr = fopen(location.TabWord, "r");
+	fgets(temp, sizeof(temp), fptr); // banyak kicauan yang memiliki balasan
+	int n = wtoi(ctow(temp)); 
+	ltree->nEff = n;
+	while (n != 0){
+		fgets(temp, sizeof(temp), fptr); // id kicauan yang memiliki balasanwtoi(ctow(temp))
+		ltree->buffer[n-1]->value.id = wtoi(ctow(temp));
+		Addresst p = ltree->buffer[n-1]->firstChild;
+		int j = countValuesInTree(p);
+		wtoi(ctow(temp)); // balasan yang dimiliki
+		j = wtoi(ctow(temp));
+		
 
+	}
+
+	
 }
 
-void configdraft(UserDB *user, ListStack *sl, Stack *s, Word namafolder)
+void configdraft(UserDB user, ListStack *sl, Word namafolder)
 {
 	FILE *fptr;
 	int i = 0;
@@ -192,6 +213,7 @@ void configdraft(UserDB *user, ListStack *sl, Stack *s, Word namafolder)
 			fgets(temp, sizeof(temp), fptr);
 			sl->buffer[i].T[idx].date = ctow(temp);
 			fgets(temp, sizeof(temp), fptr);
+			idx--;
 		}
 		i++;
 		n--;

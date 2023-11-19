@@ -56,11 +56,11 @@ void addSibling(List *t, Kicau val);
 
 void deleteChild(List *t, int id);
 
-int countValuesInTree(Address node);
+int countValuesInTree(Addresst node);
 
 void addBalasan(List *t, int id);
 
-int findLargestIdx(Address root, int *largestValue);
+int findLargestIdx(Addresst root, int *largestValue);
 
 void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree,Graf teman, int idkicau, int idbalasan);
 

@@ -75,7 +75,7 @@ void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp)
     NEFF(*l)--;
 }
 
-void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser)
+void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser, ListDintree *ltree)
 {
     if (cek(*currentUser, ";;;")) {
         printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
@@ -139,7 +139,8 @@ void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser)
     // printf("textnya %s\n", newKicauan.text.TabWord);
     kicauan->buffer[kicauan->nEff] = newKicauan;
     kicauan->nEff++;
-
+    List tree = newNodet(newKicauan);
+    insertLasttree(&ltree, tree);
     // Mencetak kicauan
     printf("Kicauan Anda berhasil ditambahkan!\n");
     displaykicauan(newKicauan);
