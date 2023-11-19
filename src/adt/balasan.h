@@ -64,7 +64,7 @@ int findLargestIdx(Address root, int *largestValue);
 
 void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree,Graf teman, int idkicau, int idbalasan);
 
-void Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree, int idkicau);
+void Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree,Graf teman, int idkicau);
 
 void Hapus_Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree, int idkicau, int idbalasan);
 

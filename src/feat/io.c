@@ -167,6 +167,11 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 		l->nEff++;
 	}		
 }
+void configBalasan(UserDB *user, ListDintree *ltree, List *tree, Word namafolder)
+{
+
+}
+
 void configdraft(UserDB *user, ListStack *sl, Stack *s, Word namafolder)
 {
 	FILE *fptr;
@@ -190,8 +195,7 @@ void configdraft(UserDB *user, ListStack *sl, Stack *s, Word namafolder)
 		}
 		i++;
 		n--;
-		sl->nEff++;
-		
+		sl->nEff++; 
 	}
 	
 }

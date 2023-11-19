@@ -159,6 +159,55 @@ int findLargestIdx(List t, int *largestValue) {
     return currentIndex;
 }
 
+void printtree(UserDB *user,Pengguna *currentPengguna,Graf teman, Addresst p, int idkicau, int depth)
+{  
+    if (p == NULL)
+        return;
+
+    // Print the current node
+    boolean berteman;
+    Pengguna pembuatBalasan;
+    berteman = false;
+    int idx;
+    
+    for (int j = 0; j < user->Neff; j++) {
+        if(ceksama(user->db[j].nama, p->value.author)) {
+            pembuatBalasan = user->db[j];
+            break;
+        }
+    }
+    if(cekteman(*currentPengguna, pembuatBalasan, &user, teman)) {
+            // printf("penggunanya %s\n", currentPengguna.nama.TabWord);
+            // printf("authornya %s\n", pembuatKicau.nama.TabWord);
+            berteman = true;
+        }
+    if ((cek(p->value.jakunkicau, "Publik") || (cek(p->value.jakunkicau, "Privat") && berteman))) {
+        printf("%*s| ID = %d\n", depth * 3, "", p->value.id);
+        printf("%*s| ", depth * 3, "" );
+        for (int i = 0; i < p->value.author.Length; i++) {
+            printf("%c", p->value.author.TabWord[i]);
+        }
+        printf("\n");
+        printf("%*s| ", depth * 3, "" );
+        for (int i = 0; i < p->value.date.Length; i++) {
+            printf("%c", p->value.date.TabWord[i]);
+        }
+        printf("\n");
+        printf("%*s| ", depth * 3, "" );
+        for (int i = 0; i < p->value.text.Length; i++) {
+            printf("%c", p->value.text.TabWord[i]);
+        } 
+    }else{
+        printf("%*s| ID = %d\n", depth * 3, "", p->value.id);
+        printf("%*s| PRIVAT\n", depth * 3, "");
+        printf("%*s| PRIVAT\n", depth * 3, "");
+        printf("%*s| PRIVAT\n", depth * 3, "");
+    }
+    // Recursively print the children and siblings
+    printTreeDFS(p->firstChild, depth += 1 );
+    printTreeDFS(p->nextSibling);
+
+}
 
 void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree,Graf teman, int idkicau, int idbalasan)
 {
@@ -198,16 +247,15 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
         // printf("authornya %s\n", pembuatKicau.nama.TabWord);
         berteman = true;
     }
-    if ((cek(kicau->buffer[idx].jakunkicau, "Publik") || (cek(kicau->buffer[idx].jakunkicau, "Privat") && berteman))) {
-        
+    if(!berteman){
+        printf("Wah, akun tersebut merupakan akun privat dan anda belum berteman akun tersebu!\n");
+        return;
     }
 
     if(cektree(*kumpulantree, idkicau)){
         rootbalasan = searchidxtree(*kumpulantree, idkicau);
-
-        
     }else{
-        printf("id kicauan tidak ditemukan");
+        printf("Wah, tidak terdapat balasan yang ingin Anda balas!\n");
         return;
     }
     
@@ -229,7 +277,7 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
             // printf("authornya %s\n", pembuatKicau.nama.TabWord);
             berteman = true;
         }
-        if(berteman){
+        if ((cek(kicauandibalas.jakunkicau, "Publik") || (cek(kicauandibalas.jakunkicau, "Privat") && berteman))) {
             AddBalasan(&rootbalasan, idbalasan, newBalasan);
             Word text;
             printf("Masukan balasan : ");
@@ -244,8 +292,10 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
 
             if (text.Length > 280) {
                 printf("Balasan tidak boleh lebih dari 280 karakter! Kicauan Anda akan terpotong secara otomatis.\n");
+                return;
             }else if(space){
                 printf("Kicauan tidak boleh hanya berisi spasi!\n");
+                return;
             } else{
                 int largestValue = 0;
                 newBalasan.id = findLargestIdx(root(rootbalasan), largestValue) + 1;
@@ -259,25 +309,34 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
                 displaykicauan(newBalasan);
             }
         }else{
-            printf("Wah, akun tersebut merupakan akun privat dan anda belum berteman akun tersebu!\n");
+            printf("Wah, akun tersebut merupakan akun privat dan anda belum berteman akun tersebut!\n");
         }
 
     }
-    
-    
-
-    
-    
 }
 
 
-void Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree, int idkicau)
+void Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree, Graf teman, int idkicau)
 {
-    
+    Pengguna currentPengguna;
+    if (!cek(*currentUser, ";;;")) {
+            printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
+            return;
+        }
+    for (int i = 0; i < user->Neff; i++) {
+        if (ceksama(user->db[i].nama, *currentUser)) {
+            currentPengguna = user->db[i];
+            break;
+        }
+    }
+
     List rootbalasan;
+
     if(cektree(*kumpulantree, idkicau)){
         rootbalasan = searchidxtree(*kumpulantree, idkicau);
-
+        Addresst p = rootbalasan;
+        p = firstChild(p);
+        printtree(user,currentUser,teman, p, idkicau, 0);
         
     }else{
         printf("id kicauan tidak ditemukan");
