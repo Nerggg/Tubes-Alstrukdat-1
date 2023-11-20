@@ -74,6 +74,21 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	else if (cek(kata, "HAPUS_TEMAN")) {
 		return 17;
 	}
+	else if (cek(kata, "BALAS")) {
+		return 18;
+	}
+	else if(cek(kata, "BALASAN")) {
+		return 19;
+	}
+	else if(cek(kata, "HAPUS_BALASAN")) {
+		return 20;
+	}
+	else if (cek(kata, "BUAT_DRAFT")) {
+		return 21;
+	}
+	else if (cek (kata, "LIHAT_DRAFT")) {
+		return 22;
+	}
 	else{
 		return -1;
 	}

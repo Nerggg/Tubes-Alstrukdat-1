@@ -20,6 +20,8 @@
         "operational.h": "c",
         "charmachine.h": "c",
         "matrix.h": "c",
-        "pcolor.h": "c"
+        "pcolor.h": "c",
+        "balasan.h": "c",
+        "draftkicau.h":"c"
     }
 }

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "draftkicauan.h"
-#include "../feat/operational.c"
-#include "../feat/io.c"
+#include "../feat/operational.h"
 
 
 void CreateListDinStack(ListStack *l, int capacity)
@@ -29,26 +28,26 @@ void insertLastStack(ListStack *l, Stack S)
 }
 
 
-void CreateEmpty(Stack *S) {
+void CreateEmptyStack(Stack *S) {
     Top(*S) = Nil;
     S->Nstack = 0;
 }
 
-boolean IsEmpty(Stack S) {
+boolean IsEmptyStack(Stack S) {
     return Top(S) == Nil;
 }
 
-boolean IsFull(Stack S) {
+boolean IsFullStack(Stack S) {
     return Top(S) == MaxEl-1;
 }
 
-void Push(Stack * S, Kicau X) {
+void PushKicau(Stack * S, Kicau X) {
     Top(*S)++;
     InfoTop(*S) = X;
     S->Nstack++;
 }
 
-void Pop(Stack * S, Kicau* X) {
+void PopKicau(Stack * S, Kicau* X) {
     *X = InfoTop(*S);
     Top(*S)--;
     S->Nstack--;
@@ -78,8 +77,8 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *
         }
     }
     if (!ada){
-        CreateEmpty(&stackpengguna);
-        insertLastStack(&Sl, stackpengguna);
+        CreateEmptyStack(&stackpengguna);
+        insertLastStack(Sl, stackpengguna);
         stackpengguna.author = currentPengguna.nama;
         
     }
@@ -137,13 +136,12 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *
             newKicauan.author = user->db[idx].nama;
             newKicauan.date = ctow(DateTimeToString(CurrentDatetime()));
             newKicauan.jakunkicau = user->db[idx].jakun;
-            Push(&stackpengguna, newKicauan);
+            PushKicau(&stackpengguna, newKicauan);
             printf("Draf telah berhasil disimpan!\n");
+        }else if(hapus){
+            return;
         }
     }
-
-    
-    
 }
 void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl)
 {
@@ -151,7 +149,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
     if (!cek(*currentUser, ";;;")) {
             printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
             return;
-        }
+    }
     for (int i = 0; i < user->Neff; i++) {
         if (ceksama(user->db[i].nama, *currentUser)) {
             currentPengguna = user->db[i];
@@ -167,13 +165,21 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             break;
         }
     }
-    if (IsEmpty(stackpengguna) || !ada){
+    if (IsEmptyStack(stackpengguna) || !ada){
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :D\n");
     } else{
         Kicau kicauan = InfoTop(stackpengguna);
         printf("Ini draf terakhir anda:\n");
-        printf("| %s\n", kicauan.date);
-        printf("| %s\n", kicauan.text);
+        printf("| ");
+        for (int i = 0; i < kicauan.date.Length; i++) {
+            printf("%c", kicauan.date.TabWord[i]);
+        }
+        printf("\n");
+        printf("| ");
+        for (int i = 0; i < kicauan.text.Length; i++) {
+            printf("%c", kicauan.text.TabWord[i]);
+        }
+        printf("\n");
         printf("Apakah anda ingin mengubah, menghapus, atau menerbitkan draf ini? (KEMBALI jika ingin kembali)\n");
         
         Word text;
@@ -183,15 +189,15 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
         boolean ubah = ceksama(text,ctow("UBAH"));
         boolean kembali = ceksama(text,ctow("KEMBALI"));
         if(hapus){
-            Pop(&stackpengguna, &kicauan);
+            PopKicau(&stackpengguna, &kicauan);
             printf("Draf telah berhasil dihapus!\n");
         }else if(terbit){
-            reateListDinkicau(&kicau, 100);
-            insertLastkicau(&kicau, kicauan);
+            PopKicau(&stackpengguna, &kicauan);
+            CreateListDinkicau(kicau, 100);
+            insertLastkicau(kicau, kicauan);
             // Mencetak kicauan
             printf("Kicauan Anda berhasil ditambahkan!\n");
             displaykicauan(kicauan);
-            Pop(&stackpengguna, &kicauan);
         }else if(ubah){
             printf("Masukan draft yang baru: \n");
             text = bacakalimat();
@@ -205,18 +211,17 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             boolean simpan = ceksama(text,ctow("SIMPAN"));
             
             if(terbit){
-                CreateListDinkicau(&kicau, 100);
-                insertLastkicau(&kicau, kicauan);
+                CreateListDinkicau(kicau, 100);
+                insertLastkicau(kicau, kicauan);
                 // Mencetak kicauan
                 printf("Kicauan Anda berhasil ditambahkan!\n");
                 displaykicauan(kicauan);
-                Pop(&stackpengguna, &kicauan);
+                PopKicau(&stackpengguna, &kicauan);
             }else if (simpan){
                 printf("Draf telah berhasil disimpan!\n");
             }
-
         }else if (kembali){
-            
+            return;
         }
     }
 }

@@ -5,7 +5,6 @@
 #include "pengguna.h"
 #include "datetime.h"
 #include "teman.h"
-#include "balasan.h"
 #include "../feat/operational.h"
 #include "../feat/misc.h"
 
@@ -18,6 +17,23 @@ typedef struct {
 	Word date;
 	Word jakunkicau;
 } Kicau;
+
+typedef struct node* Addresst;
+typedef  struct node
+{
+    Kicau value; // nilai node
+    Addresst firstChild; // pointer ke anak.
+    Addresst nextSibling; // pointer ke saudara.
+} Tree;
+
+#define value(p) (p)->value
+#define firstChild(p) (p)->firstChild
+#define nextSibling(p) (p)->nextSibling
+#define root(t) (t)
+
+Addresst newNodet(Kicau val);
+
+typedef Addresst List;
 
 typedef struct
 {
@@ -45,6 +61,29 @@ typedef struct
 
 #define IDX_UNDEF (-1)
 #define FIRST(l) (l)
+
+typedef struct
+{
+    List *buffer; /* memori tempat penyimpan elemen (container) */
+    int nEff;       /* >=0, banyaknya elemen efektif */
+    int capacity;   /* ukuran elemen */
+} ListDintree;
+
+/* ********** SELEKTOR ********** */
+#define NEFFtr(l) (l).nEff
+#define BUFFERtr(l) (l).buffer
+#define ELMTtr(l, i) (l).buffer[i]
+#define CAPACITYTr(l) (l).capacity
+
+
+void CreateListoftree(ListDintree *l, int capacity);
+void dealocatelistoftree(ListDintree *l);
+void insertLasttree(ListDintree *l, List newtree);
+void deleteLasttree(ListDintree *l, List *lastree);
+List searchidxtree(ListDintree l, int id);
+boolean cektree(ListDintree l, int id);
+
+void CreateTree(List *t);
 
 void CreateListDinkicau(ListDinkicau *l, int capacity);
 void dealocateListkicau(ListDinkicau *l);

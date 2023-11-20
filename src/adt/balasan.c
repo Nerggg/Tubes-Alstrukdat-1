@@ -1,84 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "balasan.h"
-#include "../feat/operational.c"
-#include "../feat/io.c"
-
-Addresst newNodet(Kicau val) {
-    Addresst p = (Addresst)malloc(sizeof(Tree));
-    if (p == NULL) {
-        // Handle memory allocation error
-        exit(1);
-    }
-    value(p) = val;
-    firstChild(p) = NULL;
-    nextSibling(p) = NULL;
-    return p;
-}
-
-void CreateListoftree(ListDintree *l, int capacity)
-{
-    BUFFER(*l) = (List *) malloc(capacity * sizeof(List));
-    CAPACITY(*l) = capacity;
-    NEFF(*l) = 0;
-}
-
-void dealocatelistoftree(ListDintree *l)
-{
-    free(BUFFER(*l));
-    CAPACITY(*l) = 0;
-    NEFF(*l) = 0;
-}
-
-void insertLasttree(ListDintree *l, List newtree)
-{
-    ELMT(*l, NEFF(*l)) = newtree;
-    NEFF(*l)++;
-}
-
-void deleteLasttree(ListDintree *l, List *lastree)
-/* Proses : Menghapus elemen terakhir list */
-/* I.S. List tidak kosong */
-/* F.S. val adalah nilai elemen terakhir l sebelum penghapusan, */
-/*      Banyaknya elemen list berkurang satu */
-/*      List l mungkin menjadi kosong */
-{
-    *lastree = ELMT(*l, NEFF(*l));
-    NEFF(*l)--;
-}
-
-List searchidxtree(ListDintree l, int id)
-{
-    int i;
-    List target;
-    for (i = 0; i < NEFF(l);i++){
-        if (i+1 == id){
-            target = ELMT(l,i);
-        }
-    }
-    return target;
-}
-boolean cektree(ListDintree l, int id)
-{
-    int i;
-    List target;
-    for (i = 0; i < NEFF(l);i++){
-        if (i+1 == id){
-            return true;
-        }
-    }
-    return false;
-}
-
-void CreateTree(List *t) {
-    *t = NULL;
-}
-
-
-void deleteChild(List *t, int id) {
-   Addresst p = searchIdx(*t, id);
-   firstChild(p) = NULL;
-   p = nextSibling(p);
-}
 
 int countValuesInTree(Addresst node) {
     if (node == NULL) {
@@ -96,12 +18,11 @@ int countValuesInTree(Addresst node) {
 
 
 
-
 Addresst searchIdx(List t, int idbalasan) {
     Addresst root = t;
     root = firstChild(root);
     if (root == NULL) {
-        return IDX_UNDEF;
+        return NULL;
     }
 
     // Cek apakah nilai pada node saat ini sama dengan targetValue
@@ -111,7 +32,7 @@ Addresst searchIdx(List t, int idbalasan) {
 
     // Cari di anak pertama dan saudara berikutnya
     Addresst childAddress = searchIdx(firstChild(root), idbalasan);
-    if (childAddress != IDX_UNDEF) {
+    if (childAddress != NULL) {
         return childAddress; // Jika ditemukan di anak pertama, kembalikan alamat node
     }
 
@@ -119,7 +40,7 @@ Addresst searchIdx(List t, int idbalasan) {
     return siblingAddress; // Kembalikan alamat node, mungkin NULL jika tidak ditemukan
 }
 
-void AddBalasan(List *t, int id, Kicau kicauan){
+void addBalasan(List *t, int id, Kicau kicauan){
     Addresst p = newNodet(kicauan);
     Addresst current;
     if (id == -1){
@@ -134,7 +55,7 @@ void AddBalasan(List *t, int id, Kicau kicauan){
             nextSibling(current) = p;
         }
     }else{
-        current = searchIdx(t, id);
+        current = searchIdx(*t, id);
         if (firstChild(current) == NULL){
             firstChild(current) = p;
         }else{
@@ -147,6 +68,11 @@ void AddBalasan(List *t, int id, Kicau kicauan){
     }
 }
 
+void deleteChild(List *t, int id) {
+   Addresst p = searchIdx(*t, id);
+   firstChild(p) = NULL;
+   p = nextSibling(p);
+}
 int findLargestIdx(List t, int *largestValue) {
     Addresst root = t;
     root = firstChild(root);
@@ -174,7 +100,7 @@ int findLargestIdx(List t, int *largestValue) {
     return currentIndex;
 }
 
-void printtree(UserDB *user,Pengguna *currentPengguna,Graf teman, Addresst p, int idkicau, int depth)
+void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int idkicau, int depth)
 {  
     if (p == NULL)
         return;
@@ -183,15 +109,14 @@ void printtree(UserDB *user,Pengguna *currentPengguna,Graf teman, Addresst p, in
     boolean berteman;
     Pengguna pembuatBalasan;
     berteman = false;
-    int idx;
     
-    for (int j = 0; j < user->Neff; j++) {
-        if(ceksama(user->db[j].nama, p->value.author)) {
-            pembuatBalasan = user->db[j];
+    for (int j = 0; j < user.Neff; j++) {
+        if(ceksama(user.db[j].nama, p->value.author)) {
+            pembuatBalasan = user.db[j];
             break;
         }
     }
-    if(cekteman(*currentPengguna, pembuatBalasan, &user, teman)) {
+    if(cekteman(currentPengguna, pembuatBalasan, &user, teman)) {
             // printf("penggunanya %s\n", currentPengguna.nama.TabWord);
             // printf("authornya %s\n", pembuatKicau.nama.TabWord);
             berteman = true;
@@ -219,38 +144,35 @@ void printtree(UserDB *user,Pengguna *currentPengguna,Graf teman, Addresst p, in
         printf("%*s| PRIVAT\n", depth * 3, "");
     }
     // Recursively print the children and siblings
-    printTreeDFS(p->firstChild, depth += 1 );
-    printTreeDFS(p->nextSibling);
+    printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth += 1 );
+    printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth );
 
 }
 
-void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree,Graf teman, int idkicau, int idbalasan)
+void Balas(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree kumpulantree,Graf teman, int idkicau, int idbalasan)
 {
-    int i;
     Kicau newBalasan;
     List rootbalasan;
-    boolean ada = false;
     boolean berteman = false;
     Pengguna currentPengguna;
     Pengguna pembuatKicau;
-    if (!cek(*currentUser, ";;;")) {
+    if (!cek(currentUser, ";;;")) {
             printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
             return;
         }
-    for (int i = 0; i < user->Neff; i++) {
-        if (ceksama(user->db[i].nama, *currentUser)) {
-            currentPengguna = user->db[i];
+    for (int i = 0; i < user.Neff; i++) {
+        if (ceksama(user.db[i].nama, currentUser)) {
+            currentPengguna = user.db[i];
             break;
         }
     }
     int idx;
-    for (int i = 0; i < kicau->nEff; i++) {
-        if (kicau->buffer[i].id == idkicau) {
-            ada = true;
+    for (int i = 0; i < kicau.nEff; i++) {
+        if (kicau.buffer[i].id == idkicau) {
             idx = i;
-            for (int j = 0; j < user->Neff; j++) {
-                if(ceksama(user->db[j].nama, kicau->buffer[i].author)) {
-                    pembuatKicau = user->db[j];
+            for (int j = 0; j < user.Neff; j++) {
+                if(ceksama(user.db[j].nama, kicau.buffer[i].author)) {
+                    pembuatKicau = user.db[j];
                     break;
                 }
             }
@@ -267,23 +189,23 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
         return;
     }
 
-    if(cektree(*kumpulantree, idkicau)){
-        rootbalasan = searchidxtree(*kumpulantree, idkicau);
+    if(cektree(kumpulantree, idkicau)){
+        rootbalasan = searchidxtree(kumpulantree, idkicau);
     }else{
         printf("Wah, tidak terdapat balasan yang ingin Anda balas!\n");
         return;
     }
     
-    if (searchIdx(rootbalasan,idbalasan) == IDX_UNDEF){
-        print("Wah, tidak terdapat balasan yang ingin Anda balas!\n");
+    if (searchIdx(rootbalasan,idbalasan) == NULL){
+        printf("Wah, tidak terdapat balasan yang ingin Anda balas!\n");
     }else{
         Addresst kc = searchIdx(rootbalasan,idbalasan);
         Kicau kicauandibalas = kc->value;
         Pengguna pembuatBalasan;
         berteman = false;
-        for (int j = 0; j < user->Neff; j++) {
-                if(ceksama(user->db[j].nama, kicauandibalas.author)) {
-                    pembuatBalasan = user->db[j];
+        for (int j = 0; j < user.Neff; j++) {
+                if(ceksama(user.db[j].nama, kicauandibalas.author)) {
+                    pembuatBalasan = user.db[j];
                     break;
                 }
         }
@@ -293,7 +215,7 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
             berteman = true;
         }
         if ((cek(kicauandibalas.jakunkicau, "Publik") || (cek(kicauandibalas.jakunkicau, "Privat") && berteman))) {
-            AddBalasan(&rootbalasan, idbalasan, newBalasan);
+            addBalasan(&rootbalasan, idbalasan, newBalasan);
             Word text;
             printf("Masukan balasan : ");
             text = bacakalimat();
@@ -313,12 +235,12 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
                 return;
             } else{
                 int largestValue = 0;
-                newBalasan.id = findLargestIdx(root(rootbalasan), largestValue) + 1;
+                newBalasan.id = findLargestIdx(root(rootbalasan), &largestValue) + 1;
                 newBalasan.text = text;
                 newBalasan.like = 0;
-                newBalasan.author = user->db[idx].nama;
+                newBalasan.author = user.db[idx].nama;
                 newBalasan.date = ctow(DateTimeToString(CurrentDatetime()));
-                newBalasan.jakunkicau = user->db[idx].jakun;
+                newBalasan.jakunkicau = user.db[idx].jakun;
                 printf("Selamat! balasan telah diterbitkan!\n");
                 printf("Detail balasan :\n");
                 displaykicauan(newBalasan);
@@ -331,27 +253,27 @@ void Balas(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpu
 }
 
 
-void Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree, Graf teman, int idkicau)
+void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree kumpulantree, Graf teman, int idkicau)
 {
     Pengguna currentPengguna;
-    if (!cek(*currentUser, ";;;")) {
+    if (!cek(currentUser, ";;;")) {
             printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
             return;
         }
-    for (int i = 0; i < user->Neff; i++) {
-        if (ceksama(user->db[i].nama, *currentUser)) {
-            currentPengguna = user->db[i];
+    for (int i = 0; i < user.Neff; i++) {
+        if (ceksama(user.db[i].nama, currentUser)) {
+            currentPengguna = user.db[i];
             break;
         }
     }
 
     List rootbalasan;
 
-    if(cektree(*kumpulantree, idkicau)){
-        rootbalasan = searchidxtree(*kumpulantree, idkicau);
+    if(cektree(kumpulantree, idkicau)){
+        rootbalasan = searchidxtree(kumpulantree, idkicau);
         Addresst p = rootbalasan;
         p = firstChild(p);
-        printtree(user,currentUser,teman, p, idkicau, 0);
+        printtree(user,currentPengguna,teman, p, idkicau, 0);
         
     }else{
         printf("id kicauan tidak ditemukan");
@@ -360,37 +282,37 @@ void Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kum
 }
 
 
-void Hapus_Balasan(UserDB *user,Word *currentUser,ListDinkicau *kicau,ListDintree *kumpulantree, int idkicau, int idbalasan)
+void Hapus_Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree kumpulantree, int idkicau, int idbalasan)
 {
     Pengguna currentPengguna;
     List rootbalasan;
-    boolean ada = false;
-    boolean berteman = false;
     
-    for (int i = 0; i < user->Neff; i++) {
-        if (ceksama(user->db[i].nama, *currentUser)) {
-            currentPengguna = user->db[i];
+    for (int i = 0; i < user.Neff; i++) {
+        if (ceksama(user.db[i].nama, currentUser)) {
+            currentPengguna = user.db[i];
             break;
         }
     }
-    if(cektree(*kumpulantree, idkicau)){
-        rootbalasan = searchidxtree(*kumpulantree, idkicau);
-        if (searchIdx(rootbalasan,idbalasan) == IDX_UNDEF){
-            print("Balasan tidak ditemukan\n");
+    if(cektree(kumpulantree, idkicau)){
+        rootbalasan = searchidxtree(kumpulantree, idkicau);
+        if (searchIdx(rootbalasan,idbalasan) == NULL){
+            printf("Balasan tidak ditemukan\n");
         }else{
             Addresst kc = searchIdx(rootbalasan,idbalasan);
             Kicau kicauandibalas = kc->value;
             Pengguna pembuatBalasan;
-            berteman = false;
-            for (int j = 0; j < user->Neff; j++) {
-                    if(ceksama(user->db[j].nama, kicauandibalas.author)) {
-                        pembuatBalasan = user->db[j];
+            for (int j = 0; j < user.Neff; j++) {
+                    if(ceksama(user.db[j].nama, kicauandibalas.author)) {
+                        pembuatBalasan = user.db[j];
                         break;
                     }
             }
             if(ceksama(pembuatBalasan.nama,currentPengguna.nama)){
                 deleteChild(&rootbalasan, idkicau);
                 printf("Balasan berhasil dihapus\n");
+                if (countValuesInTree(rootbalasan) == 0){
+
+                }
             } else{
                 printf("Hei, ini balasan punya siapa? Jangan dihapus ya!\n");
             }

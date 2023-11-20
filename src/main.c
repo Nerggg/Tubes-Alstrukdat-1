@@ -6,6 +6,7 @@
 #include "adt/kicauan.h"
 #include "adt/teman.h"
 #include "adt/utas.h"
+#include "adt/balasan.h"
 
 int main() {
 	Word opt, configfolder, currentUser;
@@ -13,11 +14,14 @@ int main() {
 	ListUtas utas;
 	ListDinkicau kicauan;
 	Graf teman;
+	ListDintree ltree;
 	int move;	
 	FILE *fptr;
-	int idkicau, indexParam;
+	int idkicau, indexParam, idbalasan;
+	ListStack sl;
 
 	CreateListDinkicau(&kicauan, 1);
+	CreateListDinStack(&sl, 20);
 
 	printlogo();
 	printf("\nSelamat datang di BurBir!\n");
@@ -118,7 +122,7 @@ int main() {
 					}
 				}
 			case 9:
-				kicau(&user, &kicauan, &currentUser);
+				kicau(&user, &kicauan, &currentUser, &ltree);
 				break;
 			case 10:
 				displayallkicauan(user, kicauan, teman, currentUser);	
@@ -150,6 +154,23 @@ int main() {
 				break;
 			case 17:
 				hapusteman(currentUser, &user, &teman);
+				break;
+			case 18:
+				Balas(user, currentUser, kicauan, ltree, teman, idkicau, idbalasan);
+				idkicau = wtoi(baca());
+				idbalasan = wtoi(baca());
+				break;
+			case 19:
+				Balasan(user, currentUser, kicauan, ltree, teman, idkicau);
+				idkicau = wtoi(baca());
+				break;
+			case 20:
+				Hapus_Balasan(user, currentUser, kicauan, ltree, idkicau, idbalasan);
+				idkicau = wtoi(baca());
+				idbalasan = wtoi(baca());
+				break;
+			case 21:
+				BUAT_DRAFT(&user,&currentUser, &kicauan,&sl );
 				break;
 			case -1:
 				printf("Perintah tidak ditemukan.\n");

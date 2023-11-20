@@ -2,6 +2,76 @@
 #include <stdlib.h>
 #include "kicauan.h"
 
+Addresst newNodet(Kicau val) {
+    Addresst p = (Addresst)malloc(sizeof(Tree));
+    if (p == NULL) {
+        // Handle memory allocation error
+        exit(1);
+    }
+    value(p) = val;
+    firstChild(p) = NULL;
+    nextSibling(p) = NULL;
+    return p;
+}
+
+void CreateListoftree(ListDintree *l, int capacity)
+{
+    BUFFERtr(*l) = (List *) malloc(capacity * sizeof(List));
+    CAPACITYTr(*l) = capacity;
+    NEFFtr(*l) = 0;
+}
+
+void dealocatelistoftree(ListDintree *l)
+{
+    free(BUFFERtr(*l));
+    CAPACITYTr(*l) = 0;
+    NEFFtr(*l) = 0;
+}
+
+void insertLasttree(ListDintree *l, List newtree)
+{
+    ELMTtr(*l, NEFFtr(*l)) = newtree;
+    NEFFtr(*l)++;
+}
+
+void deleteLasttree(ListDintree *l, List *lastree)
+/* Proses : Menghapus elemen terakhir list */
+/* I.S. List tidak kosong */
+/* F.S. val adalah nilai elemen terakhir l sebelum penghapusan, */
+/*      Banyaknya elemen list berkurang satu */
+/*      List l mungkin menjadi kosong */
+{
+    *lastree = ELMTtr(*l, NEFFtr(*l));
+    NEFFtr(*l)--;
+}
+
+List searchidxtree(ListDintree l, int id)
+{
+    int i;
+    List target;
+    for (i = 0; i < NEFFtr(l);i++){
+        if (l.buffer[i]->value.id == id){
+            target = l.buffer[i];
+        }
+    }
+    return target;
+}
+
+boolean cektree(ListDintree l, int id)
+{
+    int i;
+    for (i = 0; i < NEFFtr(l);i++){
+        if (i+1 == id){
+            return true;
+        }
+    }
+    return false;
+}
+
+void CreateTree(List *t) {
+    *t = NULL;
+}
+
 void CreateListDinkicau(ListDinkicau *l, int capacity)
 /* I.S. l sembarang, capacity > 0 */
 /* F.S. Terbentuk list dinamis l kosong dengan kapasitas capacity */
@@ -139,8 +209,10 @@ void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser, ListDintree *
     // printf("textnya %s\n", newKicauan.text.TabWord);
     kicauan->buffer[kicauan->nEff] = newKicauan;
     kicauan->nEff++;
-    List tree = newNodet(newKicauan);
-    insertLasttree(&ltree, tree);
+    
+    List tree;
+    CreateTree(&tree);
+    insertLasttree(ltree, tree);
     // Mencetak kicauan
     printf("Kicauan Anda berhasil ditambahkan!\n");
     displaykicauan(newKicauan);

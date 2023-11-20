@@ -168,27 +168,28 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 		l->nEff++;
 	}		
 }
-void configBalasan(UserDB user, ListDintree *ltree, List *tree, Word namafolder)
+void configBalasan(UserDB user, ListDintree *ltree, Word namafolder)
 {
-	FILE *fptr;
-	int i = 0;
-	char temp[50];
-	char akhir[] = "/draf.config";
-	Word location = concat(namafolder.TabWord, akhir);
-	fptr = fopen(location.TabWord, "r");
-	fgets(temp, sizeof(temp), fptr); // banyak kicauan yang memiliki balasan
-	int n = wtoi(ctow(temp)); 
-	ltree->nEff = n;
-	while (n != 0){
-		fgets(temp, sizeof(temp), fptr); // id kicauan yang memiliki balasanwtoi(ctow(temp))
-		ltree->buffer[n-1]->value.id = wtoi(ctow(temp));
-		Addresst p = ltree->buffer[n-1]->firstChild;
-		int j = countValuesInTree(p);
-		wtoi(ctow(temp)); // balasan yang dimiliki
-		j = wtoi(ctow(temp));
-		
-
-	}
+	// FILE *fptr;
+	// int i = 0;
+	// int jt = 0;
+	// char temp[50];
+	// char akhir[] = "/balasan.config";
+	// Word location = concat(namafolder.TabWord, akhir);
+	// fptr = fopen(location.TabWord, "r");
+	// int a;
+	// int n;
+	// ltree->nEff = n;
+	// for (a = 0; a < n; a++){
+	// 	if(countValuesInTree(ltree->buffer[a]->firstChild) != 0){
+	// 		jt += 1;
+	// 	}
+	// }
+	// fgets(temp, sizeof(temp), fptr); // banyak balasan yang dimiliki
+	// jt = wtoi(ctow(temp));
+	// while (n != 0){
+	
+	// }
 
 	
 }
@@ -201,7 +202,7 @@ void configdraft(UserDB user, ListStack *sl, Word namafolder)
 	char akhir[] = "/draf.config";
 	Word location = concat(namafolder.TabWord, akhir);
 	fptr = fopen(location.TabWord, "r");	
-	fgets(temp, sizeof(temp), fptr);
+	fgets(temp, sizeof(temp), fptr); // banyak stack
 	int n = wtoi(ctow(temp));
 	while (n != 0){
 		fgets(temp, sizeof(temp), fptr);
@@ -233,7 +234,7 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word
 	// printf("3 aman\n");
 }
 
-void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l,ListDintree *ltree,ListStack *sl, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
@@ -242,4 +243,7 @@ void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman
 	// printf("2 aman\n");	
 	utasconfig(utas, *l, namafolder);
 	// printf("3 aman\n");
+	configBalasan(*user, ltree, namafolder);
+	
+	configdraft(*user, sl, namafolder);
 }

@@ -1,8 +1,11 @@
 #ifndef DRAFTKICAU_H
 #define DRAFTKICAU_H
 
-#include <stdio.h>
+#include <stdlib.h>
 #include "kicauan.h"
+#include "../feat/operational.h"
+#include "../feat/misc.h"
+
 
 #define Nil -1
 #define MaxEl 100
@@ -33,17 +36,17 @@ void dealocateListStack(ListStack *l);
 void insertLastStack(ListStack *l, Stack S);
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S);
+void CreateEmptyStack(Stack *S);
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S);
+boolean IsEmptyStack(Stack S);
 
-boolean IsFull(Stack S);
+boolean IsFullStack(Stack S);
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, Kicau X);
+void PushKicau(Stack * S, Kicau X);
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, Kicau* X);
+void PopKicau(Stack * S, Kicau* X);
 
 void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl);
 void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *Sl);
