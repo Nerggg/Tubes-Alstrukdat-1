@@ -21,6 +21,7 @@ int main() {
 	ListStack sl;
 
 	CreateListDinkicau(&kicauan, 1);
+	CreateListoftree(&ltree, 1);
 	CreateListDinStack(&sl, 20);
 
 	printlogo();
@@ -34,7 +35,7 @@ int main() {
 		return 0;
 	}
 	fclose(fptr);
-	bacaconfig(&user, &utas, &kicauan, &teman, configfolder);
+	bacaconfig(&user, &utas, &kicauan, &teman ,&ltree , &sl, configfolder);
 	printf("\nFile konfigurasi berhasil dimuat! Selamat menggunakan aplikasi BurBir!\n");
 	printf("Ketik \';\' untuk melanjutkan\n\n");
 	bacakalimat();
@@ -156,7 +157,7 @@ int main() {
 				hapusteman(currentUser, &user, &teman);
 				break;
 			case 18:
-				Balas(user, currentUser, kicauan, ltree, teman, idkicau, idbalasan);
+				Balas(user, currentUser, kicauan, &ltree, teman, idkicau, idbalasan);
 				idkicau = wtoi(baca());
 				idbalasan = wtoi(baca());
 				break;
@@ -165,7 +166,7 @@ int main() {
 				idkicau = wtoi(baca());
 				break;
 			case 20:
-				Hapus_Balasan(user, currentUser, kicauan, ltree, idkicau, idbalasan);
+				Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, idbalasan);
 				idkicau = wtoi(baca());
 				idbalasan = wtoi(baca());
 				break;

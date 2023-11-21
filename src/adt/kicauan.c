@@ -34,6 +34,21 @@ void insertLasttree(ListDintree *l, List newtree)
     NEFFtr(*l)++;
 }
 
+void deleteAt(ListDintree *t, int idToDelete) {
+    int i;
+    for (i = 0; i < NEFFtr(*t); ++i) {
+        if (t->buffer[i]->value.id == idToDelete) {
+            // Element with matching ID found, remove it
+            for (int j = i; j < NEFFtr(*t) - 1; ++j) {
+                ELMTtr(*t, j) = ELMTtr(*t, j + 1);
+            }
+            NEFFtr(*t)--;
+            return;
+        }
+    }
+
+}
+
 void deleteLasttree(ListDintree *l, List *lastree)
 /* Proses : Menghapus elemen terakhir list */
 /* I.S. List tidak kosong */
@@ -43,6 +58,18 @@ void deleteLasttree(ListDintree *l, List *lastree)
 {
     *lastree = ELMTtr(*l, NEFFtr(*l));
     NEFFtr(*l)--;
+}
+
+void copylisttree(ListDintree lIn, ListDintree *lOut)
+{
+    int i;
+
+    /* ALGORITMA */
+    CreateListoftree(lOut, lIn.capacity);
+
+    for (i = 0; i < lIn.nEff; i++) {
+        ELMTtr(*lOut, i) = ELMTtr(lIn, i);
+    }
 }
 
 List searchidxtree(ListDintree l, int id)
@@ -209,10 +236,7 @@ void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser, ListDintree *
     // printf("textnya %s\n", newKicauan.text.TabWord);
     kicauan->buffer[kicauan->nEff] = newKicauan;
     kicauan->nEff++;
-    
-    List tree;
-    CreateTree(&tree);
-    insertLasttree(ltree, tree);
+
     // Mencetak kicauan
     printf("Kicauan Anda berhasil ditambahkan!\n");
     displaykicauan(newKicauan);

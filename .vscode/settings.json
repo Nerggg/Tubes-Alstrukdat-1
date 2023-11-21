@@ -22,6 +22,7 @@
         "matrix.h": "c",
         "pcolor.h": "c",
         "balasan.h": "c",
-        "draftkicau.h":"c"
+        "draftkicau.h": "c",
+        "vector": "c"
     }
 }

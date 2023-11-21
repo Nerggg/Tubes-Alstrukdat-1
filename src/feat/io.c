@@ -170,27 +170,25 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 }
 void configBalasan(UserDB user, ListDintree *ltree, Word namafolder)
 {
-	// FILE *fptr;
-	// int i = 0;
-	// int jt = 0;
-	// char temp[50];
-	// char akhir[] = "/balasan.config";
-	// Word location = concat(namafolder.TabWord, akhir);
-	// fptr = fopen(location.TabWord, "r");
-	// int a;
-	// int n;
-	// ltree->nEff = n;
-	// for (a = 0; a < n; a++){
-	// 	if(countValuesInTree(ltree->buffer[a]->firstChild) != 0){
-	// 		jt += 1;
-	// 	}
-	// }
-	// fgets(temp, sizeof(temp), fptr); // banyak balasan yang dimiliki
-	// jt = wtoi(ctow(temp));
-	// while (n != 0){
-	
-	// }
+	FILE *fptr;
+	int i = 0;
+	char temp[50];
+	char akhir[] = "/balasan.config";
+	Word location = concat(namafolder.TabWord, akhir);
+	fptr = fopen(location.TabWord, "r");
+	fgets(temp, sizeof(temp), fptr); // 
+	int n = wtoi(ctow(temp));
+	ltree->nEff = n;
+	while(n != 0){
+		fgets(temp, sizeof(temp), fptr);
+		ltree->buffer[i]->value.id = wtoi(ctow(temp));
+		fgets(temp, sizeof(temp), fptr);
+		Addresst p = p->firstChild;
+		int jmlhbalasan =  countValuesInTree(p);
+		jmlhbalasan = wtoi(ctow(temp));
+		for (int j = 0; j<jmlhbalasan;j++);
 
+	}
 	
 }
 
@@ -204,6 +202,7 @@ void configdraft(UserDB user, ListStack *sl, Word namafolder)
 	fptr = fopen(location.TabWord, "r");	
 	fgets(temp, sizeof(temp), fptr); // banyak stack
 	int n = wtoi(ctow(temp));
+	sl->nEff = n;
 	while (n != 0){
 		fgets(temp, sizeof(temp), fptr);
 		sl->buffer[i].author = ctow(temp);
@@ -223,7 +222,7 @@ void configdraft(UserDB user, ListStack *sl, Word namafolder)
 	
 }
 
-void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman,ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
@@ -232,6 +231,11 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Word
 	// printf("2 aman\n");	
 	utasconfig(utas, *l, namafolder);
 	// printf("3 aman\n");
+	configBalasan(*user,ltree,namafolder);
+
+	configdraft(*user, sl, namafolder);
+
+	
 }
 
 void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l,ListDintree *ltree,ListStack *sl, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya

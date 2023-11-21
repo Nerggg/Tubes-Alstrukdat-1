@@ -99,11 +99,11 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *
         boolean simpan = ceksama(text,ctow("SIMPAN"));
         Kicau newKicauan;
         int idx;
-            for(idx = 0; idx < user->Neff; idx++) {
-                if(ceksama(user->db[idx].nama, *currentUser)) {
-                    break;
-                }
+        for(idx = 0; idx < user->Neff; idx++) {
+            if(ceksama(user->db[idx].nama, *currentUser)) {
+                break;
             }
+        }
         if (terbit){
             if(kicau->capacity == kicau->nEff) {
                 ListDinkicau tempkicau;
@@ -192,9 +192,19 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             PopKicau(&stackpengguna, &kicauan);
             printf("Draf telah berhasil dihapus!\n");
         }else if(terbit){
+            if(kicau->capacity == kicau->nEff) {
+                ListDinkicau tempkicau;
+                copyListkicau(*kicau, &tempkicau);
+                dealocateListkicau(kicau);
+                CreateListDinkicau(kicau, tempkicau.capacity+1);
+                for (int i = 0; i < tempkicau.capacity; i++) {
+                    kicau->buffer[i] = tempkicau.buffer[i];
+                }
+            }
             PopKicau(&stackpengguna, &kicauan);
-            CreateListDinkicau(kicau, 100);
+            
             insertLastkicau(kicau, kicauan);
+            kicau->nEff++;
             // Mencetak kicauan
             printf("Kicauan Anda berhasil ditambahkan!\n");
             displaykicauan(kicauan);
@@ -211,14 +221,24 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             boolean simpan = ceksama(text,ctow("SIMPAN"));
             
             if(terbit){
-                CreateListDinkicau(kicau, 100);
+                if(kicau->capacity == kicau->nEff) {
+                ListDinkicau tempkicau;
+                copyListkicau(*kicau, &tempkicau);
+                dealocateListkicau(kicau);
+                CreateListDinkicau(kicau, tempkicau.capacity+1);
+                for (int i = 0; i < tempkicau.capacity; i++) {
+                    kicau->buffer[i] = tempkicau.buffer[i];
+                }
+            }
+                PopKicau(&stackpengguna, &kicauan);
                 insertLastkicau(kicau, kicauan);
+                kicau->nEff++;
                 // Mencetak kicauan
                 printf("Kicauan Anda berhasil ditambahkan!\n");
                 displaykicauan(kicauan);
-                PopKicau(&stackpengguna, &kicauan);
             }else if (simpan){
                 printf("Draf telah berhasil disimpan!\n");
+                return;
             }
         }else if (kembali){
             return;

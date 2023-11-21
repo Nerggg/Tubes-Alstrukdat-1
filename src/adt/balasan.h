@@ -22,10 +22,10 @@ void deleteChild(List *t, int id);
 
 void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int idkicau, int depth);
 
-void Balas(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree kumpulantree,Graf teman, int idkicau, int idbalasan);
+void Balas(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree *ltree,Graf teman, int idkicau, int idbalasan);
 
-void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree kumpulantree,Graf teman, int idkicau);
+void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree ltree,Graf teman, int idkicau);
 
-void Hapus_Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree kumpulantree, int idkicau, int idbalasan);
+void Hapus_Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree *ltree, int idkicau, int idbalasan);
 
 #endif

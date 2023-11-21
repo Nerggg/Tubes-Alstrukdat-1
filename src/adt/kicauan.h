@@ -79,7 +79,9 @@ typedef struct
 void CreateListoftree(ListDintree *l, int capacity);
 void dealocatelistoftree(ListDintree *l);
 void insertLasttree(ListDintree *l, List newtree);
+void deleteAt(ListDintree *t, int idToDelete) ;
 void deleteLasttree(ListDintree *l, List *lastree);
+void copylisttree(ListDintree lIn, ListDintree *lOut);
 List searchidxtree(ListDintree l, int id);
 boolean cektree(ListDintree l, int id);
 
