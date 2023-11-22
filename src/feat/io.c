@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void penggunaconfig(UserDB *user, Graf *teman, Graf *permintaanTeman, Word namafolder) {
+void penggunaconfig(UserDB *user, Graf *teman, prioqueuefren *permintaanTeman, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[280];
@@ -73,14 +73,6 @@ void penggunaconfig(UserDB *user, Graf *teman, Graf *permintaanTeman, Word namaf
 				idx++;
 			}
 		}
-	}
-
-	fgets(temp, sizeof(temp), fptr);
-	int banyakPermintaan = wtoi(ctow(temp));
-	for (int a = 0; a < banyakPermintaan; a++) {
-		for (int b = 0; b < user->Neff; b++) {
-			
-		}	
 	}
 
 	fclose(fptr);
@@ -215,7 +207,7 @@ void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word n
 		// printf("j nya %d\n", j);
 
 		for (int a = 0; a < j; a++) {
-			printf("BORDER\n");
+			// printf("BORDER\n");
 			fgets(temp, sizeof(temp), fptr);
 			int b = 0;
 			int length = 0;
@@ -233,8 +225,8 @@ void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word n
 			b++;
 			parent[length] = '\n';
 			parent[length+1] = '\0';
-			printf("parentnya %s\n", parent);
-			printf("lengthparent %d\n", length);
+			// printf("parentnya %s\n", parent);
+			// printf("lengthparent %d\n", length);
 			// printf("b nya %d\n", b);
 
 			int c = b;
@@ -251,8 +243,8 @@ void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word n
 			}
 			self[length] = '\n';
 			self[length+1] = '\0';
-			printf("selfnya %s\n", self);
-			printf("lengthself %d\n", length);
+			// printf("selfnya %s\n", self);
+			// printf("lengthself %d\n", length);
 			// printf("c-b nya %d\n", c-b-1);
 
 			int idxparent = wtoi(ctow(parent));
@@ -270,9 +262,9 @@ void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word n
 			tempkicau.like = 0;
 			tempkicau.id = idxself;
 
-			printf("textnya %s\n", tempkicau.text.TabWord);
-			printf("idx parentnya %d\n", idxparent);
-			printf("idx self %d\n", idxself);
+			// printf("textnya %s\n", tempkicau.text.TabWord);
+			// printf("idx parentnya %d\n", idxparent);
+			// printf("idx self %d\n", idxself);
 			addBalasan(&p, idxparent, tempkicau);
 		}
 		i++;
@@ -310,7 +302,7 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 	
 }
 
-void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Graf *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, permintaanTeman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
@@ -324,7 +316,7 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Graf
 	// draftconfig(*user, sl, namafolder);	
 }
 
-void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l,Graf *teman, Graf *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, permintaanTeman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek

@@ -8,8 +8,8 @@ int wtoi(Word kata) { // convert word to integer
 	if (kata.TabWord[0] == '-') {
 		minus = 1;
 	}
-	printf("yang masuk itu %s\n", kata.TabWord);
-	printf("dan lengthnya %d\n", kata.Length);
+	// printf("yang masuk itu %s\n", kata.TabWord);
+	// printf("dan lengthnya %d\n", kata.Length);
 	for (int i = 0 + minus; i < kata.Length; i++) {
 		if (kata.TabWord[i] == '0') {
 			temp = 0;
@@ -96,10 +96,10 @@ Word ctow(char huruf[]) { // convert array of char ke word
 		res.TabWord[i] = huruf[i];
 		i++;
 	}
-	printf("i pas keluar loop %d\n", i);
+	// printf("i pas keluar loop %d\n", i);
 	res.TabWord[i] = '\0';
 	res.Length = i-1;
-	printf("res lengthnya %d\n", res.Length);
+	// printf("res lengthnya %d\n", res.Length);
 	return res;
 }
 

@@ -17,19 +17,30 @@ int countValuesInTree(Addresst node) {
 }
 
 Addresst searchIdx(Addresst t, int idbalasan) {
-    if (t == NULL) {
-        return NULL;
+    boolean flag = false;
+    Addresst p = t;
+    int test = 0;
+    searchIdxRecrusion(&p, idbalasan, &flag, &test);
+    return p;
+}
+
+void searchIdxRecrusion(Addresst *t, int idbalasan, boolean *flag, int *test) {
+    // printf("test nya %d\n", *test);
+    *test = *test + 1;
+    while (*flag == false) {
+        if (value(*t).id == idbalasan) {
+            *flag = true;
+            break;
+        }
+        else {
+            if (nextSibling(*t) != NULL) {
+                searchIdxRecrusion(&(nextSibling(*t)), idbalasan, flag, test);
+            }
+            if (firstChild(*t) != NULL) {
+                searchIdxRecrusion(&(firstChild(*t)), idbalasan, flag, test);
+            }
+        }
     }
-    if (value(t).id == idbalasan) {
-        return t;
-    }
-    if (nextSibling(t) == NULL) {
-        t = firstChild(t);
-    }
-    while (nextSibling(t) != NULL) {
-        return searchIdx(nextSibling(t), idbalasan);
-    }
-    return NULL;
 }
 
 void addBalasan(Addresst *t, int id, Kicau kicauan){
@@ -47,9 +58,11 @@ void addBalasan(Addresst *t, int id, Kicau kicauan){
             nextSibling(current) = p;
         }   
     }else{
-        Addresst q = firstChild(*t);
+        Addresst q = *t;
         current = searchIdx(q, id);
+        // printf("id yang direturn dari search itu %d\n", value(current).id);
         if (firstChild(current) == NULL){
+            // printf("id yg ada anaknya itu %d\n", value(current).id);
             firstChild(current) = p;
         }else{
             current = firstChild(current);
@@ -58,11 +71,6 @@ void addBalasan(Addresst *t, int id, Kicau kicauan){
             }
             nextSibling(current) = p;
         }
-    }
-    Addresst tes = firstChild(*t);
-    while (tes != NULL) {
-        printf("id yang ada di parent itu %d\n", value(tes).id);
-        tes = nextSibling(tes);
     }
 }
 
@@ -98,10 +106,11 @@ int findLargestIdx(Addresst t, int *largestValue) {
     return currentIndex;
 }
 
-void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int idkicau, int depth)
+void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int idkicau, int *depth)
 {  
-    if (p == NULL)
+    if (p == NULL) {
         return;
+    }
 
     // Print the current node
     boolean berteman;
@@ -120,34 +129,40 @@ void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int 
             berteman = true;
         }
     if ((cek(p->value.jakunkicau, "Publik") || (cek(p->value.jakunkicau, "Privat") && berteman))) {
-        printf("%*s| ID = %d\n", depth * 3, "", p->value.id);
-        printf("%*s| ", depth * 3, "" );
+        printf("%*s| ID = %d\n", *depth * 3, "", p->value.id);
+        printf("%*s| ", *depth * 3, "" );
         for (int i = 0; i < p->value.author.Length; i++) {
             printf("%c", p->value.author.TabWord[i]);
         }
         printf("\n");
-        printf("%*s| ", depth * 3, "" );
+        printf("%*s| ", *depth * 3, "" );
         for (int i = 0; i < p->value.date.Length; i++) {
             printf("%c", p->value.date.TabWord[i]);
         }
         printf("\n");
-        printf("%*s| ", depth * 3, "" );
+        printf("%*s| ", *depth * 3, "" );
         for (int i = 0; i < p->value.text.Length; i++) {
             printf("%c", p->value.text.TabWord[i]);
         } 
         printf("\n");
     }else{
-        printf("%*s| ID = %d\n", depth * 3, "", p->value.id);
-        printf("%*s| PRIVAT\n", depth * 3, "");
-        printf("%*s| PRIVAT\n", depth * 3, "");
-        printf("%*s| PRIVAT\n", depth * 3, "");
+        printf("%*s| ID = %d\n", *depth * 3, "", p->value.id);
+        printf("%*s| PRIVAT\n", *depth * 3, "");
+        printf("%*s| PRIVAT\n", *depth * 3, "");
+        printf("%*s| PRIVAT\n", *depth * 3, "");
     }
     // Recursively print the children and siblings
+    // printf("parentnya memiliki id %d\n", p->value.id);
+    if (p->firstChild == NULL) {
+        // printf("dan dia mandul\n");
+    }
+    // printf("dan isinya %s", p->value.text.TabWord);
     if (p->firstChild != NULL) {
-        printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth++);
+        // printf("print dibawah kesini\n");
+        printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth+=2);
     }
     else {
-        printtree(user,currentPengguna,teman,p->nextSibling,idkicau, depth++);
+        printtree(user,currentPengguna,teman,p->nextSibling,idkicau, depth);
     }
 }
 
@@ -307,7 +322,8 @@ void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree ltree, 
         rootbalasan = searchidxtree(ltree, idkicau);
         Addresst p = rootbalasan;
         p = firstChild(p);
-        printtree(user,currentPengguna,teman, p, idkicau, 1);
+        int depth = 1;
+        printtree(user,currentPengguna,teman, p, idkicau, &depth);
         
     }else{
         printf("Id kicauan tidak ditemukan\n");
