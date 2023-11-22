@@ -12,13 +12,13 @@
 
 int countValuesInTree(Addresst node);
 
-Addresst searchIdx(List t, int idbalasan);
+Addresst searchIdx(Addresst t, int idbalasan);
 
-void addBalasan(List *t, int id,Kicau kicauan);
+void addBalasan(Addresst *t, int id,Kicau kicauan);
 
-int findLargestIdx(List t, int *largestValue);
+int findLargestIdx(Addresst t, int *largestValue);
 
-void deleteChild(List *t, int id);
+void deleteChild(Addresst *t, int id);
 
 void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int idkicau, int depth);
 

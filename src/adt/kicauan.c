@@ -16,7 +16,7 @@ Addresst newNodet(Kicau val) {
 
 void CreateListoftree(ListDintree *l, int capacity)
 {
-    BUFFERtr(*l) = (List *) malloc(capacity * sizeof(List));
+    BUFFERtr(*l) = (Addresst *) malloc(capacity * sizeof(Tree));
     CAPACITYTr(*l) = capacity;
     NEFFtr(*l) = 0;
 }
@@ -28,7 +28,7 @@ void dealocatelistoftree(ListDintree *l)
     NEFFtr(*l) = 0;
 }
 
-void insertLasttree(ListDintree *l, List newtree)
+void insertLasttree(ListDintree *l, Addresst newtree)
 {
     ELMTtr(*l, NEFFtr(*l)) = newtree;
     NEFFtr(*l)++;
@@ -49,12 +49,12 @@ void deleteAt(ListDintree *t, int idToDelete) {
 
 }
 
-void deleteLasttree(ListDintree *l, List *lastree)
+void deleteLasttree(ListDintree *l, Addresst *lastree)
 /* Proses : Menghapus elemen terakhir list */
-/* I.S. List tidak kosong */
+/* I.S. Addresst tidak kosong */
 /* F.S. val adalah nilai elemen terakhir l sebelum penghapusan, */
 /*      Banyaknya elemen list berkurang satu */
-/*      List l mungkin menjadi kosong */
+/*      Addresst l mungkin menjadi kosong */
 {
     *lastree = ELMTtr(*l, NEFFtr(*l));
     NEFFtr(*l)--;
@@ -72,10 +72,10 @@ void copylisttree(ListDintree lIn, ListDintree *lOut)
     }
 }
 
-List searchidxtree(ListDintree l, int id)
+Addresst searchidxtree(ListDintree l, int id)
 {
     int i;
-    List target;
+    Addresst target;
     for (i = 0; i < NEFFtr(l);i++){
         if (l.buffer[i]->value.id == id){
             target = l.buffer[i];
@@ -88,14 +88,14 @@ boolean cektree(ListDintree l, int id)
 {
     int i;
     for (i = 0; i < NEFFtr(l);i++){
-        if (i+1 == id){
+        if (l.buffer[i]->value.id == id){
             return true;
         }
     }
     return false;
 }
 
-void CreateTree(List *t) {
+void CreateTree(Addresst *t) {
     *t = NULL;
 }
 

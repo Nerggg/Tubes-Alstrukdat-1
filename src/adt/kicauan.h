@@ -18,23 +18,6 @@ typedef struct {
 	Word jakunkicau;
 } Kicau;
 
-typedef struct node* Addresst;
-typedef  struct node
-{
-    Kicau value; // nilai node
-    Addresst firstChild; // pointer ke anak.
-    Addresst nextSibling; // pointer ke saudara.
-} Tree;
-
-#define value(p) (p)->value
-#define firstChild(p) (p)->firstChild
-#define nextSibling(p) (p)->nextSibling
-#define root(t) (t)
-
-Addresst newNodet(Kicau val);
-
-typedef Addresst List;
-
 typedef struct
 {
     Kicau *buffer; /* memori tempat penyimpan elemen (container) */
@@ -62,9 +45,24 @@ typedef struct
 #define IDX_UNDEF (-1)
 #define FIRST(l) (l)
 
+typedef struct node* Addresst;
+typedef struct node
+{
+    Kicau value; // nilai node
+    Addresst firstChild; // pointer ke anak.
+    Addresst nextSibling; // pointer ke saudara.
+} Tree;
+
+#define value(p) (p)->value
+#define firstChild(p) (p)->firstChild
+#define nextSibling(p) (p)->nextSibling
+#define root(t) (t)
+
+Addresst newNodet(Kicau val);
+
 typedef struct
 {
-    List *buffer; /* memori tempat penyimpan elemen (container) */
+    Addresst *buffer; /* memori tempat penyimpan elemen (container) */
     int nEff;       /* >=0, banyaknya elemen efektif */
     int capacity;   /* ukuran elemen */
 } ListDintree;
@@ -78,14 +76,13 @@ typedef struct
 
 void CreateListoftree(ListDintree *l, int capacity);
 void dealocatelistoftree(ListDintree *l);
-void insertLasttree(ListDintree *l, List newtree);
+void insertLasttree(ListDintree *l, Addresst newtree);
 void deleteAt(ListDintree *t, int idToDelete) ;
-void deleteLasttree(ListDintree *l, List *lastree);
+void deleteLasttree(ListDintree *l, Addresst *lastree);
 void copylisttree(ListDintree lIn, ListDintree *lOut);
-List searchidxtree(ListDintree l, int id);
+Addresst searchidxtree(ListDintree l, int id);
 boolean cektree(ListDintree l, int id);
-
-void CreateTree(List *t);
+void CreateTree(Addresst *t);
 
 void CreateListDinkicau(ListDinkicau *l, int capacity);
 void dealocateListkicau(ListDinkicau *l);

@@ -4,8 +4,13 @@
 #include "operational.h"
 
 int wtoi(Word kata) { // convert word to integer
-	int res = 0, temp;
-	for (int i = 0; i < kata.Length; i++) {
+	int res = 0, temp, minus = 0;
+	if (kata.TabWord[0] == '-') {
+		minus = 1;
+	}
+	printf("yang masuk itu %s\n", kata.TabWord);
+	printf("dan lengthnya %d\n", kata.Length);
+	for (int i = 0 + minus; i < kata.Length; i++) {
 		if (kata.TabWord[i] == '0') {
 			temp = 0;
 		}
@@ -38,7 +43,13 @@ int wtoi(Word kata) { // convert word to integer
 		}
 		res = res * 10 + temp;
 	}
-	return res;
+	if (minus) {
+		// printf("minusnya %d\n", res*-1);
+		return -1 * res;
+	}
+	else {
+		return res;
+	}
 }
 
 int ctoi(char karakter) { // convert satu char to integer
@@ -81,11 +92,14 @@ Word ctow(char huruf[]) { // convert array of char ke word
 	Word res;
 	int i = 0;
 	while (huruf[i] != '\0') {
+		// printf("char yg muncul %c\n dan i nya %d\n", huruf[i], i);
 		res.TabWord[i] = huruf[i];
 		i++;
 	}
+	printf("i pas keluar loop %d\n", i);
 	res.TabWord[i] = '\0';
 	res.Length = i-1;
+	printf("res lengthnya %d\n", res.Length);
 	return res;
 }
 

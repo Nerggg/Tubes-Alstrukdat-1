@@ -16,46 +16,33 @@ void daftarteman(Word currentUser, UserDB *listAkun, Graf teman)
             }
         }
 
-        ListGraf l;
-        CreateListGraf(&l);
-        int i = 0;
-        boolean found = false;
-        int accountID;
-        while (i < listAkun->Neff && !found)
-        {
-            if (ceksama(listAkun->db[i].nama, akun.nama))
-            {
-                accountID = i;
-                found = true;
+        int jlhteman = 0;
+        for (int i = 0; i < listAkun->Neff; i++) {
+            if (ceksama(currentUser, listAkun->db[i].nama)) {
+                continue;
             }
-            else
-            {
-                i++;
+            if (cekteman(akun, listAkun->db[i], listAkun, teman)) {
+                jlhteman++;
             }
         }
-        getOne(teman, accountID, &l);
-        int jlhteman = listEffGraf(l) - 1;
-        if (jlhteman == 0)
-        {
-            printf("%s belum mempunyai teman\n", akun.nama.TabWord);
+
+        if (jlhteman == 0) {
+            printf("%s belum memiliki teman.\n", currentUser.TabWord);
         }
-        else
-        {
-            PrintWord(akun.nama);
-            printf(" memiliki %d teman\n", jlhteman);
+        else {
+            PrintWord(currentUser);
+            printf(" memiliki %d teman.\n", jlhteman);
             printf("Daftar teman ");
-            PrintWord(akun.nama);
-            printf("\n");
-            for (int j = 0; j < CAPACITYGRAF; j++)
-            {
-                if (ceksama(currentUser, listAkun->db[j].nama)) {
-                    continue;
+            PrintWord(currentUser);
+            printf(":\n");
+                for (int i = 0; i < listAkun->Neff; i++) {
+                    if (ceksama(currentUser, listAkun->db[i].nama)) {
+                        continue;
+                    }
+                    if (cekteman(akun, listAkun->db[i], listAkun, teman)) {
+                        printf("| %s", listAkun->db[i].nama.TabWord);
+                    }
                 }
-                if (ELMTLISTGRAF(l, j) == 1)
-                {
-                    printf("| %s\n", listAkun->db[j].nama.TabWord);
-                }
-            }
         }
     }
     else

@@ -17,7 +17,7 @@ int main() {
 	ListDintree ltree;
 	int move;	
 	FILE *fptr;
-	int idkicau, indexParam, idbalasan;
+	int idkicau, indexParam;
 	ListStack sl;
 
 	CreateListDinkicau(&kicauan, 1);
@@ -155,23 +155,6 @@ int main() {
 				break;
 			case 17:
 				hapusteman(currentUser, &user, &teman);
-				break;
-			case 18:
-				Balas(user, currentUser, kicauan, &ltree, teman, idkicau, idbalasan);
-				idkicau = wtoi(baca());
-				idbalasan = wtoi(baca());
-				break;
-			case 19:
-				Balasan(user, currentUser, kicauan, ltree, teman, idkicau);
-				idkicau = wtoi(baca());
-				break;
-			case 20:
-				Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, idbalasan);
-				idkicau = wtoi(baca());
-				idbalasan = wtoi(baca());
-				break;
-			case 21:
-				BUAT_DRAFT(&user,&currentUser, &kicauan,&sl );
 				break;
 			case -1:
 				printf("Perintah tidak ditemukan.\n");

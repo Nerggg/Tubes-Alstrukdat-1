@@ -16,35 +16,27 @@ int countValuesInTree(Addresst node) {
     return count;
 }
 
-
-
-Addresst searchIdx(List t, int idbalasan) {
-    Addresst root = t;
-    root = firstChild(root);
-    if (root == NULL) {
+Addresst searchIdx(Addresst t, int idbalasan) {
+    if (t == NULL) {
         return NULL;
     }
-
-    // Cek apakah nilai pada node saat ini sama dengan targetValue
-    if (value(root).id == idbalasan) {
-        return root; // Jika sama, kembalikan alamat node
+    if (value(t).id == idbalasan) {
+        return t;
     }
-
-    // Cari di anak pertama dan saudara berikutnya
-    Addresst childAddress = searchIdx(firstChild(root), idbalasan);
-    if (childAddress != NULL) {
-        return childAddress; // Jika ditemukan di anak pertama, kembalikan alamat node
+    if (nextSibling(t) == NULL) {
+        t = firstChild(t);
     }
-
-    Addresst siblingAddress = searchIdx(nextSibling(root), idbalasan);
-    return siblingAddress; // Kembalikan alamat node, mungkin NULL jika tidak ditemukan
+    while (nextSibling(t) != NULL) {
+        return searchIdx(nextSibling(t), idbalasan);
+    }
+    return NULL;
 }
 
-void addBalasan(List *t, int id, Kicau kicauan){
+void addBalasan(Addresst *t, int id, Kicau kicauan){
     Addresst p = newNodet(kicauan);
     Addresst current;
     if (id == -1){
-        Addresst current = *t;
+        current = *t;
         if (firstChild(current) == NULL){
             firstChild(current) = p;
         }else{
@@ -53,9 +45,10 @@ void addBalasan(List *t, int id, Kicau kicauan){
                 current = nextSibling(current);
             }
             nextSibling(current) = p;
-        }
+        }   
     }else{
-        current = searchIdx(*t, id);
+        Addresst q = firstChild(*t);
+        current = searchIdx(q, id);
         if (firstChild(current) == NULL){
             firstChild(current) = p;
         }else{
@@ -66,14 +59,19 @@ void addBalasan(List *t, int id, Kicau kicauan){
             nextSibling(current) = p;
         }
     }
+    Addresst tes = firstChild(*t);
+    while (tes != NULL) {
+        printf("id yang ada di parent itu %d\n", value(tes).id);
+        tes = nextSibling(tes);
+    }
 }
 
-void deleteChild(List *t, int id) {
+void deleteChild(Addresst *t, int id) {
    Addresst p = searchIdx(*t, id);
    firstChild(p) = NULL;
    p = nextSibling(p);
 }
-int findLargestIdx(List t, int *largestValue) {
+int findLargestIdx(Addresst t, int *largestValue) {
     Addresst root = t;
     root = firstChild(root);
     if (root == NULL) {
@@ -137,6 +135,7 @@ void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int 
         for (int i = 0; i < p->value.text.Length; i++) {
             printf("%c", p->value.text.TabWord[i]);
         } 
+        printf("\n");
     }else{
         printf("%*s| ID = %d\n", depth * 3, "", p->value.id);
         printf("%*s| PRIVAT\n", depth * 3, "");
@@ -144,15 +143,18 @@ void printtree(UserDB user,Pengguna currentPengguna,Graf teman, Addresst p, int 
         printf("%*s| PRIVAT\n", depth * 3, "");
     }
     // Recursively print the children and siblings
-    printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth += 1 );
-    printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth );
-
+    if (p->firstChild != NULL) {
+        printtree(user,currentPengguna,teman,p->firstChild,idkicau, depth++);
+    }
+    else {
+        printtree(user,currentPengguna,teman,p->nextSibling,idkicau, depth++);
+    }
 }
 
 void Balas(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree *ltree,Graf teman, int idkicau, int idbalasan)
 {
     Kicau newBalasan;
-    List rootbalasan;
+    Addresst rootbalasan;
     boolean berteman = false;
     Pengguna currentPengguna;
     Pengguna pembuatKicau;
@@ -211,7 +213,7 @@ void Balas(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree *ltree,Gr
                 }
             }
             Kicau newBalas = kicau.buffer[idx]; 
-            List tree;
+            Addresst tree;
             CreateTree(&tree);
             tree->value = newBalas;
             insertLasttree(ltree, tree);   
@@ -280,7 +282,7 @@ void Balas(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree *ltree,Gr
 void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree ltree, Graf teman, int idkicau)
 {
     Pengguna currentPengguna;
-    if (!cek(currentUser, ";;;")) {
+    if (cek(currentUser, ";;;")) {
             printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");
             return;
         }
@@ -291,16 +293,24 @@ void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree ltree, 
         }
     }
 
-    List rootbalasan;
+    Addresst rootbalasan;
+    int idxkicau;
 
     if(cektree(ltree, idkicau)){
+        for (int i = 0; i < kicau.nEff; i++) {
+            if (kicau.buffer[i].id == idkicau) {
+                idxkicau = i;
+                break;
+            } 
+        }
+        displaykicauan(kicau.buffer[idxkicau]);
         rootbalasan = searchidxtree(ltree, idkicau);
         Addresst p = rootbalasan;
         p = firstChild(p);
-        printtree(user,currentPengguna,teman, p, idkicau, 0);
+        printtree(user,currentPengguna,teman, p, idkicau, 1);
         
     }else{
-        printf("id kicauan tidak ditemukan");
+        printf("Id kicauan tidak ditemukan\n");
         return;
     }
 }
@@ -309,7 +319,7 @@ void Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree ltree, 
 void Hapus_Balasan(UserDB user,Word currentUser,ListDinkicau kicau,ListDintree *ltree, int idkicau, int idbalasan)
 {
     Pengguna currentPengguna;
-    List rootbalasan;
+    Addresst rootbalasan;
     
     for (int i = 0; i < user.Neff; i++) {
         if (ceksama(user.db[i].nama, currentUser)) {

@@ -23,6 +23,10 @@
         "pcolor.h": "c",
         "balasan.h": "c",
         "draftkicau.h": "c",
+<<<<<<< Updated upstream
         "vector": "c"
+=======
+        "draftkicauan.h": "c"
+>>>>>>> Stashed changes
     }
 }
