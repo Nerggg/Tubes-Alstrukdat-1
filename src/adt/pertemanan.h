@@ -7,7 +7,7 @@
 #include "prioqueue.h"
 #include "pengguna.h"
 
-void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q);
+void tambahteman(Word currentUser, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q);
 
 void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, prioqueuefren *Q);
 

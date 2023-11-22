@@ -5,7 +5,9 @@
 #include "feat/operational.h"
 #include "adt/kicauan.h"
 #include "adt/teman.h"
+#include "adt/pertemanan.h"
 #include "adt/utas.h"
+#include "adt/prioqueue.h"
 #include "adt/balasan.h"
 
 int main() {
@@ -19,9 +21,11 @@ int main() {
 	FILE *fptr;
 	int idkicau, indexParam;
 	ListStack sl;
+	prioqueuefren permintaanTeman;
 
 	CreateListDinkicau(&kicauan, 1);
 	CreateListoftree(&ltree, 1);
+	MakeEmptyprio(&permintaanTeman, 1);
 	CreateListDinStack(&sl, 20);
 
 	printlogo();
@@ -35,7 +39,7 @@ int main() {
 		return 0;
 	}
 	fclose(fptr);
-	bacaconfig(&user, &utas, &kicauan, &teman ,&ltree , &sl, configfolder);
+	bacaconfig(&user, &utas, &kicauan, &teman, &permintaanTeman, &ltree , &sl, configfolder);
 	printf("\nFile konfigurasi berhasil dimuat! Selamat menggunakan aplikasi BurBir!\n");
 	printf("Ketik \';\' untuk melanjutkan\n\n");
 	bacakalimat();
@@ -156,6 +160,14 @@ int main() {
 			case 17:
 				hapusteman(currentUser, &user, &teman);
 				break;
+			case 18:
+				Pengguna akunlogin;
+				for (int a = 0; a < user.Neff; a++) {
+					if (ceksama(currentUser, user.db[a].nama)) {
+						akunlogin = user.db[a];
+					}
+				}
+				tambahteman(currentUser, akunlogin, &user, teman, &permintaanTeman);
 			case -1:
 				printf("Perintah tidak ditemukan.\n");
 				break;

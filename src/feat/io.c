@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
+void penggunaconfig(UserDB *user, Graf *teman, Graf *permintaanTeman, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[280];
@@ -73,6 +73,14 @@ void penggunaconfig(UserDB *user, Graf *teman, Word namafolder) {
 				idx++;
 			}
 		}
+	}
+
+	fgets(temp, sizeof(temp), fptr);
+	int banyakPermintaan = wtoi(ctow(temp));
+	for (int a = 0; a < banyakPermintaan; a++) {
+		for (int b = 0; b < user->Neff; b++) {
+			
+		}	
 	}
 
 	fclose(fptr);
@@ -302,10 +310,10 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 	
 }
 
-void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman,ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, Graf *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
-	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
+	penggunaconfig(user, teman, permintaanTeman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
 	// printf("1 aman\n");
 	kicauanconfig(*user, l, namafolder);	
 	// printf("2 aman\n");	
@@ -316,10 +324,10 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman,ListD
 	// draftconfig(*user, sl, namafolder);	
 }
 
-void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l,ListDintree *ltree,ListStack *sl, Graf *teman, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l,Graf *teman, Graf *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
-	penggunaconfig(user, teman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
+	penggunaconfig(user, teman, permintaanTeman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
 	// printf("1 aman\n");
 	kicauanconfig(*user, l, namafolder);	
 	// printf("2 aman\n");	

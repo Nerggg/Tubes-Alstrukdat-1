@@ -2,9 +2,11 @@
 #include "prioqueue.h"
 #include <stdio.h>
 #include "../feat/misc.h"
+#include "../feat/operational.h"
 
-void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q){
+void tambahteman(Word currentUser, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q){
     prioqueuefren quser, qsisa;
+    boolean login = !cek(currentUser, ";;;");
     if(login)
     {
         int idAkun;
