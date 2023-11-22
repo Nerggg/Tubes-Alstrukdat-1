@@ -25,5 +25,4 @@ int main (){
     LIHAT_DRAFT(&user, &currentUser,&kicauan,&sl);
     BUAT_DRAFT(&user, &currentUser,&kicauan,&sl);
     LIHAT_DRAFT(&user, &currentUser,&kicauan,&sl);
-    BUAT_DRAFT(&user, &currentUser,&kicauan,&sl);
 }

@@ -282,17 +282,30 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 	fptr = fopen(location.TabWord, "r");	
 	fgets(temp, sizeof(temp), fptr); // banyak stack
 	int n = wtoi(ctow(temp));
+	// printf("%d", n);
 	sl->nEff = n;
 	while (n != 0){
 		fgets(temp, sizeof(temp), fptr);
-		sl->buffer[i].author = ctow(temp);
-		fgets(temp, sizeof(temp), fptr);
-		int idx = sl->buffer[i].Nstack -1;
-		while (idx >= 0){
+		int b = 0;
+		while(temp[b] != '\n'){
+			b++;
+		}
+		int lengthc = b-2;
+		char author [lengthc];
+		for (int j = 0; j < lengthc; j++){
+			author[j] = temp[j];
+		}
+		// print("%s", author);
+		sl->buffer[i].author = ctow(author); // nama pemilik draft
+		int idx = cotw(temp[b-1]); // banyaknya stack
+		// print("%d", idx);
+		sl->buffer[i].Nstack = idx;
+		while (idx != 0){
+			fgets(temp, sizeof(temp), fptr);
 			sl->buffer[i].T[idx].text = ctow(temp);
+			// printf("%s", temp);
 			fgets(temp, sizeof(temp), fptr);
 			sl->buffer[i].T[idx].date = ctow(temp);
-			fgets(temp, sizeof(temp), fptr);
 			idx--;
 		}
 		i++;

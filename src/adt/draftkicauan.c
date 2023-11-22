@@ -139,6 +139,7 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *
             PushKicau(&stackpengguna, newKicauan);
             printf("Draf telah berhasil disimpan!\n");
         }else if(hapus){
+            printf("masukan salah!\n");
             return;
         }
     }
@@ -191,6 +192,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
         if(hapus){
             PopKicau(&stackpengguna, &kicauan);
             printf("Draf telah berhasil dihapus!\n");
+            return;
         }else if(terbit){
             if(kicau->capacity == kicau->nEff) {
                 ListDinkicau tempkicau;
@@ -208,6 +210,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             // Mencetak kicauan
             printf("Kicauan Anda berhasil ditambahkan!\n");
             displaykicauan(kicauan);
+            return;
         }else if(ubah){
             printf("Masukan draft yang baru: \n");
             text = bacakalimat();
@@ -222,14 +225,14 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             
             if(terbit){
                 if(kicau->capacity == kicau->nEff) {
-                ListDinkicau tempkicau;
-                copyListkicau(*kicau, &tempkicau);
-                dealocateListkicau(kicau);
-                CreateListDinkicau(kicau, tempkicau.capacity+1);
-                for (int i = 0; i < tempkicau.capacity; i++) {
-                    kicau->buffer[i] = tempkicau.buffer[i];
+                    ListDinkicau tempkicau;
+                    copyListkicau(*kicau, &tempkicau);
+                    dealocateListkicau(kicau);
+                    CreateListDinkicau(kicau, tempkicau.capacity+1);
+                    for (int i = 0; i < tempkicau.capacity; i++) {
+                        kicau->buffer[i] = tempkicau.buffer[i];
+                    }
                 }
-            }
                 PopKicau(&stackpengguna, &kicauan);
                 insertLastkicau(kicau, kicauan);
                 kicau->nEff++;
@@ -239,8 +242,18 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
             }else if (simpan){
                 printf("Draf telah berhasil disimpan!\n");
                 return;
+            }else if (hapus){
+                PopKicau(&stackpengguna, &kicauan);
+                printf("Draf telah berhasil dihapus!\n");
+                return;
+            }else{
+                printf("masukan salah!\n");
+                return;
             }
         }else if (kembali){
+            return;
+        }else{
+            printf("masukan salah!\n");
             return;
         }
     }
