@@ -310,7 +310,6 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 		}
 		i++;
 		n--;
-		sl->nEff++; 
 	}
 	
 }
