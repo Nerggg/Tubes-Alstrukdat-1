@@ -57,6 +57,15 @@ void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueu
         for (int j = 0; j < 5; j++) {
             fprintf(file, "%c %c %c %c %c %c %c %c %c %c\n", user->db[i].PP.mem[j][0], user->db[i].PP.mem[j][1], user->db[i].PP.mem[j][2], user->db[i].PP.mem[j][3], user->db[i].PP.mem[j][4], user->db[i].PP.mem[j][5], user->db[i].PP.mem[j][6], user->db[i].PP.mem[j][7], user->db[i].PP.mem[j][8], user->db[i].PP.mem[j][9]);
         }
+
+        for (int j = 0; j < user->Neff; j++) {
+            int k;
+            for (k = 0; k < user->Neff-1; k++) {
+                fprintf(file, "%d ", teman->mem[j][k]);
+            }
+            fprintf(file, "%d", teman->mem[j][k]);
+            fprintf(file, "\n");
+        }
     }
     fclose(file);
 

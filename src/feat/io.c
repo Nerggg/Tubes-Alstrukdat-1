@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void penggunaconfig(UserDB *user, Graf *teman, prioqueuefren *permintaanTeman, Word namafolder) {
+void penggunaconfig(UserDB *user, Graf *pertemanan, prioqueuefren *permintaanTeman, Word namafolder) {
 	FILE *fptr;
 	int i = 0;
 	char temp[280];
@@ -69,10 +69,53 @@ void penggunaconfig(UserDB *user, Graf *teman, prioqueuefren *permintaanTeman, W
 				b--;
 			}
 			else {
-				teman->mem[a][b] = ctoi(temp[idx]);
+				pertemanan->mem[a][b] = ctoi(temp[idx]);
 				idx++;
 			}
 		}
+	}
+
+	fgets(temp, sizeof(temp), fptr);
+	int jlhPermintaanTeman = wtoi(ctow(temp));
+	DeAlokasiprio(permintaanTeman);
+	MakeEmptyprio(permintaanTeman, jlhPermintaanTeman);
+
+	char *tempAngka = malloc(sizeof(char) * 2);
+	for (int a = 0; a < jlhPermintaanTeman; a++) {
+		teman tempTeman;
+		free(tempAngka);
+		tempAngka = malloc(sizeof(char) * 2);
+		int pjgAngka = 0;
+		int b = 0;
+		int indicator = 0; // utk nentuin masukin angkanya kemana
+		fgets(temp, sizeof(temp), fptr);
+		while (temp[b] != '\n') {
+			if (temp[b] == ' ') {
+				tempAngka[pjgAngka+1] = '\0';
+				// printf("temp angkanya %s\n", tempAngka);
+				pjgAngka = 0;
+				if (indicator == 0) {
+					tempTeman.IDpengirim = wtoi(ctow(tempAngka));
+					indicator = 1;
+				}
+				else if (indicator == 1) {
+					tempTeman.IDpenerima = wtoi(ctow(tempAngka));
+				}
+				free(tempAngka);
+				tempAngka = malloc(sizeof(char) * 2);
+			}
+			else {
+				tempAngka[pjgAngka] = temp[b];
+				pjgAngka++;
+			}
+			b++;
+		}
+		tempAngka[pjgAngka+1] = '\0';
+		// printf("temp angkanya %s\n", tempAngka);
+		tempTeman.Jumlahteman = wtoi(ctow(tempAngka));
+		Enqueueprio(permintaanTeman, tempTeman);
+		// printf("ini hasilnya\n");
+		// PrintPrioQueue(*permintaanTeman, *user);
 	}
 
 	fclose(fptr);

@@ -2,11 +2,19 @@
 #include "prioqueue.h"
 #include <stdio.h>
 #include "../feat/misc.h"
+#include "../feat/operational.h"
 
-void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman, prioqueuefren* Q){
+void tambahteman(Word currentUser, UserDB* listakun, Graf Teman, prioqueuefren* Q){
     prioqueuefren quser, qsisa;
-    if(login)
+    boolean login = !cek(currentUser, ";;;");
+    if (login)
     {
+        Pengguna akunlogin;
+        for (int i = 0; i < listakun->Neff; i++) {
+            if (ceksama(currentUser, listakun->db[i].nama)) {
+                akunlogin = listakun->db[i];
+            }
+        }
         int idAkun;
         int i = 0;
         boolean found = false;
@@ -28,8 +36,7 @@ void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman
         if(IsEmptyPrio(quser))
         {
             printf("Masukkan nama pengguna:\n");
-            STARTWITHBLANK();
-            Word user = currentWord;
+            Word user = bacakalimat();
             int idTeman;
             i = 0;
             found = false;
@@ -96,10 +103,18 @@ void tambahteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf Teman
     }
 }
 
-void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, prioqueuefren *Q)
+void daftarpermintaanteman(Word currentUser, UserDB* listakun, prioqueuefren *Q)
 {
     prioqueuefren quser, qsisa;
-    if(login){
+    boolean login = !cek(currentUser, ";;;");
+    if (login)
+    {
+        Pengguna akunlogin;
+        for (int i = 0; i < listakun->Neff; i++) {
+            if (ceksama(currentUser, listakun->db[i].nama)) {
+                akunlogin = listakun->db[i];
+            }
+        }
         int idAkun;
         int i = 0;
         boolean found = false;
@@ -115,7 +130,7 @@ void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, 
             }
         }
         Enqueueuserprio(*Q, idAkun, &quser, &qsisa);
-        PrintPrioQueue(quser, *listakun);
+        PrintPrioQueue(currentUser, quser, *listakun);
         concatenationprio(quser, qsisa, Q);
     }
     else{
@@ -123,11 +138,19 @@ void daftarpermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, 
     }
 }
 
-void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun, Graf* Teman, prioqueuefren* Q){
+void setujuipermintaanteman(Word currentUser, UserDB* listakun, Graf* Teman, prioqueuefren* Q){
     Word YA = {"YA", 2};
     Word TIDAK = {"TIDAK", 5};
     prioqueuefren quser, qsisa;
-    if (login){
+    boolean login = !cek(currentUser, ";;;");
+    if (login)
+    {
+        Pengguna akunlogin;
+        for (int i = 0; i < listakun->Neff; i++) {
+            if (ceksama(currentUser, listakun->db[i].nama)) {
+                akunlogin = listakun->db[i];
+            }
+        }
         int idAkun;
         int i = 0;
         boolean found = false;
@@ -146,8 +169,7 @@ void setujuipermintaanteman(boolean login, Pengguna akunlogin, UserDB* listakun,
         int idteman;
         PrintTopPrioQueueChar(quser, idAkun, *listakun, &idteman);
         printf("Apakah Anda ingin menyetujui permintaan pertemanan ini? (YA/TIDAK) ");
-        STARTWITHBLANK();
-        Word cmd = currentWord;
+        Word cmd = baca();
         teman temp;
         if(ceksama(cmd, YA)){
             Dequeueprio(&quser, &temp);

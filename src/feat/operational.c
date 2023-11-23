@@ -89,8 +89,17 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	else if (cek(kata, "BUAT_DRAFT")) {
 		return 21;
 	}
-	else if (cek (kata, "LIHAT_DRAFT")) {
+	else if (cek(kata, "LIHAT_DRAFT")) {
 		return 22;
+	}
+	else if (cek(kata, "TAMBAH_TEMAN")) {
+		return 23;
+	}
+	else if (cek(kata, "DAFTAR_PERMINTAAN_PERTEMANAN")) {
+		return 24;
+	}
+	else if (cek(kata, "SETUJUI_PERTEMANAN")) {
+		return 25;
 	}
 	else{
 		return -1;
