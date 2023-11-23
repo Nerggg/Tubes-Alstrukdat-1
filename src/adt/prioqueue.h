@@ -6,6 +6,7 @@
 
 #include "boolean.h"
 #include "pengguna.h"
+#include "../feat/misc.h"
 
 #define Nil -1
 
@@ -85,6 +86,6 @@ void concatenationprio(prioqueuefren Quser, prioqueuefren Qsisa, prioqueuefren *
 
 void PrintTopPrioQueueChar(prioqueuefren quser, int idAkun, UserDB listakun, int *idteman);
 
-void PrintPrioQueue(prioqueuefren quser, UserDB listakun);
+void PrintPrioQueue(Word currentUser, prioqueuefren quser, UserDB listakun);
 
 #endif

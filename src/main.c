@@ -5,6 +5,7 @@
 #include "feat/operational.h"
 #include "feat/savenload.h"
 #include "adt/kicauan.h"
+#include "adt/pertemanan.h"
 #include "adt/teman.h"
 #include "adt/utas.h"
 #include "adt/balasan.h"
@@ -177,6 +178,15 @@ int main() {
 				break;
 			case 22:
 				LIHAT_DRAFT(&user, &currentUser, &kicauan, &sl);
+				break;
+			case 23:
+				tambahteman(currentUser, &user, teman, &permintaanTeman);
+				break;
+			case 24:
+				daftarpermintaanteman(currentUser, &user, &permintaanTeman);
+				break;
+			case 25:
+				setujuipermintaanteman(currentUser, &user, &teman, &permintaanTeman);
 				break;
 			case 99:
 				simpan(&user, &utas, &kicauan, &teman, &permintaanTeman, &ltree , &sl);

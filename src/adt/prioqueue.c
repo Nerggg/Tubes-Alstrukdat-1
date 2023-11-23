@@ -103,6 +103,7 @@ void PrintTopPrioQueueChar(prioqueuefren quser, int idAkun, UserDB listakun, int
     else{
         teman topTeman;
         Dequeueprio(&quser, &topTeman);
+        // Dequeueprio(&quser, &topTeman);
 
         *idteman = topTeman.IDpengirim;
 
@@ -112,7 +113,7 @@ void PrintTopPrioQueueChar(prioqueuefren quser, int idAkun, UserDB listakun, int
         }
 }
 
-void PrintPrioQueue(prioqueuefren quser, UserDB listakun) {
+void PrintPrioQueue(Word currentUser, prioqueuefren quser, UserDB listakun) {
     if (IsEmptyPrio(quser)) {
         printf("Tidak ada permintaan pertemanan untuk Anda.\n");
         return;
@@ -122,12 +123,18 @@ void PrintPrioQueue(prioqueuefren quser, UserDB listakun) {
 
     addressPrioqueue i = HeadQ(quser);
 
+    // int idxpengguna;
+    // for (int a = 0; a < listakun.Neff; a++) {
+    //     if (ceksama(currentUser, listakun.db[i].nama)) {
+    //         idxpengguna = a;
+    //         break;
+    //     }
+    // }
+
     do {
         teman t = ElmtQ(quser, i);
 
-        // Process additional information using UserDB for the sender (assuming you have it)
-        
-        printf("| %s\n", listakun.db[i].nama.TabWord);
+        printf("| %s\n", listakun.db[t.IDpengirim].nama.TabWord);
         printf("| Jumlah Teman: %d\n", t.Jumlahteman);
         printf("\n");
 
