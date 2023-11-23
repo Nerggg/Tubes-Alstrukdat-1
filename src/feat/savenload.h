@@ -10,4 +10,4 @@
 #include "../adt/prioqueue.h"
 
 Word hapusSpasi(Word kata);
-void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl);
+void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl);

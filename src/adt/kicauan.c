@@ -185,7 +185,7 @@ void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp)
     NEFF(*l)--;
 }
 
-void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser, ListDintree *ltree)
+void kicau(UserDB *user, ListDinkicau *kicauan, Word *currentUser)
 {
     if (cek(*currentUser, ";;;")) {
         printf("Anda belum login! Masuk terlebih dahulu untuk menikmati layanan BurBir.\n");

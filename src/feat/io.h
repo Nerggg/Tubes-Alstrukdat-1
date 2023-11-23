@@ -12,8 +12,8 @@
 void penggunaconfig(UserDB *user, Graf *teman, prioqueuefren *permintaanTeman, Word namafolder);
 void utasconfig(ListUtas *utas, ListDinkicau l, Word namafolder);
 void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder);
-void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word namafolder);
-void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder);
-void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder);
+void balasanconfig(UserDB user, ListDinkicau kicauan, ListTreeBalasan *balasan, Word namafolder);
+void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl, Word namafolder);
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl, Word namafolder);
 
 #endif

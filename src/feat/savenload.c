@@ -7,7 +7,7 @@ Word hapusSpasi(Word kata) {
     return kata;
 }
 
-void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl) {
+void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl) {
     printf("Masukkan nama folder penyimpanan\n");
     Word namafolder = baca();
     Word folder = namafolder;

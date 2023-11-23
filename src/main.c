@@ -16,7 +16,7 @@ int main() {
 	ListUtas utas;
 	ListDinkicau kicauan;
 	Graf teman;
-	ListDintree ltree;
+	ListTreeBalasan balasan;
 	int move;	
 	FILE *fptr;
 	int idkicau, indexParam;
@@ -24,7 +24,6 @@ int main() {
 	prioqueuefren permintaanTeman;
 
 	CreateListDinkicau(&kicauan, 1);
-	CreateListoftree(&ltree, 1);
 	CreateListDinStack(&sl, 20);
 
 	printlogo();
@@ -38,7 +37,7 @@ int main() {
 		return 0;
 	}
 	fclose(fptr);
-	bacaconfig(&user, &utas, &kicauan, &teman, &permintaanTeman, &ltree , &sl, configfolder);
+	bacaconfig(&user, &utas, &kicauan, &teman, &permintaanTeman, &balasan , &sl, configfolder);
 	printf("\nFile konfigurasi berhasil dimuat! Selamat menggunakan aplikasi BurBir!\n");
 	printf("Ketik \';\' untuk melanjutkan\n\n");
 	bacakalimat();
@@ -126,7 +125,7 @@ int main() {
 					}
 				}
 			case 9:
-				kicau(&user, &kicauan, &currentUser, &ltree);
+				kicau(&user, &kicauan, &currentUser);
 				break;
 			case 10:
 				displayallkicauan(user, kicauan, teman, currentUser);	
@@ -159,20 +158,20 @@ int main() {
 			case 17:
 				hapusteman(currentUser, &user, &teman);
 				break;
-			case 18:
-				idkicau = wtoi(baca());
-				indexParam = wtoi(baca());
-				Balas(user, currentUser, kicauan, &ltree, teman, idkicau, indexParam);
-				break;
-			case 19:
-				idkicau = wtoi(baca());
-				Balasan(user, currentUser, kicauan, ltree, teman, idkicau);
-				break;
-			case 20:
-				idkicau = wtoi(baca());
-				indexParam = wtoi(baca());
-				Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, indexParam);
-				break;
+			// case 18:
+			// 	idkicau = wtoi(baca());
+			// 	indexParam = wtoi(baca());
+			// 	Balas(user, currentUser, kicauan, &ltree, teman, idkicau, indexParam);
+			// 	break;
+			// case 19:
+			// 	idkicau = wtoi(baca());
+			// 	Balasan(user, currentUser, kicauan, ltree, teman, idkicau);
+			// 	break;
+			// case 20:
+			// 	idkicau = wtoi(baca());
+			// 	indexParam = wtoi(baca());
+			// 	Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, indexParam);
+			// 	break;
 			case 21:
 				BUAT_DRAFT(&user, &currentUser, &kicauan, &sl);
 				break;
@@ -189,7 +188,7 @@ int main() {
 				setujuipermintaanteman(currentUser, &user, &teman, &permintaanTeman);
 				break;
 			case 99:
-				simpan(&user, &utas, &kicauan, &teman, &permintaanTeman, &ltree , &sl);
+				simpan(&user, &utas, &kicauan, &teman, &permintaanTeman, &balasan , &sl);
 				break;
 			case -1:
 				printf("Perintah tidak ditemukan.\n");

@@ -211,10 +211,9 @@ void kicauanconfig(UserDB user, ListDinkicau *l, Word namafolder) {
 		l->nEff++;
 	}		
 }
-void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word namafolder)
+void balasanconfig(UserDB user, ListDinkicau kicauan, ListTreeBalasan *balasan, Word namafolder)
 {
 	FILE *fptr;
-	int i = 0;
 	char temp[280];
 	char akhir[] = "/balasan.config";
 	Word location = concat(namafolder.TabWord, akhir);
@@ -223,96 +222,83 @@ void balasanconfig(UserDB user, ListDinkicau kicauan, ListDintree *ltree, Word n
 	fgets(temp, sizeof(temp), fptr); 
 
 	int n = wtoi(ctow(temp));
-	// printf("n nya %d\n", n);
-	ltree->nEff = n;
-	if (n > ltree->capacity) {
-		dealocatelistoftree(ltree);
-		CreateListoftree(ltree, n);
-		ltree->nEff = n;
-	}
-
-	while(n != 0){
-		ltree->buffer[i] = (Addresst)malloc(sizeof(Tree));
+	balasan->neff = n;
+	balasan->isi = malloc(sizeof(NodeBalasan)*n);
+	for (int i = 0; i < n; i++) {
+		Balasan tempParent;
 		fgets(temp, sizeof(temp), fptr);
-		ltree->buffer[i]->value.id = wtoi(ctow(temp));
+		int idkicau = wtoi(ctow(temp));
 
 		for (int a = 0; a < kicauan.nEff; a++) {
-			if (kicauan.buffer[i].id == ltree->buffer[i]->value.id) {
-				ltree->buffer[i]->value = kicauan.buffer[i];
+			if (kicauan.buffer[i].id == idkicau) {
+				tempParent.id = idkicau;
+				tempParent.text = kicauan.buffer[i].text;
+				tempParent.author = kicauan.buffer[i].author;
+				tempParent.date = kicauan.buffer[i].date;
 				break;
 			}
 		}
 
-		Addresst p = ltree->buffer[i];
+		AddressBalasan parent = NewTreeNodeBalasan(tempParent);
 
 		fgets(temp, sizeof(temp), fptr);
-		int j = wtoi(ctow(temp));
-		// printf("j nya %d\n", j);
+		int jlhbalasan = wtoi(ctow(temp));
 
-		for (int a = 0; a < j; a++) {
-			// printf("BORDER\n");
-			fgets(temp, sizeof(temp), fptr);
+		int idxparent, idxself;
+
+		char *tempAngka = malloc(sizeof(char)*2);
+		for (int a = 0; a < jlhbalasan; a++) {
+			free(tempAngka);
+			tempAngka = malloc(sizeof(char)*2);
+			int pjgAngka = 0;
 			int b = 0;
-			int length = 0;
-			while (temp[b] != ' ') {
-				// printf("isi temp %c\n", temp[b]);
-				length++;
+
+			fgets(temp, sizeof(temp), fptr);
+			while(temp[b] != '\n') {
+				if (temp[b] == ' ') {
+					tempAngka[pjgAngka+1] = '\0';
+					// printf("tempangka parent %s\n", tempAngka);
+					pjgAngka = 0;
+					idxparent = wtoi(ctow(tempAngka));
+					// printf("parent setelah diconvert %d\n", idxparent);
+					free(tempAngka);
+					tempAngka = malloc(sizeof(char)*2);
+				}
+				else {
+					tempAngka[pjgAngka] = temp[b];
+					pjgAngka++;
+				}
 				b++;
 			}
-			char parent[length+2];
-			b = 0;
-			while(temp[b] != ' ') {
-				parent[b] = temp[b];
-				b++;
-			}
-			b++;
-			parent[length] = '\n';
-			parent[length+1] = '\0';
-			// printf("parentnya %s\n", parent);
-			// printf("lengthparent %d\n", length);
-			// printf("b nya %d\n", b);
+			tempAngka[pjgAngka+1] = '\0';
+			// printf("tempangka self %s\n", tempAngka);
+			idxself = wtoi(ctow(tempAngka));
+			// printf("self setelah diconvert %d\n", idxself);
 
-			int c = b;
-			length = 0;
-			while(temp[c] != '\n') {
-				length++;
-				c++;
-			}
-			char self[length+2];
-			c = b;
-			while(temp[c] != '\n') {
-				self[c-b] = temp[c];
-				c++;
-			}
-			self[length] = '\n';
-			self[length+1] = '\0';
-			// printf("selfnya %s\n", self);
-			// printf("lengthself %d\n", length);
-			// printf("c-b nya %d\n", c-b-1);
-
-			int idxparent = wtoi(ctow(parent));
-			int idxself = wtoi(ctow(self));
-
-			Kicau tempkicau;
+			Balasan tempBalasan;
+			tempBalasan.id = idxself;
 			fgets(temp, sizeof(temp), fptr);
-			tempkicau.text = ctow(temp);
+			tempBalasan.text = ctow(temp);
 			fgets(temp, sizeof(temp), fptr);
-			tempkicau.author = ctow(temp);
+			tempBalasan.author = ctow(temp);
 			fgets(temp, sizeof(temp), fptr);
-			tempkicau.date = ctow(temp);
-			Pengguna pengkicau = cariuser(user, tempkicau.author);
-			tempkicau.jakunkicau = pengkicau.jakun;
-			tempkicau.like = 0;
-			tempkicau.id = idxself;
+			tempBalasan.date = ctow(temp);
 
-			// printf("textnya %s\n", tempkicau.text.TabWord);
-			// printf("idx parentnya %d\n", idxparent);
-			// printf("idx self %d\n", idxself);
-			addBalasan(&p, idxparent, tempkicau);
+			AddressBalasan q = NewTreeNodeBalasan(tempBalasan);
+
+			// printf("idxparentnya %d dan selfnya %d\n", idxparent, idxself);
+			if (idxparent == -1) {
+				// printf("isinya %s\n", q->T.text.TabWord);
+				ConnectParentBalasan(parent, &q);
+			}
+			else {
+				// printf("isinya %s\n", q->T.text.TabWord);
+				insertTreeBalasan(parent, idxparent, tempBalasan);
+			}
 		}
-		i++;
-		n--;
-	}	
+
+		balasan->isi[i] = parent;
+	}
 }
 
 void draftconfig(UserDB user, ListStack *sl, Word namafolder)
@@ -394,7 +380,7 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 	}
 }
 
-void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, permintaanTeman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
@@ -404,12 +390,12 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prio
 	utasconfig(utas, *l, namafolder);
 	// printf("3 aman\n");
 	draftconfig(*user, sl, namafolder);
-	balasanconfig(*user, *l, ltree, namafolder);
+	balasanconfig(*user, *l, balasan, namafolder);
 	// printf("4 aman\n");
 	// draftconfig(*user, sl, namafolder);	
 }
 
-void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
+void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
 	char awal[] = "../../cfg/";
 	namafolder = concat(awal, namafolder.TabWord);
 	penggunaconfig(user, teman, permintaanTeman, namafolder); // dan disini tambahin fungsi baca confignya, sesuain ama format yg di spek
@@ -418,7 +404,7 @@ void driverbacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman
 	// printf("2 aman\n");	
 	utasconfig(utas, *l, namafolder);
 	// printf("3 aman\n");
-	balasanconfig(*user, *l, ltree, namafolder);
+	balasanconfig(*user, *l, balasan, namafolder);
 	
 	draftconfig(*user, sl, namafolder);
 }
