@@ -252,7 +252,7 @@ void inputNoHP(Pengguna *P){
             tmp.Length++;
         }
         
-        if(cekNoHp(tmp) && tmp.Length <= 15){
+        if(cekNoHp(tmp)){
             valid = true;
         }
         else{
