@@ -34,6 +34,7 @@ void CreateListDinStack(ListStack *l, int capacity);
 void dealocateListStack(ListStack *l);
 
 void insertLastStack(ListStack *l, Stack S);
+ListStack increaseSizeListStack(ListStack l);
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
 void CreateEmptyStack(Stack *S);

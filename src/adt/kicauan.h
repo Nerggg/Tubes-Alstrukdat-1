@@ -88,6 +88,7 @@ void CreateListDinkicau(ListDinkicau *l, int capacity);
 void dealocateListkicau(ListDinkicau *l);
 void printListkicau(ListDinkicau l);
 void copyListkicau(ListDinkicau lIn, ListDinkicau *lOut);
+ListDintree increaseTreeCapacity(ListDintree lIn);
 void insertLastkicau(ListDinkicau *l, Kicau newkicauan);
 void deleteLastkicau(ListDinkicau *l, Kicau *kicauantemp);
 void kicau(UserDB *user, ListDinkicau *kicau, Word *currentUser, ListDintree *ltree);

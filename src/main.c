@@ -19,6 +19,7 @@ int main() {
 	FILE *fptr;
 	int idkicau, indexParam;
 	ListStack sl;
+	prioqueuefren permintaanTeman;
 
 	CreateListDinkicau(&kicauan, 1);
 	CreateListoftree(&ltree, 1);
@@ -35,7 +36,7 @@ int main() {
 		return 0;
 	}
 	fclose(fptr);
-	bacaconfig(&user, &utas, &kicauan, &teman ,&ltree , &sl, configfolder);
+	bacaconfig(&user, &utas, &kicauan, &teman, &permintaanTeman, &ltree , &sl, configfolder);
 	printf("\nFile konfigurasi berhasil dimuat! Selamat menggunakan aplikasi BurBir!\n");
 	printf("Ketik \';\' untuk melanjutkan\n\n");
 	bacakalimat();
@@ -155,6 +156,26 @@ int main() {
 				break;
 			case 17:
 				hapusteman(currentUser, &user, &teman);
+				break;
+			case 18:
+				idkicau = wtoi(baca());
+				indexParam = wtoi(baca());
+				Balas(user, currentUser, kicauan, &ltree, teman, idkicau, indexParam);
+				break;
+			case 19:
+				idkicau = wtoi(baca());
+				Balasan(user, currentUser, kicauan, ltree, teman, idkicau);
+				break;
+			case 20:
+				idkicau = wtoi(baca());
+				indexParam = wtoi(baca());
+				Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, indexParam);
+				break;
+			case 21:
+				BUAT_DRAFT(&user, &currentUser, &kicauan, &sl);
+				break;
+			case 22:
+				LIHAT_DRAFT(&user, &currentUser, &kicauan, &sl);
 				break;
 			case -1:
 				printf("Perintah tidak ditemukan.\n");

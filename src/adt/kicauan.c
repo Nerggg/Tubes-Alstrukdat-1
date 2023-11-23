@@ -72,6 +72,19 @@ void copylisttree(ListDintree lIn, ListDintree *lOut)
     }
 }
 
+ListDintree increaseTreeCapacity(ListDintree lIn)
+{
+    int i;
+    ListDintree lOut;
+    /* ALGORITMA */
+    CreateListoftree(&lOut, lIn.capacity+1);
+
+    for (i = 0; i < lIn.nEff; i++) {
+        ELMTtr(lOut, i) = ELMTtr(lIn, i);
+    }
+    return lOut;
+}
+
 Addresst searchidxtree(ListDintree l, int id)
 {
     int i;
