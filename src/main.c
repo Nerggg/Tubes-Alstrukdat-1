@@ -3,6 +3,7 @@
 #include "adt/pengguna.h"
 #include "feat/io.h"
 #include "feat/operational.h"
+#include "feat/savenload.h"
 #include "adt/kicauan.h"
 #include "adt/teman.h"
 #include "adt/utas.h"
@@ -176,6 +177,9 @@ int main() {
 				break;
 			case 22:
 				LIHAT_DRAFT(&user, &currentUser, &kicauan, &sl);
+				break;
+			case 99:
+				simpan(&user, &utas, &kicauan, &teman, &permintaanTeman, &ltree , &sl);
 				break;
 			case -1:
 				printf("Perintah tidak ditemukan.\n");

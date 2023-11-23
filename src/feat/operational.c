@@ -23,7 +23,10 @@ boolean cek(Word kata, char target[]) { // untuk ngecek kesamaan antara word den
 }
 
 int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
-	if (cek(kata, "DAFTAR")) {
+	if (cek(kata, "SIMPAN")) {
+		return 99;
+	}
+	else if (cek(kata, "DAFTAR")) {
 		return 1;
 	}
 	else if (cek(kata, "MASUK")) {

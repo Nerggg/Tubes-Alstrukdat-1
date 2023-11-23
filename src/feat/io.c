@@ -325,6 +325,8 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 			fgets(temp, sizeof(temp), fptr);
 			tempKicauan.date = ctow(temp);
 
+			// printf("datenya %s", tempKicauan.date.TabWord);
+
 			for (int b = 0; b < user.Neff; b++) {
 				if (ceksama(user.db[b].nama, tempKicauan.author)) {
 					tempKicauan.jakunkicau = user.db[b].jakun;

@@ -155,13 +155,13 @@ void BUAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack *
             }
 
             if (indexstack != -1) {
+                printf("masuk kesini\n");
                 Sl->buffer[indexstack] = stackpengguna;
-                Sl->buffer[indexstack].Nstack++;
             }
-            else {
+            else { // untuk kondisi ketika draft suatu akun belum ada
                 // printf("s1 neff nya %d\n", Sl->nEff);
+                printf("atau kebawah\n");
                 Sl->buffer[Sl->nEff] = stackpengguna;
-                Sl->buffer[Sl->nEff].Nstack++;
                 Sl->nEff++;
             }
             // printf("ada di %s\n", Sl->buffer[Sl->nEff].T[0].text.TabWord);  
