@@ -284,22 +284,69 @@ void draftconfig(UserDB user, ListStack *sl, Word namafolder)
 	int n = wtoi(ctow(temp));
 	sl->nEff = n;
 	while (n != 0){
+		CreateEmptyStack(&sl->buffer[i]);
+		int j = 0;
+		char tempnama[30];
 		fgets(temp, sizeof(temp), fptr);
-		sl->buffer[i].author = ctow(temp);
-		fgets(temp, sizeof(temp), fptr);
-		int idx = sl->buffer[i].Nstack -1;
-		while (idx >= 0){
-			sl->buffer[i].T[idx].text = ctow(temp);
-			fgets(temp, sizeof(temp), fptr);
-			sl->buffer[i].T[idx].date = ctow(temp);
-			fgets(temp, sizeof(temp), fptr);
-			idx--;
+		while (temp[j] != '0' && temp[j] != '1' && temp[j] != '2' && temp[j] != '3' && temp[j] != '4' && temp[j] != '5' && temp[j] != '6' && temp[j] != '7' && temp[j] != '8' && temp[j] != '9') {
+			// printf("isi temp nya %c\n", temp[j]);
+			tempnama[j] = temp[j];
+			j++;
 		}
+		// printf("tempnama j nya %c\n", tempnama[j]);
+		// printf("tempnamanya %s\n", tempnama);
+		tempnama[j] = '\0';
+		sl->buffer[i].author = ctow(tempnama);
+
+		char tempangka[30];
+		int jj = 0;
+		while (temp[jj+j] != '\n') {
+			tempangka[jj] = temp[jj+j];
+			jj++;
+		}
+		// printf("tempangkanya %s\n", tempangka);
+		tempangka[jj] = '\0';
+		Word tempAngkaWord = ctow(tempangka);
+		tempAngkaWord.Length++;
+		// printf("setelah di convert jadi %s\n", ctow(tempangka).TabWord);
+		int jlhdraf = wtoi(tempAngkaWord);
+		// printf("temp angkanya %d\n", jlhdraf);
+		// printf("\n");
+
+		Stack tempStack;
+		for (int a = 0; a < jlhdraf; a++) {
+			CreateEmptyStack(&tempStack);
+			Kicau tempKicauan;
+			tempKicauan.author = sl->buffer[i].author;
+			tempKicauan.id = jlhdraf-a;
+			tempKicauan.like = 0;
+			fgets(temp, sizeof(temp), fptr);
+			tempKicauan.text = ctow(temp);
+			fgets(temp, sizeof(temp), fptr);
+			tempKicauan.date = ctow(temp);
+
+			for (int b = 0; b < user.Neff; b++) {
+				if (ceksama(user.db[b].nama, tempKicauan.author)) {
+					tempKicauan.jakunkicau = user.db[b].jakun;
+					break;
+				}
+			}
+			
+			sl->buffer[i].T[jlhdraf-a-1] = tempKicauan;
+		}
+		sl->buffer[i].Nstack = jlhdraf;
+		sl->buffer[i].TOP = jlhdraf-1;
+
+		// Kicau tempTempKicauan;
+		// while (!IsEmptyStack(tempStack)) {
+		// 	printf("masuk\n");
+		// 	PopKicau(&tempStack, &tempTempKicauan);
+		// 	PushKicau(&(sl->buffer[i]), tempTempKicauan);
+		// }
+
 		i++;
 		n--;
-		sl->nEff++; 
 	}
-	
 }
 
 void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListDintree *ltree, ListStack *sl, Word namafolder) { // nanti disini tambahin parameter bertipe adt buatan untuk nampung datanya
@@ -311,6 +358,7 @@ void bacaconfig(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prio
 	// printf("2 aman\n");	
 	utasconfig(utas, *l, namafolder);
 	// printf("3 aman\n");
+	draftconfig(*user, sl, namafolder);
 	balasanconfig(*user, *l, ltree, namafolder);
 	// printf("4 aman\n");
 	// draftconfig(*user, sl, namafolder);	

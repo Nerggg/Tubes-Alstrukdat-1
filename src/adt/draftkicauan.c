@@ -56,7 +56,7 @@ void PushKicau(Stack * S, Kicau X) {
 }
 
 void PopKicau(Stack * S, Kicau* X) {
-    *X = InfoTop(*S);
+    *X = S->T[S->TOP];
     Top(*S)--;
     S->Nstack--;
 }
@@ -203,6 +203,7 @@ void LIHAT_DRAFT(UserDB *user,Word *currentUser, ListDinkicau *kicau, ListStack 
     } else{
         Kicau kicauan = stackpengguna.T[stackpengguna.TOP];
         printf("Ini draf terakhir anda:\n");
+        printf("indexnya %d\n", stackpengguna.TOP);
         printf("| ");
         for (int i = 0; i < kicauan.date.Length; i++) {
             printf("%c", kicauan.date.TabWord[i]);
