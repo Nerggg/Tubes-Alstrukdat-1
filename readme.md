@@ -65,7 +65,7 @@ sebelum memanggil program, pastikan  *Current Working Directory* terminal berada
 | HAPUS_TEMAN | Selesai |
 | TAMBAH_TEMAN | Selesai |
 | DAFTAR_PERMINTAAN_PERTEMANAN | Selesai |
-| SETUJUI_PERTEMANAN | Tidak Selesai |
+| SETUJUI_PERTEMANAN | Setengah Selesai (Fungsi sudah benar, gagal diintegrasi) |
 | KICAU | Selesai |
 | KICAUAN | Selesai |
 | SUKA_KICAUAN | Selesai |
