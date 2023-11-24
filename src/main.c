@@ -77,6 +77,7 @@ int main() {
 						break;
 					}
 				}
+				break;
 			case 6:
 				Word nama;
 				boolean flag = false;
@@ -102,6 +103,7 @@ int main() {
 					printf(".\n");
 					break;
 				}
+				break;
 			case 7:
 				if (belumlogin(currentUser)) {
 					printf("\nAnda belum login. Silahkan login terlebih dahulu untuk mengatur jenis akun.\n");
@@ -112,7 +114,8 @@ int main() {
 						aturJenisAkun(&user.db[a]);
 						break;
 					}
-				}			
+				}	
+				break;		
 			case 8:
 				if (belumlogin(currentUser)) {
 					printf("\nAnda belum login. Silahkan login terlebih dahulu untuk mengubah foto profil.\n");
@@ -124,6 +127,7 @@ int main() {
 						break;
 					}
 				}
+				break;
 			case 9:
 				kicau(&user, &kicauan, &currentUser);
 				break;
@@ -238,6 +242,10 @@ int main() {
 				break;
 			case 25:
 				setujuipermintaanteman(currentUser, &user, &teman, &permintaanTeman);
+				break;
+			case 26:
+				idkicau = woti(baca());
+				ubah_kicauan(user, &kicauan, idkicau, currentUser);
 				break;
 			case 99:
 				simpan(&user, &utas, &kicauan, &teman, &permintaanTeman, &balasan , &sl);

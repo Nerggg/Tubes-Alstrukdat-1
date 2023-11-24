@@ -101,6 +101,9 @@ int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
 	else if (cek(kata, "SETUJUI_PERTEMANAN")) {
 		return 25;
 	}
+	else if (cek(kata, "UBAH_KICAUAN")) {
+		return 26;
+	}
 	else{
 		return -1;
 	}
