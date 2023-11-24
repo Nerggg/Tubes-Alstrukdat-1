@@ -1,104 +1,158 @@
 #include <stdio.h>
 #include "operational.h"
 
-Word bacakalimat() { // untuk baca input dari user yang ada spasinya
+Word bacakalimat()
+{ // untuk baca input dari user yang ada spasinya
 	STARTSENTENCE();
 	return currentWord;
 }
 
-Word baca() { // untuk baca input dari user yang satu kata doang
+Word baca()
+{ // untuk baca input dari user yang satu kata doang
 	STARTWORD();
 	return currentWord;
 }
 
-boolean cek(Word kata, char target[]) { // untuk ngecek kesamaan antara word dengan array of char
+boolean cek(Word kata, char target[])
+{ // untuk ngecek kesamaan antara word dengan array of char
 	boolean sama = true;
-	for (int i = 0; i < kata.Length; i++) {
-		if (kata.TabWord[i] != target[i]) {
+	for (int i = 0; i < kata.Length; i++)
+	{
+		if (kata.TabWord[i] != target[i])
+		{
 			sama = false;
 			break;
-		}		
-	}	
+		}
+	}
 	return sama;
 }
 
-int pindahfungsi(Word kata) { // untuk pindah2 fungsi dari sini
-	if (cek(kata, "SIMPAN")) {
+boolean cekCommand(Word kata, char target[], int length)
+{ // untuk ngecek kesamaan antara word dengan array of char
+	boolean sama = true;
+	if (kata.Length == length)
+	{
+		for (int i = 0; i < kata.Length; i++)
+		{
+			if (kata.TabWord[i] != target[i])
+			{
+				sama = false;
+				break;
+			}
+		}
+	}
+	else
+	{
+		sama = false;
+	}
+
+	return sama;
+}
+
+int pindahfungsi(Word kata)
+{ // untuk pindah2 fungsi dari sini
+	if (cekCommand(kata, "SIMPAN", 7-1))
+	{
 		return 99;
 	}
-	else if (cek(kata, "DAFTAR")) {
+	else if (cekCommand(kata, "DAFTAR", 7-1))
+	{
 		return 1;
 	}
-	else if (cek(kata, "MASUK")) {
+	else if (cekCommand(kata, "MASUK", 6-1))
+	{
 		return 2;
 	}
-	else if (cek(kata, "KELUAR")) {
+	else if (cekCommand(kata, "KELUAR", 7-1))
+	{
 		return 3;
 	}
-	else if (cek(kata, "TUTUP_PROGRAM")) {
+	else if (cekCommand(kata, "TUTUP_PROGRAM", 14-1))
+	{
 		return 4;
 	}
-	else if (cek(kata, "GANTI_PROFIL")) {
+	else if (cekCommand(kata, "GANTI_PROFIL", 13-1))
+	{
 		return 5;
-	}	
-	else if (cek(kata, "LIHAT_PROFIL")) {
+	}
+	else if (cekCommand(kata, "LIHAT_PROFIL", 13-1))
+	{
 		return 6;
-	}	
-	else if (cek(kata, "ATUR_JENIS_AKUN")) {
+	}
+	else if (cekCommand(kata, "ATUR_JENIS_AKUN", 16-1))
+	{
 		return 7;
-	}	
-	else if (cek(kata, "UBAH_FOTO_PROFIL")) {
+	}
+	else if (cekCommand(kata, "UBAH_FOTO_PROFIL", 17-1))
+	{
 		return 8;
 	}
-	else if (cek(kata, "KICAU")) {
+	else if (cekCommand(kata, "KICAU", 6-1))
+	{
 		return 9;
 	}
-	else if (cek(kata, "KICAUAN")) {
+	else if (cekCommand(kata, "KICAUAN", 8-1))
+	{
 		return 10;
-	}	
-	else if (cek(kata, "SUKA_KICAUAN")) {
+	}
+	else if (cekCommand(kata, "SUKA_KICAUAN", 13-1))
+	{
 		return 11;
 	}
-	else if (cek(kata, "UTAS")) {
+	else if (cekCommand(kata, "UTAS", 15-1))
+	{
 		return 12;
 	}
-	else if (cek(kata, "SAMBUNG_UTAS")) {
+	else if (cekCommand(kata, "SAMBUNG_UTAS", 13-1))
+	{
 		return 13;
 	}
-	else if (cek(kata, "HAPUS_UTAS")) {
+	else if (cekCommand(kata, "HAPUS_UTAS", 11-1))
+	{
 		return 14;
-	}	
-	else if (cek(kata, "CETAK_UTAS")) {
+	}
+	else if (cekCommand(kata, "CETAK_UTAS", 11-1))
+	{
 		return 15;
-	}	
-	else if (cek(kata, "DAFTAR_TEMAN")) {
+	}
+	else if (cekCommand(kata, "DAFTAR_TEMAN", 13-1))
+	{
 		return 16;
 	}
-	else if (cek(kata, "HAPUS_TEMAN")) {
+	else if (cekCommand(kata, "HAPUS_TEMAN", 12-1))
+	{
 		return 17;
 	}
-	else if (cek(kata, "BALAS")) {
+	else if (cekCommand(kata, "BALAS", 6-1))
+	{
 		return 18;
 	}
-	else if(cek(kata, "BALASAN")) {
+	else if (cekCommand(kata, "BALASAN", 8-1))
+	{
 		return 19;
 	}
-	else if(cek(kata, "HAPUS_BALASAN")) {
+	else if (cekCommand(kata, "HAPUS_BALASAN", 14-1))
+	{
 		return 20;
 	}
-	else if (cek(kata, "BUAT_DRAFT")) {
+	else if (cekCommand(kata, "BUAT_DRAFT", 11-1))
+	{
 		return 21;
 	}
-	else if (cek(kata, "LIHAT_DRAFT")) {
+	else if (cekCommand(kata, "LIHAT_DRAFT", 12-1))
+	{
 		return 22;
 	}
-	else if (cek(kata, "TAMBAH_TEMAN")) {
+	else if (cekCommand(kata, "TAMBAH_TEMAN", 13-1))
+	{
 		return 23;
 	}
-	else if (cek(kata, "DAFTAR_PERMINTAAN_PERTEMANAN")) {
+	else if (cekCommand(kata, "DAFTAR_PERMINTAAN_PERTEMANAN", 29-1))
+	{
 		return 24;
 	}
-	else if (cek(kata, "SETUJUI_PERTEMANAN")) {
+	else if (cekCommand(kata, "SETUJUI_PERTEMANAN", 19-1))
+	{
 		return 25;
 	}
 	else if (cek(kata, "UBAH_KICAUAN")) {
