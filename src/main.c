@@ -164,11 +164,11 @@ int main() {
 				buatBalasan(currentUser, kicauan, &balasan, user, teman, idkicau, idbalas);
 				break;
 			case 19:
+				idkicau = wtoi(baca());
 				if (cek(currentUser, ";;;")) {
 					printf("Anda belum masuk! Masuk terlebih dahulu untuk menikmati layanan BurBir\n");
 				}
 				else {
-					idkicau = wtoi(baca());
 					int idxbalasan;
 					boolean ada = false;
 					for (int a = 0; a < balasan.neff; a++) {
@@ -219,11 +219,11 @@ int main() {
 					}	
 				}
 				break;
-			// case 20:
-			// 	idkicau = wtoi(baca());
-			// 	indexParam = wtoi(baca());
-			// 	Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, indexParam);
-			// 	break;
+			case 20:
+				idkicau = wtoi(baca());
+				indexParam = wtoi(baca());
+				hapusBalasan(currentUser, user, &balasan, idkicau, indexParam);
+				break;
 			case 21:
 				BUAT_DRAFT(&user, &currentUser, &kicauan, &sl);
 				break;

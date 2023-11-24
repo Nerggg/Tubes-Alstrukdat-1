@@ -416,3 +416,35 @@ void buatBalasan(Word currentUser, ListDinkicau kicauan, ListTreeBalasan *balasa
 	
 	balasan->isi[idxbalasan] = parent;
 }
+
+void hapusBalasan(Word currentUser, UserDB user, ListTreeBalasan *balasan, int idkicau, int idbalas) {
+	if (cek(currentUser, ";;;")) {
+		printf("Anda belum login! Silahkan login terlebih dahulu untuk menikmati layanan BurBir.\n");
+		return;
+	}
+
+	boolean adabalas = false;
+	int idxbalasan;
+	for (int a = 0; a < balasan->neff; a++) {
+		if (balasan->isi[a]->IDParent == idkicau) {
+			adabalas = true;
+			idxbalasan = a;
+			// printf("\n\n\nadamasuk kesini\n\n\n");
+			// printf("idx balasannya %d\n", idxbalasan);
+			break;
+		}
+	}
+
+	if (!adabalas) {
+		printf("Balasan tidak ditemukan.\n");
+		return;
+	}
+
+	if(ceksama(balasan->isi[idxbalasan]->T.author, currentUser)) {
+		printf("Hei, ini balasan punya siapa? Jangan dihapus ya!\n");
+		return;
+	}
+
+	deleteTreeBalasan(&(balasan->isi[idxbalasan]), idbalas);
+	printf("Balasan berhasil dihapus.\n");
+}

@@ -125,4 +125,6 @@ void cetakIndent(int indent);
 
 void buatBalasan(Word currentUser, ListDinkicau kicauan, ListTreeBalasan *balasan, UserDB user, Graf teman, int idkicau, int idbalas);
 
+void hapusBalasan(Word currentUser, UserDB user, ListTreeBalasan *balasan, int idkicau, int idbalas);
+
 #endif
