@@ -8,14 +8,13 @@
 #include <stdlib.h>
 
 #include "boolean.h"
-#include "charmachine.h"
 #include "wordmachine.h"
 #include "datetime.h"
-#include "pengguna.h"
+#include "pcolor.h"
 #include "kicauan.h"
 #include "teman.h"
-#include "../feat/misc.h"
-#include "../feat/operational.h"
+#include "misc.h"
+#include "operational.h"
 
 typedef struct {
    int id;
@@ -38,11 +37,12 @@ typedef Balasan InfotypeBalasan;
 typedef struct TNodeBalasan *AddressBalasan;
 typedef struct TNodeBalasan
 {
-	InfotypeBalasan T;
-	AddressBalasan *SubTree; // Tree* Subtree (array of pointers to Tree)
-	int Count;
-	int Capacity;
+ InfotypeBalasan T;
+ AddressBalasan SubTree; // Tree Subtree (array of pointers to Tree)
+ int Count;
+ int Capacity;
    int IDParent;
+   int neff;
 } NodeBalasan;
 
 typedef struct {
@@ -72,9 +72,9 @@ TreeBalasan NewTreeBalasan(InfotypeBalasan root, TreeBalasan child);
 void CreateTreeBalasan(InfotypeBalasan root, TreeBalasan child, TreeBalasan *t);
 /* I.S. : Sembarang
    F.S. : Menghasilkan sebuah pohon t
-   		  Jika alokasi berhasil, menghasilkan sebuah pohon dari root dan child;
-   		  dan count bertambah satu jika child bukan Nil
-   		  Jika alokasi gagal, menghasilkan pohon kosong (Nil) */
+       Jika alokasi berhasil, menghasilkan sebuah pohon dari root dan child;
+       dan count bertambah satu jika child bukan Nil
+       Jika alokasi gagal, menghasilkan pohon kosong (Nil) */
 
 void ConnectChildBalasan(TreeBalasan child, TreeBalasan *t);
 /* I.S. : t dan child terdefinisi
@@ -99,8 +99,8 @@ boolean HasOneChildBalasan(TreeBalasan t);
 // void PrintTreeBalasan(TreeBalasan t);
 /* I.S. : t terdefinisi
    F.S. : Semua simpul t sudah dicetak secara preorder: root dan child(ren)
-   		  Setiap pohon ditandai dengan tanda kurung buka dan tanda kurung tutup ()
-   		  Pohon kosong ditandai dengan () */
+       Setiap pohon ditandai dengan tanda kurung buka dan tanda kurung tutup ()
+       Pohon kosong ditandai dengan () */
 
 void ExpandCapacityBalasan(TreeBalasan *t);
 /* Proses: Memperbesar dua kali lipat TREECAPACITY t */
