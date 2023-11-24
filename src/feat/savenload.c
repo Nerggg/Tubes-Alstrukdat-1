@@ -12,7 +12,7 @@ void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *grafTeman, prio
     Word namafolder = baca();
     Word folder = namafolder;
     char awal[] = "../cfg/";
- namafolder = concat(awal, namafolder.TabWord);
+	namafolder = concat(awal, namafolder.TabWord);
 
     DIR *dir = opendir(namafolder.TabWord);
 
@@ -173,10 +173,10 @@ void saveBalasanRecursion(FILE *file, AddressBalasan balasan, int depth) {
     fprintf(file, "%s\n", author.TabWord);
     fprintf(file, "%s\n", date.TabWord);
     int i = 0;
-    while (i < TREECOUNT_BALASAN(balasan)) { 
-  saveBalasanRecursion(file, SUBTREE_BALASAN(balasan, i), depth+1);
-  i += 1;
- }
+    while (i < TREECOUNT_BALASAN(balasan)) {	
+		saveBalasanRecursion(file, SUBTREE_BALASAN(balasan, i), depth+1);
+		i += 1;
+	}
 }
 
 void muat(Word currentUser, UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl) {

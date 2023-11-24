@@ -244,7 +244,7 @@ int main() {
 				setujuipermintaanteman(currentUser, &user, &teman, &permintaanTeman);
 				break;
 			case 26:
-				idkicau = woti(baca());
+				idkicau = wtoi(baca());
 				ubah_kicauan(user, &kicauan, idkicau, currentUser);
 				break;
 			case 99:
