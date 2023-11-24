@@ -240,6 +240,7 @@ void balasanconfig(UserDB user, ListDinkicau kicauan, ListTreeBalasan *balasan, 
 		}
 
 		AddressBalasan parent = NewTreeNodeBalasan(tempParent);
+		parent->IDParent = idkicau;
 
 		fgets(temp, sizeof(temp), fptr);
 		int jlhbalasan = wtoi(ctow(temp));
