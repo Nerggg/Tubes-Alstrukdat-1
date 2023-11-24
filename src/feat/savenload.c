@@ -7,12 +7,12 @@ Word hapusSpasi(Word kata) {
     return kata;
 }
 
-void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl) {
+void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *grafTeman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl) {
     printf("Masukkan nama folder penyimpanan\n");
     Word namafolder = baca();
     Word folder = namafolder;
     char awal[] = "../cfg/";
-	namafolder = concat(awal, namafolder.TabWord);
+ namafolder = concat(awal, namafolder.TabWord);
 
     DIR *dir = opendir(namafolder.TabWord);
 
@@ -57,15 +57,27 @@ void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueu
         for (int j = 0; j < 5; j++) {
             fprintf(file, "%c %c %c %c %c %c %c %c %c %c\n", user->db[i].PP.mem[j][0], user->db[i].PP.mem[j][1], user->db[i].PP.mem[j][2], user->db[i].PP.mem[j][3], user->db[i].PP.mem[j][4], user->db[i].PP.mem[j][5], user->db[i].PP.mem[j][6], user->db[i].PP.mem[j][7], user->db[i].PP.mem[j][8], user->db[i].PP.mem[j][9]);
         }
-
-        for (int j = 0; j < user->Neff; j++) {
-            int k;
-            for (k = 0; k < user->Neff-1; k++) {
-                fprintf(file, "%d ", teman->mem[j][k]);
-            }
-            fprintf(file, "%d", teman->mem[j][k]);
-            fprintf(file, "\n");
+    }
+    for (int j = 0; j < user->Neff; j++) {
+        int k;
+        for (k = 0; k < user->Neff-1; k++) {
+            fprintf(file, "%d ", grafTeman->mem[j][k]);
         }
+        fprintf(file, "%d", grafTeman->mem[j][k]);
+        fprintf(file, "\n");
+    }
+    prioqueuefren tempPermintaanTeman = *permintaanTeman;
+    teman tempTeman;
+    int jlhPermintaanTeman = 0;
+    while(!IsEmptyPrio(tempPermintaanTeman)) {
+        Dequeueprio(&tempPermintaanTeman, &tempTeman);
+        jlhPermintaanTeman++;
+    }
+    fprintf(file, "%d\n", jlhPermintaanTeman);
+    tempPermintaanTeman = *permintaanTeman;
+    while(!IsEmptyPrio(tempPermintaanTeman)) {
+        Dequeueprio(&tempPermintaanTeman, &tempTeman);
+        fprintf(file, "%d %d %d\n", tempTeman.IDpengirim, tempTeman.IDpenerima, tempTeman.Jumlahteman);
     }
     fclose(file);
 
@@ -130,5 +142,59 @@ void simpan(UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueu
     }
     fclose(file);
 
+    char akhirbalasan[] = "/balasan.config";
+    ListTreeBalasan tempBalasan = *balasan;
+    namafolder = concat(concat(awal, folder.TabWord).TabWord, akhirbalasan);
+    file = fopen(namafolder.TabWord, "w");
+    fprintf(file, "%d\n", tempBalasan.neff);
+    for (int i = 0; i < tempBalasan.neff; i++) {
+        fprintf(file, "%d\n", tempBalasan.isi[i]->IDParent);
+        fprintf(file, "%d\n", tempBalasan.isi[i]->neff);
+        saveBalasanRecursion(file, tempBalasan.isi[i]->SubTree[0], 0);
+    }
+    fclose(file);
+
     printf("Penyimpanan telah berhasil dilakukan!\n");
+}
+
+void saveBalasanRecursion(FILE *file, AddressBalasan balasan, int depth) {
+    if (depth == 0) {
+        fprintf(file, "%d ", -1);
+    }
+    else {
+        fprintf(file, "%d ", depth);
+        // printf("id nya %d\n", balasan->T.id);
+    }
+    fprintf(file, "%d\n", balasan->T.id);
+    Word text = hapusSpasi(balasan->T.text);
+    Word author = hapusSpasi(balasan->T.author);
+    Word date = hapusSpasi(balasan->T.date);
+    fprintf(file, "%s\n", text.TabWord);
+    fprintf(file, "%s\n", author.TabWord);
+    fprintf(file, "%s\n", date.TabWord);
+    int i = 0;
+    while (i < TREECOUNT_BALASAN(balasan)) { 
+  saveBalasanRecursion(file, SUBTREE_BALASAN(balasan, i), depth+1);
+  i += 1;
+ }
+}
+
+void muat(Word currentUser, UserDB *user, ListUtas *utas, ListDinkicau *l, Graf *teman, prioqueuefren *permintaanTeman, ListTreeBalasan *balasan, ListStack *sl) {
+    if (!cek(currentUser, ";;;")) {
+        printf("Anda harus keluar terlebih dahulu untuk melakukan pemuatan.\n");
+        return;
+    }
+    else {
+        printf("Masukkan nama folder yang hendak dimuat.\n");
+        Word namafolder = baca();
+        Word folder = namafolder;
+        bacaconfig(user, utas, l, teman, permintaanTeman, balasan, sl, namafolder);
+
+        printf("Anda akan melakukan pemuatan dari folder %s.\n\n", folder.TabWord);
+        printf("Mohon tunggu...\n");
+        printf("1...\n");
+        printf("2...\n");
+        printf("3...\n\n");   
+        printf("Pemuatan selesai!\n");
+    }
 }
