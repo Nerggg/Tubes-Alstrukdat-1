@@ -2,7 +2,6 @@
     <h1>BurBir</h2>
     <p>Tugas Besar IF2110 Algoritma & Struktur Data</p>
     <p>oleh Kelompok H</p>
-    <img src="readme/burbir.png" alt="bnmo" style="max-width:20em;">      </img>
     <br/>
     <br/>
 </div>
@@ -66,7 +65,7 @@ sebelum memanggil program, pastikan  *Current Working Directory* terminal berada
 | HAPUS_TEMAN | Selesai |
 | TAMBAH_TEMAN | Selesai |
 | DAFTAR_PERMINTAAN_PERTEMANAN | Selesai |
-| SETUJUI_PERTEMANAN | Tidak selesai |
+| SETUJUI_PERTEMANAN | Tidak Selesai |
 | KICAU | Selesai |
 | KICAUAN | Selesai |
 | SUKA_KICAUAN | Selesai |
