@@ -208,29 +208,243 @@ void searchTreeRecursion(TreeBalasan t, int parentID, boolean *f) {
 	}
 }
 
-void cetakBalasan(Word currentUser, AddressBalasan balasan, UserDB user) {
-	if (cek(currentUser, ";;;")) {
-		printf("Anda belum masuk! Masuk terlebih dahulu untuk menikmati layanan BurBir\n");
+void cetakIndent(int indent) {
+	for (int i = 0; i < indent; i++) {
+		printf("\t");
 	}
-	
+}
+
+void cetakBalasan(Word currentUser, AddressBalasan balasan, UserDB user, Graf teman, int depth) {	
 	if (balasan == NULL) {
 		return;
 	}
 
 	int i = 0;
 
-	while (i < TREECOUNT_BALASAN(balasan)) {		
-		printf("| ID = %d\n", balasan->T.id);
-		printf("| ");
-		PrintWord(balasan->T.author);
-		printf("\n");
-		printf("| ");
-		PrintWord(balasan->T.date);
-		printf("\n");
-		printf("| ");
-		PrintWord(balasan->T.text);
-		printf("\n");
-		cetakBalasan(currentUser, SUBTREE_BALASAN(balasan, i), user);
+	Pengguna currentPengguna;
+	for (int a = 0; a < user.Neff; a++) {
+		if (ceksama(currentUser, user.db[a].nama)) {
+			currentPengguna = user.db[a];
+			break;
+		}
+	}
+
+	if (ROOT_BALASAN(balasan).id != -1) {
+
+		Pengguna pembalas;
+		for (int a = 0; a < user.Neff; a++) {
+			if (ceksama(balasan->T.author, user.db[a].nama)) {
+				pembalas = user.db[a];
+				break;
+			}
+		}
+
+		boolean berteman = false;
+		if (cekteman(currentPengguna, pembalas, &user, teman)) {
+    	    berteman = true;
+    	}
+
+		if (cek(pembalas.jakun, "Publik") || ((cek(pembalas.jakun, "Privat") && berteman))) {
+			cetakIndent(depth);	
+			printf("| ID = %d\n", balasan->T.id);
+			cetakIndent(depth);
+			printf("| ");
+			PrintWord(balasan->T.author);
+			printf("\n");
+			cetakIndent(depth);
+			printf("| ");
+			PrintWord(balasan->T.date);
+			printf("\n");
+			cetakIndent(depth);
+			printf("| ");
+			PrintWord(balasan->T.text);
+			printf("\n");
+		}
+		else {
+			cetakIndent(depth);	
+			printf("| ID = %d\n", balasan->T.id);
+			cetakIndent(depth);
+			printf("| PRIVAT\n");
+			cetakIndent(depth);
+			printf("| PRIVAT\n");
+			cetakIndent(depth);
+			printf("| PRIVAT\n");	
+		}
+	
+	}
+
+	while (i < TREECOUNT_BALASAN(balasan)) {	
+		cetakBalasan(currentUser, SUBTREE_BALASAN(balasan, i), user, teman, depth+1);
 		i += 1;
 	}
+}
+
+void buatBalasan(Word currentUser, ListDinkicau kicauan, ListTreeBalasan *balasan, UserDB user, Graf teman, int idkicau, int idbalas) {
+	if (cek(currentUser, ";;;")) {
+		printf("Anda belum login! Silahkan login terlebih dahulu untuk menikmati layanan BurBir.\n");
+		return;
+	}
+
+	boolean adakicau = false;
+	int idxkicau;
+	for (idxkicau = 0; idxkicau < kicauan.nEff; idxkicau++) {
+		if (kicauan.buffer[idxkicau].id == idkicau) {
+			adakicau = true;
+			break;
+		}
+	}
+
+	if (!adakicau) {
+		printf("Tidak ada kicauan dengan id berikut\n");
+		return;
+	}
+
+	Pengguna currentPengguna;
+	Pengguna pembuatKicau;
+	for (int a = 0; a < user.Neff; a++) {
+		if (ceksama(currentUser, user.db[a].nama)) {
+			currentPengguna = user.db[a];
+			break;
+		}
+	}
+
+	for (int a = 0; a < kicauan.nEff; a++) {
+		if (kicauan.buffer[a].id == idkicau) {
+			for (int b = 0; b < user.Neff; b++) {
+				if (ceksama(kicauan.buffer[a].author, user.db[b].nama)) {
+					pembuatKicau = user.db[b];
+					break;
+				}
+			}
+		}
+	} 
+
+	boolean berteman = false;
+	if (cekteman(currentPengguna, pembuatKicau, &user, teman)) {
+		berteman = true;
+	}
+
+	if (cek(pembuatKicau.jakun, "Privat") && !berteman) {
+		printf("Kicauan tersebut tidak bisa dibalas karena dibuat oleh akun privat.\n");
+		return;
+	}
+
+	boolean adabalas = false;
+	int idxbalasan;
+	for (int a = 0; a < balasan->neff; a++) {
+		if (balasan->isi[a]->IDParent == idkicau) {
+			adabalas = true;
+			idxbalasan = a;
+			// printf("\n\n\nadamasuk kesini\n\n\n");
+			// printf("idx balasannya %d\n", idxbalasan);
+			break;
+		}
+	}
+
+	AddressBalasan parent;
+
+	if (!adabalas) {
+		balasan->isi[balasan->neff] = malloc(sizeof(NodeBalasan));
+		idxbalasan = balasan->neff;
+		// printf("yg pertama dia %d\n", idxbalasan);
+		Balasan tempParent;
+
+		for (int a = 0; a < kicauan.nEff; a++) {
+			if (kicauan.buffer[idxkicau].id == idkicau) {
+				tempParent.id = idkicau;
+				tempParent.text = kicauan.buffer[idxkicau].text;
+				tempParent.author = kicauan.buffer[idxkicau].author;
+				tempParent.date = kicauan.buffer[idxkicau].date;
+				break;
+			}
+		}
+
+		parent = NewTreeNodeBalasan(tempParent);
+		parent->IDParent = idkicau;
+		balasan->neff++;
+	}
+	else {
+		parent = balasan->isi[idxbalasan];
+	}
+
+	if (idbalas != -1) {
+		if (!treeExists(parent, idbalas)) {
+			printf("Kicauan tersebut tidak memiliki balasan dengan id %d.\n", idbalas);
+			return;
+		}
+	}
+
+	Balasan tempBalasan;
+	tempBalasan.author = currentUser;
+	tempBalasan.date = ctow(DateTimeToString(CurrentDatetime()));
+	if (adabalas) {
+		tempBalasan.id = parent->Count+1;
+	}
+	else {
+		// printf("dia kebawah\n");
+		tempBalasan.id = 1;
+	}
+	printf("Masukkan balasan:\n");
+	Word text = bacakalimat();
+	tempBalasan.text = text;
+
+	printf("Selamat! Balasan telah diterbitkan!\n");
+	printf("Detik balasan: \n");
+	printf("| ID = %d\n", tempBalasan.id);
+	printf("| ");
+	PrintWord(tempBalasan.author);
+	printf("\n");
+	printf("| ");
+	PrintWord(tempBalasan.date);
+	printf("\n");
+	printf("| ");
+	PrintWord(tempBalasan.text);
+	printf("\n");
+
+	AddressBalasan p = NewTreeNodeBalasan(tempBalasan);
+	if (idbalas == -1) {
+		ConnectParentBalasan(parent, &p);
+		// printf("hasilnya\n");
+		// printf("%s\n", parent->T.text.TabWord);
+	}
+	else {
+		// printf("ini kbeawah\n");
+		// parent->Count++;
+		insertTreeBalasan(parent, idbalas, tempBalasan);
+	}
+
+	
+	balasan->isi[idxbalasan] = parent;
+}
+
+void hapusBalasan(Word currentUser, UserDB user, ListTreeBalasan *balasan, int idkicau, int idbalas) {
+	if (cek(currentUser, ";;;")) {
+		printf("Anda belum login! Silahkan login terlebih dahulu untuk menikmati layanan BurBir.\n");
+		return;
+	}
+
+	boolean adabalas = false;
+	int idxbalasan;
+	for (int a = 0; a < balasan->neff; a++) {
+		if (balasan->isi[a]->IDParent == idkicau) {
+			adabalas = true;
+			idxbalasan = a;
+			// printf("\n\n\nadamasuk kesini\n\n\n");
+			// printf("idx balasannya %d\n", idxbalasan);
+			break;
+		}
+	}
+
+	if (!adabalas) {
+		printf("Balasan tidak ditemukan.\n");
+		return;
+	}
+
+	if(ceksama(balasan->isi[idxbalasan]->T.author, currentUser)) {
+		printf("Hei, ini balasan punya siapa? Jangan dihapus ya!\n");
+		return;
+	}
+
+	deleteTreeBalasan(&(balasan->isi[idxbalasan]), idbalas);
+	printf("Balasan berhasil dihapus.\n");
 }

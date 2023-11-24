@@ -158,20 +158,72 @@ int main() {
 			case 17:
 				hapusteman(currentUser, &user, &teman);
 				break;
-			// case 18:
-			// 	idkicau = wtoi(baca());
-			// 	indexParam = wtoi(baca());
-			// 	Balas(user, currentUser, kicauan, &ltree, teman, idkicau, indexParam);
-			// 	break;
-			// case 19:
-			// 	idkicau = wtoi(baca());
-			// 	Balasan(user, currentUser, kicauan, ltree, teman, idkicau);
-			// 	break;
-			// case 20:
-			// 	idkicau = wtoi(baca());
-			// 	indexParam = wtoi(baca());
-			// 	Hapus_Balasan(user, currentUser, kicauan, &ltree, idkicau, indexParam);
-			// 	break;
+			case 18:
+				idkicau = wtoi(baca());
+				int idbalas = wtoi(baca());
+				buatBalasan(currentUser, kicauan, &balasan, user, teman, idkicau, idbalas);
+				break;
+			case 19:
+				idkicau = wtoi(baca());
+				if (cek(currentUser, ";;;")) {
+					printf("Anda belum masuk! Masuk terlebih dahulu untuk menikmati layanan BurBir\n");
+				}
+				else {
+					int idxbalasan;
+					boolean ada = false;
+					for (int a = 0; a < balasan.neff; a++) {
+						if (balasan.isi[a]->IDParent == idkicau) {
+							ada = true;
+							idxbalasan = a;
+							break;
+						}
+					}
+					if (!ada) {
+						printf("Kicauan dengan id tersebut tidak memiliki balasan.\n");
+					}
+					else {
+						Pengguna currentPengguna;
+						Pengguna pembuatKicau;
+						for (int a = 0; a < user.Neff; a++) {
+							if (ceksama(currentUser, user.db[a].nama)) {
+								currentPengguna = user.db[a];
+								break;
+							}
+						}
+
+						int tempIDX;
+						for (int a = 0; a < kicauan.nEff; a++) {
+							if (kicauan.buffer[a].id == idkicau) {
+								tempIDX = a;
+								for (int b = 0; b < user.Neff; b++) {
+									if (ceksama(kicauan.buffer[a].author, user.db[b].nama)) {
+										pembuatKicau = user.db[b];
+										break;
+									}
+								}
+							}
+						} 
+
+						boolean berteman = false;
+						if (cekteman(currentPengguna, pembuatKicau, &user, teman)) {
+							berteman = true;
+						}
+
+						if (cek(kicauan.buffer[tempIDX].jakunkicau, "Publik") || ((cek(kicauan.buffer[tempIDX].jakunkicau, "Privat") && berteman))) {
+							displaykicauan(kicauan.buffer[tempIDX]);
+							cetakBalasan(currentUser, balasan.isi[idxbalasan]->SubTree[0], user, teman, 1);
+						}
+						else {
+							printf("Kicauan tersebut dibuat oleh akun privat. Silahkan berteman dengan beliau terlebih dahulu.\n");
+						}
+					}	
+				}
+				break;
+			case 20:
+				idkicau = wtoi(baca());
+				indexParam = wtoi(baca());
+				hapusBalasan(currentUser, user, &balasan, idkicau, indexParam);
+				break;
 			case 21:
 				BUAT_DRAFT(&user, &currentUser, &kicauan, &sl);
 				break;

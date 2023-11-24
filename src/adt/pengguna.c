@@ -56,6 +56,13 @@ void daftar(UserDB *user, Word *currentUser) {
     // ketika nama memenuhi spesifikasi, nama diletakkan ke database
     user->db[user->Neff].nama = temp;
 
+    char newJakun[6] = "Publik";
+    user->db[user->Neff].jakun.Length = 0;
+    for(int i=0;i<6;i++){
+        user->db[user->Neff].jakun.TabWord[i] = newJakun[i];
+        user->db[user->Neff].jakun.Length++;
+    }
+
     printf("\nMasukkan kata sandi: "); 
     temp = bacakalimat();
     user->db[user->Neff].pass = temp;

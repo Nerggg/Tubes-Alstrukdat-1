@@ -12,6 +12,8 @@
 #include "wordmachine.h"
 #include "datetime.h"
 #include "pengguna.h"
+#include "kicauan.h"
+#include "teman.h"
 #include "../feat/misc.h"
 #include "../feat/operational.h"
 
@@ -40,6 +42,7 @@ typedef struct TNodeBalasan
 	AddressBalasan *SubTree; // Tree* Subtree (array of pointers to Tree)
 	int Count;
 	int Capacity;
+   int IDParent;
 } NodeBalasan;
 
 typedef struct {
@@ -116,6 +119,12 @@ boolean treeExists(TreeBalasan t, int parentID);
 
 void searchTreeRecursion(TreeBalasan t, int parentID, boolean *f);
 
-void cetakBalasan(Word currentUser, AddressBalasan balasan, UserDB user);
+void cetakBalasan(Word currentUser, AddressBalasan balasan, UserDB user, Graf teman, int depth);
+
+void cetakIndent(int indent);
+
+void buatBalasan(Word currentUser, ListDinkicau kicauan, ListTreeBalasan *balasan, UserDB user, Graf teman, int idkicau, int idbalas);
+
+void hapusBalasan(Word currentUser, UserDB user, ListTreeBalasan *balasan, int idkicau, int idbalas);
 
 #endif
